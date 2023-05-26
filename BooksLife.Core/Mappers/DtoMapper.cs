@@ -2,7 +2,7 @@
 
 namespace BooksLife.Core
 {
-    public class DtoMapper
+    public class DtoMapper : IDtoMapper
     {
         private IMapper _mapper;
 
