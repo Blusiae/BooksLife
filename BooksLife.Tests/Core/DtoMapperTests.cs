@@ -43,7 +43,7 @@ namespace BooksLife.Tests
 
             var authorDtos = mapper.Map(authorEntities);
 
-            authorDtos.Should().BeOfType<IEnumerable<AuthorDto>>();
+            authorDtos.Should().BeOfType<List<AuthorDto>>();
             authorDtos.Should().BeEquivalentTo(authorEntities);
         }
 
@@ -60,7 +60,7 @@ namespace BooksLife.Tests
 
             var authorEntities = mapper.Map(authorDtos);
 
-            authorEntities.Should().BeOfType<IEnumerable<AuthorEntity>>();
+            authorEntities.Should().BeOfType<List<AuthorEntity>>();
             authorEntities.Should().BeEquivalentTo(authorDtos);
         }
     }
