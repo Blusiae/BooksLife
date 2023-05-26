@@ -34,7 +34,8 @@ namespace BooksLife.Tests
         {
             var authorRepositoryMock = new Mock<IAuthorRepository>();
             authorRepositoryMock.Setup(m => m.Remove(It.IsAny<int>())).Returns(dbResponse);
-            var authorManager = new AuthorManager(authorRepositoryMock.Object);
+            var dtoMapperMock = new Mock<IDtoMapper>();
+            var authorManager = new AuthorManager(authorRepositoryMock.Object, dtoMapperMock.Object);
 
             var result = authorManager.Remove(0);
 
