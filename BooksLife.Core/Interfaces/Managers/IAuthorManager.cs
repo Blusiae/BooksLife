@@ -3,7 +3,7 @@
     public interface IAuthorManager
     {
         Response Add(AuthorDto author);
-        Response Delete(int id);
+        Response Remove(int id);
         AuthorDto Get(int id);
         List<AuthorDto> GetAll();
     }
