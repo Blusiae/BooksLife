@@ -1,3 +1,6 @@
+using BooksLife.Database;
+using Microsoft.EntityFrameworkCore;
+
 namespace BooksLife.Web
 {
     public class Program
@@ -8,6 +11,9 @@ namespace BooksLife.Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<ApplicationDbContext>(
+                options => options.UseLazyLoadingProxies()
+                                  .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
 
