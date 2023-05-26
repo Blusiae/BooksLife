@@ -17,4 +17,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BooksLife.Core\BooksLife.Core.csproj" />
+    <ProjectReference Include="..\BooksLife.Web\BooksLife.Web.csproj" />
+  </ItemGroup>
+
 </Project>
