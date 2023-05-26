@@ -2,7 +2,7 @@
 {
     public class Response
     {
-        bool Succeed;
-        string Message { get; set; } = string.Empty;
+        public bool Succeed { get; set; }
+        public string Message { get; set; } = string.Empty;
     }
 }
