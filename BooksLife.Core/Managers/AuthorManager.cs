@@ -5,6 +5,10 @@
         private readonly IAuthorRepository _authorRepository;
         private readonly IDtoMapper _dtoMapper;
 
+        private const string FAILED_MESSAGE = "Something went wrong!";
+        private const string SUCCEED_ADD_MESSAGE = "A new author has been added.";
+        private const string SUCCEED_REMOVE_MESSAGE = "Author has been removed.";
+
         public AuthorManager(IAuthorRepository authorRepository, IDtoMapper dtoMapper)
         {
             _authorRepository = authorRepository;
@@ -19,14 +23,14 @@
                 return new Response()
                 {
                     Succeed = true,
-                    Message = "A new author has been added."
+                    Message = SUCCEED_ADD_MESSAGE
                 };
             }
 
             return new Response()
             {
                 Succeed = false,
-                Message = "Something went wrong!"
+                Message = FAILED_MESSAGE
             };
 
         }
@@ -39,14 +43,14 @@
                 return new Response()
                 {
                     Succeed = true,
-                    Message = "Author has been removed."
+                    Message = SUCCEED_REMOVE_MESSAGE
                 };
             }
 
             return new Response()
             {
                 Succeed = false,
-                Message = "Something went wrong!"
+                Message = FAILED_MESSAGE
             };
         }
 
