@@ -1,12 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace BooksLife.Core
+﻿namespace BooksLife.Core
 {
     public class AuthorEntity: BaseEntity
     {
         public string Firstname { get; set; } = string.Empty;
-
-        [Required]
-        public string Lastname { get; set; }
+        public string Lastname { get; set; } = string.Empty;
     }
 }
