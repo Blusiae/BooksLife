@@ -14,7 +14,7 @@
     <div class="form-group">
         <label for="last-name">Lastname</label>
         <input type="text" class="form-control" id="last-name" name="LastName" />
-        @Html.ValidationMessageFor(x => x.Lastname)
+        <p class="text-danger">@Html.ValidationMessageFor(x => x.Lastname)</p>
         </div>
     <button type="submit" class="btn btn-success mt-4">Add</button>
 </form>
