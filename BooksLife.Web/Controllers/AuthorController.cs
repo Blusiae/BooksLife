@@ -17,10 +17,7 @@ namespace BooksLife.Web
 
         public IActionResult List(Response? response = null)
         {
-            if (response != null)
-            {
-                ViewData["responseMessage"] = response;
-            }
+            ViewBag.Response = response;
             var authorDtos = _authorManager.GetAll();
             var authorViewModels = _viewModelMapper.Map(authorDtos);
             return View(authorViewModels);
