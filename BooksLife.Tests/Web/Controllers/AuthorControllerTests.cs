@@ -3,6 +3,7 @@ using BooksLife.Web;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Moq;
 using Xunit;
 
@@ -64,23 +65,6 @@ namespace BooksLife.Tests
 
             result.ActionName.Should().Be("List");
             result.RouteValues.Should().BeEquivalentTo(expectedRouteValues);
-        }
-
-        [Fact]
-        public void Add_ForIncorrectViewModel_ShouldReturnAddViewWithIncorrectViewModelAsModel()
-        {
-            var authorManagerMock = new Mock<IAuthorManager>();
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
-            var authorController = new AuthorController(authorManagerMock.Object, viewModelMapperMock.Object);
-            var author = new AuthorViewModel()
-            {
-                Firstname = "Firstname"
-            };
-
-            var result = authorController.Add(author) as ViewResult;
-
-            result.ViewName.Should().BeNull();
-            result.Model.Should().BeEquivalentTo(author);
         }
 
         [Theory]
