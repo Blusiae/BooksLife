@@ -2,6 +2,7 @@
 using BooksLife.Web;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Moq;
 using Xunit;
 
@@ -41,7 +42,7 @@ namespace BooksLife.Tests
         [InlineData(false, "Something went wrong!")]
         public void Add_ForCorrectViewModel_ShouldCallManagerAndRedirectToListAndPassTheResponse(bool succeed, string message)
         {
-            var response = new Core.Response() { Succeed = succeed, Message = message };
+            var response = new Response() { Succeed = succeed, Message = message };
             var authorManagerMock = new Mock<IAuthorManager>();
             authorManagerMock.Setup(m => m.Add(It.IsAny<AuthorDto>())).Returns(response);
             var viewModelMapperMock = new Mock<IViewModelMapper>();
@@ -55,8 +56,14 @@ namespace BooksLife.Tests
 
             var result = authorController.Add(author) as RedirectToActionResult;
 
+            var expectedRouteValues = new RouteValueDictionary()
+            {
+                { "Succeed", succeed },
+                { "Message", message },
+            };
+
             result.ActionName.Should().Be("List");
-            result.RouteValues.Should().BeEquivalentTo(response);
+            result.RouteValues.Should().BeEquivalentTo(expectedRouteValues);
         }
 
         [Fact]
@@ -81,7 +88,7 @@ namespace BooksLife.Tests
         [InlineData(false, "Something went wrong!")]
         public void Remove_ForId_ShouldCallManagerAndRedirectToListAndPassTheResponse(bool succeed, string message)
         {
-            var response = new Core.Response() { Succeed = succeed, Message = message };
+            var response = new Response() { Succeed = succeed, Message = message };
             var authorManagerMock = new Mock<IAuthorManager>();
             authorManagerMock.Setup(m => m.Remove(It.IsAny<int>())).Returns(response);
             var viewModelMapperMock = new Mock<IViewModelMapper>();
@@ -89,8 +96,14 @@ namespace BooksLife.Tests
 
             var result = authorController.Remove(0) as RedirectToActionResult;
 
+            var expectedRouteValues = new RouteValueDictionary()
+            {
+                { "Succeed", succeed },
+                { "Message", message },
+            };
+
             result.ActionName.Should().Be("List");
-            result.RouteValues.Should().BeEquivalentTo(response);
+            result.RouteValues.Should().BeEquivalentTo(expectedRouteValues);
         }
     }
 }
