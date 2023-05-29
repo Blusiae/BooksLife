@@ -1,0 +1,21 @@
+﻿@model AuthorViewModel;
+@{
+    ViewData["Title"] = "Add a new author";
+}
+
+<h2>Add a new Author</h2>
+<hr />
+
+<form asp-controller="Author" asp-action="Add">
+    <div class="form-group">
+        <label for="first-name">Firstname</label>
+        <input type="text" class="form-control" id="first-name" name="FirstName" />
+    </div>
+    <div class="form-group">
+        <label for="last-name">Lastname</label>
+        <input type="text" class="form-control" id="last-name" name="LastName" />
+        <p class="text-danger">@Html.ValidationMessageFor(x => x.Lastname)</p>
+        </div>
+    <button type="submit" class="btn btn-success mt-4">Add</button>
+</form>
+
