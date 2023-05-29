@@ -21,7 +21,7 @@ namespace BooksLife.Tests
             var result = authorController.List() as ViewResult;
 
             result.Model.Should().BeOfType<List<AuthorViewModel>>();
-            result.ViewName.Should().Be("List of authors");
+            result.ViewName.Should().BeNull();
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace BooksLife.Tests
 
             var result = authorController.Add() as ViewResult;
 
-            result.ViewName.Should().Be("Add an author");
+            result.ViewName.Should().BeNull();
         }
 
         [Theory]
@@ -72,7 +72,7 @@ namespace BooksLife.Tests
 
             var result = authorController.Add(author) as ViewResult;
 
-            result.ViewName.Should().Be("Add");
+            result.ViewName.Should().BeNull();
             result.Model.Should().BeEquivalentTo(author);
         }
 
