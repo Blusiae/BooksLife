@@ -22,8 +22,4 @@
     <ProjectReference Include="..\BooksLife.Web\BooksLife.Web.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Web\Controllers\" />
-  </ItemGroup>
-
 </Project>

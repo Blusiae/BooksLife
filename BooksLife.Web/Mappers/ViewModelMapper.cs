@@ -3,7 +3,7 @@ using BooksLife.Core;
 
 namespace BooksLife.Web
 {
-    public class ViewModelMapper
+    public class ViewModelMapper : IViewModelMapper
     {
         private IMapper _mapper;
 
