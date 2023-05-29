@@ -1,3 +1,4 @@
+using BooksLife.Core;
 using BooksLife.Database;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,11 @@ namespace BooksLife.Web
                 options => options.UseLazyLoadingProxies()
                                   .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddTransient<IAuthorManager, AuthorManager>();
+            builder.Services.AddTransient<IAuthorRepository, AuthorRepository>();
+            builder.Services.AddTransient<IDtoMapper, DtoMapper>();
+            builder.Services.AddTransient<IViewModelMapper, ViewModelMapper>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -31,6 +37,8 @@ namespace BooksLife.Web
             app.UseRouting();
 
             app.UseAuthorization();
+
+            
 
             using (var scope = app.Services.CreateScope())
             {
