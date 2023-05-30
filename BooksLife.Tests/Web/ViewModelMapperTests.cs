@@ -146,7 +146,7 @@ namespace BooksLife.Tests
             var readerViewModel = mapper.Map(readerDto);
 
             readerViewModel.Should().BeOfType<ReaderViewModel>();
-            readerViewModel.Should().BeEquivalentTo(readerDto, options => options.ExcludingMissingMembers());
+            readerViewModel.Should().BeEquivalentTo(readerDto, options => options.ExcludingMissingMembers().Excluding(x => x.PhoneNumber));
             readerViewModel.PhoneNumber.Should().Be("-");
         }
 
@@ -186,8 +186,9 @@ namespace BooksLife.Tests
             var readerViewModels = mapper.Map(readerDtos);
 
             readerViewModels.Should().BeOfType<List<ReaderViewModel>>();
-            readerViewModels.Should().BeEquivalentTo(readerDtos, options => options.ExcludingMissingMembers());
+            readerViewModels.Should().BeEquivalentTo(readerDtos, options => options.ExcludingMissingMembers().Excluding(x => x.EmailAddress));
             readerViewModels.ElementAt(0).EmailAddress.Should().Be("-");
+            readerViewModels.ElementAt(1).EmailAddress.Should().Be("emai2l@address.com");
         }
     }
 }
