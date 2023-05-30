@@ -63,5 +63,100 @@ namespace BooksLife.Tests
             authorEntities.Should().BeOfType<List<AuthorEntity>>();
             authorEntities.Should().BeEquivalentTo(authorDtos);
         }
+
+        [Fact]
+        public void Map_ForReaderEntity_ShouldReturnReaderDtoWithCorrectPropertiesAndAddressIncluded()
+        {
+            var mapper = new DtoMapper();
+            var readerEntity = new ReaderEntity()
+            {
+                Id = Guid.NewGuid(),
+                Firstname = "Firstname1",
+                Lastname = "Lastname1",
+                Birthdate = new DateTime(2000, 10, 11),
+                EmailAddress = "email.address@email.com"
+            };
+            var addressEntity = new AddressEntity()
+            {
+                Id = Guid.NewGuid(),
+                Country = "Poland",
+                City = "Warsaw"
+            };
+            readerEntity.Address = addressEntity;
+            readerEntity.AddressId = addressEntity.Id;
+
+            var readerDto = mapper.Map(readerEntity);
+
+            readerDto.Should().BeOfType<ReaderDto>();
+            readerDto.Should().BeEquivalentTo(readerEntity, options => options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void Map_ForReaderDto_ShouldReturnReaderEntityWithCorrectPropertiesAndAddressIncluded()
+        {
+            var mapper = new DtoMapper();
+            var readerDto = new ReaderDto()
+            {
+                Firstname = "Firstname1",
+                Lastname = "Lastname1",
+                Birthdate = new DateTime(2000, 10, 11),
+                EmailAddress = "email.address@email.com",
+                PhoneNumber = "+48999999999",
+            };
+            var addressDto = new AddressDto()
+            {
+                Country = "Poland",
+                City = "Warsaw"
+            };
+            readerDto.Address = addressDto;
+
+            var readerEntity = mapper.Map(readerDto);
+
+            readerEntity.Should().BeOfType<ReaderEntity>();
+            readerEntity.Should().BeEquivalentTo(readerDto);
+        }
+
+        [Fact]
+        public void Map_ForListOfReaderEntities_ShouldReturnListOfReaderDtosWithCorrectPropertiesAndAddressesIncluded()
+        {
+            var mapper = new DtoMapper();
+            var addressEntity = new AddressEntity()
+            {
+                Id = new Guid(),
+                Country = "Poland",
+                City = "Warsaw"
+            };
+            var readerEntities = new List<ReaderEntity>()
+            {
+                new ReaderEntity(){Id = new Guid(), Firstname = "Firstname 1", Lastname = "Lastname 1", Address = addressEntity, AddressId = addressEntity.Id},
+                new ReaderEntity(){Id = new Guid(), Firstname = "Firstname 2", Lastname = "Lastname 2", Address = addressEntity, AddressId = addressEntity.Id}
+            };
+
+            var readerDtos = mapper.Map(readerEntities);
+
+            readerDtos.Should().BeOfType<List<ReaderDto>>();
+            readerDtos.Should().BeEquivalentTo(readerEntities, options => options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void Map_ForListOfReaderDtos_ShouldReturnListOfReaderEntitiesWithCorrectPropertiesAndAddressesIncluded()
+        {
+            var mapper = new DtoMapper();
+            var addressDto = new AddressDto()
+            {
+                Country = "Poland",
+                City = "Warsaw"
+            };
+            var readerDtos = new List<ReaderDto>()
+            {
+                new ReaderDto(){Firstname = "Firstname 1", Lastname = "Lastname 1", Address = addressDto},
+                new ReaderDto(){Firstname = "Firstname 2", Lastname = "Lastname 2", Address = addressDto}
+            };
+
+            var readerEntities = mapper.Map(readerDtos);
+
+            readerEntities.Should().BeOfType<List<ReaderEntity>>();
+            readerEntities.Should().BeEquivalentTo(readerDtos);
+        }
     }
 }
