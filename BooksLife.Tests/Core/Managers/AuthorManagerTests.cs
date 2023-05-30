@@ -33,11 +33,11 @@ namespace BooksLife.Tests
         public void Remove_ForReponseFromDatabase_ShouldReturnResponseObjectWithCorrectMessage(bool dbResponse, string message)
         {
             var authorRepositoryMock = new Mock<IAuthorRepository>();
-            authorRepositoryMock.Setup(m => m.Remove(It.IsAny<int>())).Returns(dbResponse);
+            authorRepositoryMock.Setup(m => m.Remove(It.IsAny<Guid>())).Returns(dbResponse);
             var dtoMapperMock = new Mock<IDtoMapper>();
             var authorManager = new AuthorManager(authorRepositoryMock.Object, dtoMapperMock.Object);
 
-            var result = authorManager.Remove(0);
+            var result = authorManager.Remove(Guid.NewGuid());
 
             result.Succeed.Should().Be(dbResponse);
             result.Message.Should().Be(message);

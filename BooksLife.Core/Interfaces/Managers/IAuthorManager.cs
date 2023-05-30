@@ -3,8 +3,8 @@
     public interface IAuthorManager
     {
         Response Add(AuthorDto author);
-        Response Remove(int id);
-        AuthorDto Get(int id);
+        Response Remove(Guid id);
+        AuthorDto Get(Guid id);
         List<AuthorDto> GetAll();
     }
 }

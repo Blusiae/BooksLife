@@ -74,11 +74,11 @@ namespace BooksLife.Tests
         {
             var response = new Response() { Succeed = succeed, Message = message };
             var authorManagerMock = new Mock<IAuthorManager>();
-            authorManagerMock.Setup(m => m.Remove(It.IsAny<int>())).Returns(response);
+            authorManagerMock.Setup(m => m.Remove(It.IsAny<Guid>())).Returns(response);
             var viewModelMapperMock = new Mock<IViewModelMapper>();
             var authorController = new AuthorController(authorManagerMock.Object, viewModelMapperMock.Object);
 
-            var result = authorController.Remove(0) as RedirectToActionResult;
+            var result = authorController.Remove(Guid.NewGuid()) as RedirectToActionResult;
 
             var expectedRouteValues = new RouteValueDictionary()
             {
