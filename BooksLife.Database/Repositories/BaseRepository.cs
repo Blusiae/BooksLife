@@ -18,7 +18,7 @@ namespace BooksLife.Database
             return _context.SaveChanges() > 0;
         }
 
-        public Entity Get(int id)
+        public Entity Get(Guid id)
         {
             return DbSet.FirstOrDefault(x => x.Id == id);
         }
@@ -28,7 +28,7 @@ namespace BooksLife.Database
             return DbSet.Select(x => x);
         }
 
-        public bool Remove(int id)
+        public bool Remove(Guid id)
         {
             var entityToDelete = DbSet.FirstOrDefault(x =>x.Id == id);
             if (entityToDelete != null) //Check if entity has been found in database.
