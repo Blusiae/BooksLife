@@ -21,7 +21,7 @@ namespace BooksLife.Tests
 
             var result = readerController.List() as ViewResult;
 
-            result.Model.Should().BeOfType<List<AuthorViewModel>>();
+            result.Model.Should().BeOfType<List<ReaderViewModel>>();
             result.ViewName.Should().BeNull();
         }
 
