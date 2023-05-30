@@ -64,5 +64,130 @@ namespace BooksLife.Tests
             authorViewModels.Should().BeOfType<List<AuthorViewModel>>();
             authorViewModels.Should().BeEquivalentTo(authorDtos);
         }
+
+        [Fact]
+        public void Map_ForReaderViewModel_ShouldReturnReaderDtoWithCorrectProperties()
+        {
+            var mapper = new ViewModelMapper();
+            var readerViewModel = new ReaderViewModel()
+            {
+                Firstname = "Firstname1",
+                Lastname = "Lastname1",
+                EmailAddress = "email@address.com",
+                Address = new AddressViewModel()
+                {
+                    Country = "Poland",
+                    City = "Warsaw"
+                }
+            };
+
+            var readerDto = mapper.Map(readerViewModel);
+
+            readerDto.Should().BeOfType<ReaderDto>();
+            readerDto.Should().BeEquivalentTo(readerViewModel);
+        }
+
+        [Fact]
+        public void Map_ForListOfReaderViewModels_ShouldReturnListOfReaderDtosWithCorrectProperties()
+        {
+            var mapper = new ViewModelMapper();
+            var readerViewModels = new List<ReaderViewModel>()
+            {
+                new ReaderViewModel()
+                {
+                    Firstname = "Firstname1",
+                    Lastname = "Lastname1",
+                    EmailAddress = "email@address.com",
+                    Address = new AddressViewModel()
+                    {
+                        Country = "Poland",
+                        City = "Warsaw"
+                    }
+
+                },
+                new ReaderViewModel()
+                {
+                    Firstname = "Firstname2",
+                    Lastname = "Lastname2",
+                    EmailAddress = "emai2l@address.com",
+                    Address = new AddressViewModel()
+                    {
+                        Country = "Poland",
+                        City = "Katowice"
+                    }
+
+                }
+
+            };
+
+            var readerDtos = mapper.Map(readerViewModels);
+
+            readerDtos.Should().BeOfType<List<ReaderDto>>();
+            readerDtos.Should().BeEquivalentTo(readerViewModels);
+        }
+
+        [Fact]
+        public void Map_ForReaderDto_ShouldReturnReaderViewModelWithCorrectProperties()
+        {
+            var mapper = new ViewModelMapper();
+            var readerDto = new ReaderDto()
+            {
+                Id = Guid.NewGuid(),
+                Firstname = "Firstname1",
+                Lastname = "Lastname1",
+                EmailAddress = "email@address.com",
+                Address = new AddressDto()
+                {
+                    Country = "Poland",
+                    City = "Warsaw"
+                }
+            };
+
+            var readerViewModel = mapper.Map(readerDto);
+
+            readerViewModel.Should().BeOfType<ReaderViewModel>();
+            readerViewModel.Should().BeEquivalentTo(readerDto, options => options.ExcludingMissingMembers());
+            readerViewModel.PhoneNumber.Should().Be("-");
+        }
+
+        [Fact]
+        public void Map_ForListOfReaderDto_ShouldReturnListOfReaderViewModelsWithCorrectProperties()
+        {
+            var mapper = new ViewModelMapper();
+            var readerDtos = new List<ReaderDto>()
+            {
+                new ReaderDto()
+                {
+                    Id = Guid.NewGuid(),
+                    Firstname = "Firstname1",
+                    Lastname = "Lastname1",
+                    Address = new AddressDto()
+                    {
+                        Id = Guid.NewGuid(),
+                        Country = "Poland",
+                        City = "Warsaw"
+                    }
+                },
+                new ReaderDto()
+                {
+                    Id = Guid.NewGuid(),
+                    Firstname = "Firstname2",
+                    Lastname = "Lastname2",
+                    EmailAddress = "emai2l@address.com",
+                    Address = new AddressDto()
+                    {
+                        Id = Guid.NewGuid(),
+                        Country = "Poland",
+                        City = "Katowice"
+                    }
+                }
+            };
+
+            var readerViewModels = mapper.Map(readerDtos);
+
+            readerViewModels.Should().BeOfType<List<ReaderViewModel>>();
+            readerViewModels.Should().BeEquivalentTo(readerDtos, options => options.ExcludingMissingMembers());
+            readerViewModels.ElementAt(0).EmailAddress.Should().Be("-");
+        }
     }
 }
