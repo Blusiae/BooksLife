@@ -11,7 +11,7 @@ namespace BooksLife.Tests
         public void Map_ForAuthorViewModelObject_ShouldReturnAuthorDtoObjectWithCorrectProperties()
         {
             var mapper = new ViewModelMapper();
-            var authorViewModel = new AuthorViewModel { Id = 1, Firstname = "Firstname1", Lastname = "Lastname1" };
+            var authorViewModel = new AuthorViewModel { Id = Guid.NewGuid(), Firstname = "Firstname1", Lastname = "Lastname1" };
 
             var authorDto = mapper.Map(authorViewModel);
 
@@ -23,7 +23,7 @@ namespace BooksLife.Tests
         public void Map_ForAuthorDtoObject_ShouldReturnAuthorViewModelObjectWithCorrectProperties()
         {
             var mapper = new ViewModelMapper();
-            var authorDto = new AuthorDto { Id = 1, Firstname = "Firstname1", Lastname = "Lastname1" };
+            var authorDto = new AuthorDto { Id = Guid.NewGuid(), Firstname = "Firstname1", Lastname = "Lastname1" };
 
             var authorViewModel = mapper.Map(authorDto);
 
@@ -37,9 +37,9 @@ namespace BooksLife.Tests
             var mapper = new ViewModelMapper();
             var authorViewModels = new List<AuthorViewModel>()
             {
-                new AuthorViewModel { Id = 1, Firstname = "Firstname1", Lastname = "Lastname1" },
-                new AuthorViewModel { Id = 2, Firstname = "Firstname2", Lastname = "Lastname2" },
-                new AuthorViewModel { Id = 3, Firstname = "Firstname3", Lastname = "Lastname2" }
+                new AuthorViewModel { Id = Guid.NewGuid(), Firstname = "Firstname1", Lastname = "Lastname1" },
+                new AuthorViewModel { Id = Guid.NewGuid(), Firstname = "Firstname2", Lastname = "Lastname2" },
+                new AuthorViewModel { Id = Guid.NewGuid(), Firstname = "Firstname3", Lastname = "Lastname2" }
             };
 
             var authorDtos = mapper.Map(authorViewModels);
@@ -54,9 +54,9 @@ namespace BooksLife.Tests
             var mapper = new ViewModelMapper();
             var authorDtos = new List<AuthorDto>()
             {
-                new AuthorDto { Id = 1, Firstname = "Firstname1", Lastname = "Lastname1" },
-                new AuthorDto { Id = 2, Firstname = "Firstname2", Lastname = "Lastname2" },
-                new AuthorDto { Id = 3, Firstname = "Firstname3", Lastname = "Lastname2" }
+                new AuthorDto { Id = Guid.NewGuid(), Firstname = "Firstname1", Lastname = "Lastname1" },
+                new AuthorDto { Id = Guid.NewGuid(), Firstname = "Firstname2", Lastname = "Lastname2" },
+                new AuthorDto { Id = Guid.NewGuid(), Firstname = "Firstname3", Lastname = "Lastname2" }
             };
 
             var authorViewModels = mapper.Map(authorDtos);
