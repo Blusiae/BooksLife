@@ -10,7 +10,7 @@ namespace BooksLife.Tests
         public void Map_ForAuthorEntityObject_ShouldReturnAuthorDtoObjectWithCorrectProperties()
         {
             var mapper = new DtoMapper();
-            var authorEntity = new AuthorEntity { Id = Guid.NewGuid(), Firstname = "Firstname1", Lastname = "Lastname1" };
+            var authorEntity = new AuthorEntity { Id = 1, Firstname = "Firstname1", Lastname = "Lastname1" };
 
             var authorDto = mapper.Map(authorEntity);
 
@@ -22,7 +22,7 @@ namespace BooksLife.Tests
         public void Map_ForAuthorDtoObject_ShouldReturnAuthorEntityObjectWithCorrectProperties()
         {
             var mapper = new DtoMapper();
-            var authorDto = new AuthorDto{ Id = Guid.NewGuid(), Firstname = "Firstname1", Lastname = "Lastname1" };
+            var authorDto = new AuthorDto{ Id = 1, Firstname = "Firstname1", Lastname = "Lastname1" };
 
             var authorEntity = mapper.Map(authorDto);
 
@@ -36,9 +36,9 @@ namespace BooksLife.Tests
             var mapper = new DtoMapper();
             var authorEntities = new List<AuthorEntity>()
             {
-                new AuthorEntity { Id = Guid.NewGuid(), Firstname = "Firstname1", Lastname = "Lastname1" },
-                new AuthorEntity { Id = Guid.NewGuid(), Firstname = "Firstname2", Lastname = "Lastname2" },
-                new AuthorEntity { Id = Guid.NewGuid(), Firstname = "Firstname3", Lastname = "Lastname2" }
+                new AuthorEntity { Id = 1, Firstname = "Firstname1", Lastname = "Lastname1" },
+                new AuthorEntity { Id = 2, Firstname = "Firstname2", Lastname = "Lastname2" },
+                new AuthorEntity { Id = 3, Firstname = "Firstname3", Lastname = "Lastname2" }
             };
 
             var authorDtos = mapper.Map(authorEntities);
@@ -53,9 +53,9 @@ namespace BooksLife.Tests
             var mapper = new DtoMapper();
             var authorDtos = new List<AuthorDto>()
             {
-                new AuthorDto { Id = Guid.NewGuid(), Firstname = "Firstname1", Lastname = "Lastname1" },
-                new AuthorDto { Id = Guid.NewGuid(), Firstname = "Firstname2", Lastname = "Lastname2" },
-                new AuthorDto { Id = Guid.NewGuid(), Firstname = "Firstname3", Lastname = "Lastname2" }
+                new AuthorDto { Id = 1, Firstname = "Firstname1", Lastname = "Lastname1" },
+                new AuthorDto { Id = 2, Firstname = "Firstname2", Lastname = "Lastname2" },
+                new AuthorDto { Id = 3, Firstname = "Firstname3", Lastname = "Lastname2" }
             };
 
             var authorEntities = mapper.Map(authorDtos);

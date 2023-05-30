@@ -35,7 +35,7 @@
 
         }
 
-        public Response Remove(Guid id)
+        public Response Remove(int id)
         {
             var dbResponse = _authorRepository.Remove(id);
             if (dbResponse)
@@ -54,7 +54,7 @@
             };
         }
 
-        public AuthorDto Get(Guid id)
+        public AuthorDto Get(int id)
         {
             return _dtoMapper.Map(_authorRepository.Get(id));
         }

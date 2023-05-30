@@ -41,7 +41,7 @@ namespace BooksLife.Web
             return RedirectToAction("List", response);
         }
 
-        public IActionResult Remove(Guid id)
+        public IActionResult Remove(int id)
         {
             var response = _authorManager.Remove(id);
             return RedirectToAction("List", response);
