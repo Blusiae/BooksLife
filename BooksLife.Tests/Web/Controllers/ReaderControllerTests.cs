@@ -36,7 +36,7 @@ namespace BooksLife.Tests
 
             var result = readerController.Index(new Guid()) as ViewResult;
 
-            result.Model.Should().BeOfType<List<AuthorViewModel>>();
+            result.Model.Should().BeOfType<ReaderViewModel>();
             result.ViewName.Should().BeNull();
         }
 
