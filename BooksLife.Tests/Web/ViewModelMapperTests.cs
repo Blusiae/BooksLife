@@ -161,6 +161,7 @@ namespace BooksLife.Tests
                     Id = Guid.NewGuid(),
                     Firstname = "Firstname1",
                     Lastname = "Lastname1",
+                    PhoneNumber = "1234567890",
                     Address = new AddressDto()
                     {
                         Id = Guid.NewGuid(),
@@ -174,6 +175,7 @@ namespace BooksLife.Tests
                     Firstname = "Firstname2",
                     Lastname = "Lastname2",
                     EmailAddress = "emai2l@address.com",
+                    PhoneNumber= "1234567890",
                     Address = new AddressDto()
                     {
                         Id = Guid.NewGuid(),
