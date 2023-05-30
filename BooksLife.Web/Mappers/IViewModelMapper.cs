@@ -4,9 +4,15 @@ namespace BooksLife.Web
 {
     public interface IViewModelMapper
     {
-        AuthorViewModel Map(AuthorDto author);
-        AuthorDto Map(AuthorViewModel author);
-        IEnumerable<AuthorViewModel> Map(IEnumerable<AuthorDto> authors);
-        IEnumerable<AuthorDto> Map(IEnumerable<AuthorViewModel> authors);
+        AuthorViewModel Map(AuthorDto reader);
+        AuthorDto Map(AuthorViewModel reader);
+        IEnumerable<AuthorViewModel> Map(IEnumerable<AuthorDto> readers);
+        IEnumerable<AuthorDto> Map(IEnumerable<AuthorViewModel> readers);
+        ReaderViewModel Map(ReaderDto reader);
+        ReaderDto Map(ReaderViewModel reader);
+        IEnumerable<ReaderViewModel> Map(IEnumerable<ReaderDto> readers);
+        IEnumerable<ReaderDto> Map(IEnumerable<ReaderViewModel> readers);
+        AddressViewModel Map(AddressDto address);
+        AddressDto Map(AddressViewModel address);
     }
 }
