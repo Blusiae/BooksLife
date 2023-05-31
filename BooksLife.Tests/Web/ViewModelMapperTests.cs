@@ -125,11 +125,8 @@ namespace BooksLife.Tests
                 Firstname = "Firstname1",
                 Lastname = "Lastname1",
                 EmailAddress = "email@address.com",
-                Address = new AddressDto()
-                {
-                    Country = "Poland",
-                    City = "Warsaw"
-                }
+                Country = "Poland",
+                City = "Warsaw"
             };
 
             var readerViewModel = mapper.Map(readerDto);
@@ -151,12 +148,9 @@ namespace BooksLife.Tests
                     Firstname = "Firstname1",
                     Lastname = "Lastname1",
                     PhoneNumber = "1234567890",
-                    Address = new AddressDto()
-                    {
-                        Id = Guid.NewGuid(),
-                        Country = "Poland",
-                        City = "Warsaw"
-                    }
+                    Country = "Poland",
+                    City = "Warsaw"
+
                 },
                 new ReaderDto()
                 {
@@ -165,12 +159,8 @@ namespace BooksLife.Tests
                     Lastname = "Lastname2",
                     EmailAddress = "emai2l@address.com",
                     PhoneNumber= "1234567890",
-                    Address = new AddressDto()
-                    {
-                        Id = Guid.NewGuid(),
-                        Country = "Poland",
-                        City = "Katowice"
-                    }
+                    Country = "Poland",
+                    City = "Katowice"
                 }
             };
 
