@@ -30,7 +30,7 @@
         <tbody>
             @foreach (var reader in Model)
             {
-                <tr onclick="location.href = '@Url.Action("Index", "Reader", new {readerId = reader.Id})'">
+                <tr>
                     <td>@reader.Firstname</td>
                     <td>@reader.Lastname</td>
                     <td>@reader.EmailAddress</td>
