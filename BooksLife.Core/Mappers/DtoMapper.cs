@@ -11,7 +11,14 @@ namespace BooksLife.Core
             _mapper = new MapperConfiguration(config =>
             {
                 config.CreateMap<AuthorEntity, AuthorDto>().ReverseMap();
-                config.CreateMap<ReaderEntity, ReaderDto>().ReverseMap();
+                config.CreateMap<ReaderEntity, ReaderDto>()
+                    .ForMember(x => x.Country, y => y.MapFrom(z => z.Address.Country))
+                    .ForMember(x => x.City, y => y.MapFrom(z => z.Address.City))
+                    .ForMember(x => x.PostalCode, y => y.MapFrom(z => z.Address.PostalCode))
+                    .ForMember(x => x.Street, y => y.MapFrom(z => z.Address.Street))
+                    .ForMember(x => x.HouseNumber, y => y.MapFrom(z => z.Address.HouseNumber))
+                    .ForMember(x => x.FlatNumber, y => y.MapFrom(z => z.Address.FlatNumber))
+                    .ReverseMap();
             }).CreateMapper();
         }
 
