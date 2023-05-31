@@ -1,49 +1,50 @@
 ﻿@using BooksLife.Core;
 @model List<ReaderViewModel>;
-@{
+@if(Model is not null){
+
     ViewData["Title"] = "List of readers";
-}
 
-@if (!(ViewBag.Response.Message == ""))
-{
-    <div class="alert @(ViewBag.Response.Succeed ? "alert-success" : "alert-danger")">
-        @ViewBag.Response.Message
-    </div>
-}
+    @if (!(ViewBag.Response.Message == ""))
+    {
+        <div class="alert @(ViewBag.Response.Succeed ? "alert-success" : "alert-danger")">
+            @ViewBag.Response.Message
+        </div>
+    }
 
-<h1>List of readers</h1>
+    <h1>List of readers</h1>
 
-<hr />
+    <hr />
 
-<a class="text-success fw-bold text-decoration-none" asp-controller="Reader" asp-action="Add"><small>+ Add new</small></a>
+    <a class="text-success fw-bold text-decoration-none" asp-controller="Reader" asp-action="Add"><small>+ Add new</small></a>
 
-<table class="table table-hover">
-    <thead class="thead-light">
-        <tr>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Email address</th>
-            <th>Phone number</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var reader in Model)
-        {
-            <tr onclick="location.href = '@Url.Action("Index", "Reader", new {readerId = reader.Id})'">
-                <td>@reader.Firstname</td>
-                <td>@reader.Lastname</td>
-                <td>@reader.EmailAddress</td>
-                <td>@reader.PhoneNumber</td>
-                <td>
-                    <a class="btn btn-sm transparent" title="Show details" asp-controller="Reader" asp-action="Index" asp-route-id="@reader.Id">
-                        <i class="bi bi-info-circle text-primary"></i>
-                    </a>
-                    <a class="btn btn-sm transparent" title="Remove" asp-controller="Reader" asp-action="Remove" asp-route-id="@reader.Id">
-                        <i class="bi bi-trash text-danger"></i>
-                    </a>
-                </td>
+    <table class="table table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Email address</th>
+                <th>Phone number</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var reader in Model)
+            {
+                <tr onclick="location.href = '@Url.Action("Index", "Reader", new {readerId = reader.Id})'">
+                    <td>@reader.Firstname</td>
+                    <td>@reader.Lastname</td>
+                    <td>@reader.EmailAddress</td>
+                    <td>@reader.PhoneNumber</td>
+                    <td>
+                        <a class="btn btn-sm transparent" title="Show details" asp-controller="Reader" asp-action="Index" asp-route-id="@reader.Id">
+                            <i class="bi bi-info-circle text-primary"></i>
+                        </a>
+                        <a class="btn btn-sm transparent" title="Remove" asp-controller="Reader" asp-action="Remove" asp-route-id="@reader.Id">
+                            <i class="bi bi-trash text-danger"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
