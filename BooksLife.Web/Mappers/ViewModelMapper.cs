@@ -14,8 +14,7 @@ namespace BooksLife.Web
                 config.CreateMap<AuthorViewModel, AuthorDto>().ReverseMap();
                 config.CreateMap<ReaderViewModel, ReaderDto>();
                 config.CreateMap<ReaderDto, ReaderViewModel>()
-                    .ForMember("EmailAddress", opt => opt.AddTransform(x => string.IsNullOrEmpty(x.ToString()) ? "-" : x))
-                    .ForMember("PhoneNumber", opt => opt.AddTransform(x => string.IsNullOrEmpty(x.ToString()) ? "-" : x));
+                    .AddTransform<string?>(x => string.IsNullOrEmpty(x) ? "-" : x);
             }).CreateMapper();
         }
 
