@@ -12,17 +12,19 @@ namespace BooksLife.Web
         [Required]
         public DateTime Birthdate { get; set; }
         [EmailAddress] 
-        public string EmailAddress { get; set; } = string.Empty;
+        public string? EmailAddress { get; set; } = string.Empty;
         [Phone]
-        public string PhoneNumber { get; set; } = string.Empty;
+        public string? PhoneNumber { get; set; } = string.Empty;
         [Required(AllowEmptyStrings = false)]
         public string Country { get; set; } = string.Empty;
         [Required(AllowEmptyStrings = false)]
         public string City { get; set; } = string.Empty;
+        [Required(AllowEmptyStrings = false)]
         public string PostalCode { get; set; } = string.Empty;
         [Required(AllowEmptyStrings = false)]
         public string Street { get; set; } = string.Empty;
+        [Required(AllowEmptyStrings = false)]
         public string HouseNumber { get; set; } = string.Empty;
-        public string FlatNumber { get; set; } = string.Empty;
+        public string? FlatNumber { get; set; } = string.Empty;
     }
 }
