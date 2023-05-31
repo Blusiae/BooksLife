@@ -1,0 +1,110 @@
+﻿@model ReaderViewModel
+@{
+    ViewData["Title"] = "Add a new reader";
+}
+
+<h1>Add a new reader</h1>
+
+<form asp-controller="Reader" asp-action="Add" class="mt-5">
+    <div class="row mb-3">
+        <div class="form-group col-md-4">
+            <label for="Firstname">Firstname</label>
+            <input type="text" class="form-control" id="Firstname" placeholder="Firstname" name="Firstname" />
+            <div class="text-danger">
+                <small>@Html.ValidationMessageFor(x => x.Firstname)</small>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="Lastname">Lastname</label>
+            <input type="text" class="form-control" id="Lastname" placeholder="Lastname" name="Lastname" />
+            <div class="text-danger">
+                <small>@Html.ValidationMessageFor(x => x.Lastname)</small>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="Birthdate">Date of birth</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="bi bi-calendar"></i></div>
+                </div>
+                <input type="date" class="form-control" id="Birthdate" name="Birthdate" />
+            </div>
+            <div class="text-danger">
+                <small>@Html.ValidationMessageFor(x => x.Birthdate)</small>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="form-group col-md-6">
+            <label for="Email">E-mail address</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="bi bi-envelope"></i></div>
+                </div>
+                <input type="email" class="form-control" id="Email" placeholder="E-mail address" name="EmailAddress" />
+            </div>
+            <div class="text-danger">
+                <small>@Html.ValidationMessageFor(x => x.EmailAddress)</small>
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="PhoneNumber">Phone number</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="bi bi-telephone"></i></div>
+                </div>
+                <input type="tel" class="form-control" id="PhoneNumber" placeholder="Phone number" name="PhoneNumber" />
+            </div>
+            <div class="text-danger">
+                <small>@Html.ValidationMessageFor(x => x.PhoneNumber)</small>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="form-group col-md-4">
+            <label for="Street">Street</label>
+            <input type="text" class="form-control" id="Street" placeholder="Street" name="Street" />
+            <div class="text-danger">
+                <small>@Html.ValidationMessageFor(x => x.Street)</small>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="House">House number</label>
+            <input type="text" class="form-control" id="House" placeholder="House number" name="HouseNumber" />
+            <div class="text-danger">
+                <small>@Html.ValidationMessageFor(x => x.HouseNumber)</small>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="Flat">Flat number <small>(optional)</small></label>
+            <input type="text" class="form-control" id="Flat" placeholder="Flat number" name="FlatNumber" />
+            <div class="text-danger">
+                <small>@Html.ValidationMessageFor(x => x.FlatNumber)</small>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="form-group col-md-4">
+            <label for="Country">Country</label>
+            <input type="text" class="form-control" id="Country" placeholder="Country" name="Country" />
+            <div class="text-danger">
+                <small>@Html.ValidationMessageFor(x => x.Country)</small>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="City">City</label>
+            <input type="text" class="form-control" id="City" placeholder="City" name="City" />
+            <div class="text-danger">
+                <small>@Html.ValidationMessageFor(x => x.City)</small>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="PostalCode">Postal code</label>
+            <input type="text" class="form-control" id="PostalCode" placeholder="Postal code" name="PostalCode" />
+            <div class="text-danger">
+                <small>@Html.ValidationMessageFor(x => x.PostalCode)</small>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>
