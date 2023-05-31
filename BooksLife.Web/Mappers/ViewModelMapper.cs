@@ -17,7 +17,6 @@ namespace BooksLife.Web
                     //.AddTransform<string>(x => string.IsNullOrEmpty(x) ? "-" : x)
                     .ForMember("EmailAddress", opt => opt.AddTransform(x => string.IsNullOrEmpty(x.ToString()) ? "-" : x))
                     .ForMember("PhoneNumber", opt => opt.AddTransform(x => string.IsNullOrEmpty(x.ToString()) ? "-" : x));
-                config.CreateMap<AddressViewModel, AddressDto>().ReverseMap();
             }).CreateMapper();
         }
 
@@ -30,8 +29,5 @@ namespace BooksLife.Web
         public IEnumerable<ReaderViewModel> Map(IEnumerable<ReaderDto> readers) => _mapper.Map<IEnumerable<ReaderViewModel>>(readers); //Collection of ReaderDto -> collection of ReaderViewModel
         public ReaderDto Map(ReaderViewModel reader) => _mapper.Map<ReaderDto>(reader); //ReaderViewModel -> ReaderDto
         public IEnumerable<ReaderDto> Map(IEnumerable<ReaderViewModel> readers) => _mapper.Map<IEnumerable<ReaderDto>>(readers); //Collection of ReaderViewModel -> collection of ReaderDto
-
-        public AddressViewModel Map(AddressDto address) => _mapper.Map<AddressViewModel>(address); //AddressDto -> AddressViewModel
-        public AddressDto Map(AddressViewModel address) => _mapper.Map<AddressDto>(address); //AddressViewModel -> AddressDto
     }
 }

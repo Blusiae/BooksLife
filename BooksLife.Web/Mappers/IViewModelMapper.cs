@@ -12,7 +12,5 @@ namespace BooksLife.Web
         ReaderDto Map(ReaderViewModel reader);
         IEnumerable<ReaderViewModel> Map(IEnumerable<ReaderDto> readers);
         IEnumerable<ReaderDto> Map(IEnumerable<ReaderViewModel> readers);
-        AddressViewModel Map(AddressDto address);
-        AddressDto Map(AddressViewModel address);
     }
 }
