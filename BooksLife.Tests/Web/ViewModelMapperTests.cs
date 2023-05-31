@@ -126,7 +126,11 @@ namespace BooksLife.Tests
                 Lastname = "Lastname1",
                 EmailAddress = "email@address.com",
                 Country = "Poland",
-                City = "Warsaw"
+                City = "Warsaw",
+                Street = "Flower St",
+                HouseNumber = "22a",
+                FlatNumber = "20",
+                PostalCode = "00-000"
             };
 
             var readerViewModel = mapper.Map(readerDto);
@@ -149,7 +153,11 @@ namespace BooksLife.Tests
                     Lastname = "Lastname1",
                     PhoneNumber = "1234567890",
                     Country = "Poland",
-                    City = "Warsaw"
+                    City = "Warsaw",
+                    Street = "Flower St",
+                    HouseNumber = "22a",
+                    FlatNumber = "20",
+                    PostalCode = "00-000"
 
                 },
                 new ReaderDto()
@@ -160,7 +168,11 @@ namespace BooksLife.Tests
                     EmailAddress = "emai2l@address.com",
                     PhoneNumber= "1234567890",
                     Country = "Poland",
-                    City = "Katowice"
+                    City = "Katowice",
+                    Street = "Flower St",
+                    HouseNumber = "22a",
+                    FlatNumber = "20",
+                    PostalCode = "00-000"
                 }
             };
 
