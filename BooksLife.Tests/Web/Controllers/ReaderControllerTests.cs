@@ -55,8 +55,10 @@ namespace BooksLife.Tests
             {
                 Firstname = "Firstname",
                 Lastname = "Lastname",
-                Country = "Poland", 
-                City = "Warsaw"
+                Country = "Poland",
+                City = "Warsaw",
+                Street = "Street",
+                Birthdate = new DateTime()
             };
 
             var result = readerController.Add(reader) as RedirectToActionResult;
