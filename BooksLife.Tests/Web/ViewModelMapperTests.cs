@@ -74,11 +74,8 @@ namespace BooksLife.Tests
                 Firstname = "Firstname1",
                 Lastname = "Lastname1",
                 EmailAddress = "email@address.com",
-                Address = new AddressViewModel()
-                {
-                    Country = "Poland",
-                    City = "Warsaw"
-                }
+                Country = "Poland",
+                City = "Warsaw"
             };
 
             var readerDto = mapper.Map(readerViewModel);
@@ -98,26 +95,18 @@ namespace BooksLife.Tests
                     Firstname = "Firstname1",
                     Lastname = "Lastname1",
                     EmailAddress = "email@address.com",
-                    Address = new AddressViewModel()
-                    {
-                        Country = "Poland",
-                        City = "Warsaw"
-                    }
-
+                    Country = "Poland",
+                    City = "Warsaw"
                 },
                 new ReaderViewModel()
                 {
                     Firstname = "Firstname2",
                     Lastname = "Lastname2",
                     EmailAddress = "emai2l@address.com",
-                    Address = new AddressViewModel()
-                    {
-                        Country = "Poland",
-                        City = "Katowice"
-                    }
+                    Country = "Poland",
+                    City = "Katowice"
 
                 }
-
             };
 
             var readerDtos = mapper.Map(readerViewModels);
