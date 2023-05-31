@@ -1,0 +1,43 @@
+﻿@model ReaderViewModel
+@if (Model is not null)
+{
+    ViewData["Title"] = $"{Model.Firstname} {Model.Lastname}";
+
+    <h1>@Model.Firstname @Model.Lastname</h1>
+    <small class="text-secondary">@Model.Id</small>
+
+    <hr />
+
+    <div class="container">
+        <div class="row mb-3">
+            <div class="form-group col-md-6">
+                <label class="text-secondary" for="Birthdate">Date of birth</label>
+                <p id="Birthdate">@Model.Birthdate.ToString("dd MMMM yyyy")</p>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="text-secondary" for="Country">Country</label>
+                <p id="Country">@Model.Country</p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="text-secondary" for="Email">E-mail address</label>
+                <p id="Email">@Model.EmailAddress</p>
+            </div>
+            <div class="col-md-6">
+                <label class="text-secondary" for="Address">Address</label>
+                <p id="Address">
+                    @Model.Street @Model.HouseNumber@(Model.FlatNumber == "-" ? "" : "/" + Model.FlatNumber), @Model.PostalCode, @Model.City
+                </p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="text-secondary" for="PhoneNumber">Phone number</label>
+                <p id="PhoneNumber">@Model.PhoneNumber</p>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+}
