@@ -55,7 +55,8 @@ namespace BooksLife.Tests
             {
                 Firstname = "Firstname",
                 Lastname = "Lastname",
-                Address = new AddressViewModel() { Country = "Poland", City = "Warsaw"}
+                Country = "Poland", 
+                City = "Warsaw"
             };
 
             var result = readerController.Add(reader) as RedirectToActionResult;
