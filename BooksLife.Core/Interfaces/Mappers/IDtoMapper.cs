@@ -10,7 +10,5 @@
         ReaderDto Map(ReaderEntity Reader);
         IEnumerable<ReaderEntity> Map(IEnumerable<ReaderDto> Readers);
         IEnumerable<ReaderDto> Map(IEnumerable<ReaderEntity> Readers);
-        AddressEntity Map(AddressDto Address);
-        AddressDto Map(AddressEntity Address);
     }
 }
