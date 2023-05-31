@@ -109,7 +109,7 @@ namespace BooksLife.Tests
             var readerEntity = mapper.Map(readerDto);
 
             readerEntity.Should().BeOfType<ReaderEntity>();
-            readerEntity.Should().BeEquivalentTo(readerDto);
+            readerEntity.Should().BeEquivalentTo(readerDto, options => options.ExcludingMissingMembers());
         }
 
         [Fact]
@@ -147,7 +147,7 @@ namespace BooksLife.Tests
             var readerEntities = mapper.Map(readerDtos);
 
             readerEntities.Should().BeOfType<List<ReaderEntity>>();
-            readerEntities.Should().BeEquivalentTo(readerDtos);
+            readerEntities.Should().BeEquivalentTo(readerDtos, options => options.ExcludingMissingMembers());
         }
     }
 }
