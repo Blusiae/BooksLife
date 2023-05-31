@@ -102,13 +102,9 @@ namespace BooksLife.Tests
                 Birthdate = new DateTime(2000, 10, 11),
                 EmailAddress = "email.address@email.com",
                 PhoneNumber = "+48999999999",
-            };
-            var addressDto = new AddressDto()
-            {
                 Country = "Poland",
                 City = "Warsaw"
             };
-            readerDto.Address = addressDto;
 
             var readerEntity = mapper.Map(readerDto);
 
@@ -142,15 +138,10 @@ namespace BooksLife.Tests
         public void Map_ForListOfReaderDtos_ShouldReturnListOfReaderEntitiesWithCorrectPropertiesAndAddressesIncluded()
         {
             var mapper = new DtoMapper();
-            var addressDto = new AddressDto()
-            {
-                Country = "Poland",
-                City = "Warsaw"
-            };
             var readerDtos = new List<ReaderDto>()
             {
-                new ReaderDto(){Firstname = "Firstname 1", Lastname = "Lastname 1", Address = addressDto},
-                new ReaderDto(){Firstname = "Firstname 2", Lastname = "Lastname 2", Address = addressDto}
+                new ReaderDto(){Firstname = "Firstname 1", Lastname = "Lastname 1", Country = "Poland"},
+                new ReaderDto(){Firstname = "Firstname 2", Lastname = "Lastname 2", Country = "Poland"}
             };
 
             var readerEntities = mapper.Map(readerDtos);
