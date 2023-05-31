@@ -3,7 +3,12 @@
 {
     ViewData["Title"] = $"{Model.Firstname} {Model.Lastname}";
 
-    <h1>@Model.Firstname @Model.Lastname</h1>
+    <h1>
+        @Model.Firstname @Model.Lastname 
+        <a class="btn btn-sm transparent" title="Remove" asp-controller="Reader" asp-action="Remove" asp-route-id="@Model.Id">
+            <i class="bi bi-trash text-danger h4"></i>
+        </a>
+    </h1>
     <small class="text-secondary">@Model.Id</small>
 
     <hr />
