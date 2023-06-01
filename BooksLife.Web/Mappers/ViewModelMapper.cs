@@ -15,6 +15,8 @@ namespace BooksLife.Web
                 config.CreateMap<ReaderViewModel, ReaderDto>();
                 config.CreateMap<ReaderDto, ReaderViewModel>()
                     .AddTransform<string?>(x => string.IsNullOrEmpty(x) ? "-" : x);
+                config.CreateMap<BookViewModel, BookDto>().ReverseMap();
+                config.CreateMap<BookTitleViewModel, BookTitleDto>().ReverseMap();
             }).CreateMapper();
         }
 
@@ -27,5 +29,15 @@ namespace BooksLife.Web
         public IEnumerable<ReaderViewModel> Map(IEnumerable<ReaderDto> readers) => _mapper.Map<IEnumerable<ReaderViewModel>>(readers); //Collection of ReaderDto -> collection of ReaderViewModel
         public ReaderDto Map(ReaderViewModel reader) => _mapper.Map<ReaderDto>(reader); //ReaderViewModel -> ReaderDto
         public IEnumerable<ReaderDto> Map(IEnumerable<ReaderViewModel> readers) => _mapper.Map<IEnumerable<ReaderDto>>(readers); //Collection of ReaderViewModel -> collection of ReaderDto
+
+        public BookViewModel Map(BookDto book) => _mapper.Map<BookViewModel>(book); //BookDto -> BookViewModel
+        public IEnumerable<BookViewModel> Map(IEnumerable<BookDto> books) => _mapper.Map<IEnumerable<BookViewModel>>(books); //Collection of BookDto -> collection of BookViewModel
+        public BookDto Map(BookViewModel book) => _mapper.Map<BookDto>(book); //BookViewModel -> BookDto
+        public IEnumerable<BookDto> Map(IEnumerable<BookViewModel> books) => _mapper.Map<IEnumerable<BookDto>>(books); //Collection of BookViewModel -> collection of BookDto
+
+        public BookTitleViewModel Map(BookTitleDto bookTitle) => _mapper.Map<BookTitleViewModel>(bookTitle); //BookTitleDto -> BookTitleViewModel
+        public IEnumerable<BookTitleViewModel> Map(IEnumerable<BookTitleDto> bookTitles) => _mapper.Map<IEnumerable<BookTitleViewModel>>(bookTitles); //Collection of BookTitleDto -> collection of BookTitleViewModel
+        public BookTitleDto Map(BookTitleViewModel bookTitle) => _mapper.Map<BookTitleDto>(bookTitle); //BookTitleViewModel -> BookTitleDto
+        public IEnumerable<BookTitleDto> Map(IEnumerable<BookTitleViewModel> bookTitles) => _mapper.Map<IEnumerable<BookTitleDto>>(bookTitles); //Collection of BookTitleViewModel -> collection of BookTitleDto
     }
 }

@@ -1,0 +1,46 @@
+﻿@model BookViewModel
+@if(Model is not null)
+{
+    ViewData["Title"] = Model.Title;
+
+    <h1>
+        @Model.Title (@Model.EditionPublicationYear)
+        <a class="btn btn-sm transparent" title="Remove" asp-controller="Book" asp-action="Remove" asp-route-id="@Model.Id">
+            <i class="bi bi-trash text-danger h4"></i>
+        </a>
+    </h1>
+    <small class="text-secondary">@Model.Id</small>
+
+    <hr />
+
+    <div class="container">
+        <div class="row mb-3">
+            <div class="form-group col-md-6">
+                <label class="text-secondary" for="Author">Author</label>
+                <p id="Author">@Model.AuthorName</p>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="text-secondary" for="Condition">Condition</label>
+                <p id="Condition">@Model.Condition.ToString()</p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="text-secondary" for="PublicationYear">Year of publication</label>
+                <p id="PublicationYear">@Model.PublicationYear</p>
+            </div>
+            <div class="col-md-6">
+                <label class="text-secondary" for="ConditionNote">Condition note</label>
+                <p id="ConditionNote">@(string.IsNullOrEmpty(Model.ConditionNote) ? "-" : Model.ConditionNote)</p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="text-secondary" for="EditionPublicationYear">Year of edition publication</label>
+                <p id="EditionPublicationYear">@Model.EditionPublicationYear</p>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+}

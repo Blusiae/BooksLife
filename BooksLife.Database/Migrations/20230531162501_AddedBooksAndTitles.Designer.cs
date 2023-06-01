@@ -4,6 +4,7 @@ using BooksLife.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BooksLife.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230531162501_AddedBooksAndTitles")]
+    partial class AddedBooksAndTitles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,9 +86,6 @@ namespace BooksLife.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("BookTitleId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Condition")
                         .HasColumnType("int");
 
@@ -95,34 +95,14 @@ namespace BooksLife.Database.Migrations
                     b.Property<int>("EditionPublicationYear")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("TitleId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("BookTitleId");
+                    b.HasIndex("TitleId");
 
                     b.ToTable("Books");
-                });
-
-            modelBuilder.Entity("BooksLife.Core.BookTitleEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AuthorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("PublicationYear")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
-
-                    b.ToTable("BookTitles");
                 });
 
             modelBuilder.Entity("BooksLife.Core.ReaderEntity", b =>
@@ -158,26 +138,38 @@ namespace BooksLife.Database.Migrations
                     b.ToTable("Readers");
                 });
 
-            modelBuilder.Entity("BooksLife.Core.BookEntity", b =>
+            modelBuilder.Entity("BooksLife.Core.TitleEntity", b =>
                 {
-                    b.HasOne("BooksLife.Core.BookTitleEntity", "BookTitle")
-                        .WithMany("Books")
-                        .HasForeignKey("BookTitleId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Navigation("BookTitle");
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("PublicationYear")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Titles");
                 });
 
-            modelBuilder.Entity("BooksLife.Core.BookTitleEntity", b =>
+            modelBuilder.Entity("BooksLife.Core.BookEntity", b =>
                 {
-                    b.HasOne("BooksLife.Core.AuthorEntity", "Author")
-                        .WithMany("BookTitles")
-                        .HasForeignKey("AuthorId")
+                    b.HasOne("BooksLife.Core.TitleEntity", "Title")
+                        .WithMany("Books")
+                        .HasForeignKey("TitleId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Author");
+                    b.Navigation("Title");
                 });
 
             modelBuilder.Entity("BooksLife.Core.ReaderEntity", b =>
@@ -191,6 +183,17 @@ namespace BooksLife.Database.Migrations
                     b.Navigation("Address");
                 });
 
+            modelBuilder.Entity("BooksLife.Core.TitleEntity", b =>
+                {
+                    b.HasOne("BooksLife.Core.AuthorEntity", "Author")
+                        .WithMany("Titles")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+                });
+
             modelBuilder.Entity("BooksLife.Core.AddressEntity", b =>
                 {
                     b.Navigation("Readers");
@@ -198,10 +201,10 @@ namespace BooksLife.Database.Migrations
 
             modelBuilder.Entity("BooksLife.Core.AuthorEntity", b =>
                 {
-                    b.Navigation("BookTitles");
+                    b.Navigation("Titles");
                 });
 
-            modelBuilder.Entity("BooksLife.Core.BookTitleEntity", b =>
+            modelBuilder.Entity("BooksLife.Core.TitleEntity", b =>
                 {
                     b.Navigation("Books");
                 });

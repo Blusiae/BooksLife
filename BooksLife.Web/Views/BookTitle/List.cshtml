@@ -1,0 +1,46 @@
+﻿@using BooksLife.Core;
+@model List<BookTitleViewModel>
+@if (Model is not null)
+{
+
+    ViewData["Title"] = "List of titles";
+
+    @if (!(ViewBag.Response.Message == ""))
+    {
+        <div class="alert @(ViewBag.Response.Succeed ? "alert-success" : "alert-danger")">
+            @ViewBag.Response.Message
+        </div>
+    }
+
+    <h1>List of titles</h1>
+
+    <hr />
+
+    <a class="text-success fw-bold text-decoration-none" asp-controller="BookTitle" asp-action="Add"><small>+ Add new</small></a>
+
+    <table class="table table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Title</th>
+                <th>Year of publication</th>
+                <th>Author</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bookTitle in Model)
+            {
+                <tr>
+                    <td>@bookTitle.Title</td>
+                    <td>@bookTitle.PublicationYear</td>
+                    <td>@bookTitle.AuthorName</td>
+                    <td>
+                        <a class="btn btn-sm transparent" title="Remove" asp-controller="BookTitle" asp-action="Remove" asp-route-id="@bookTitle.Id">
+                            <i class="bi bi-trash text-danger"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

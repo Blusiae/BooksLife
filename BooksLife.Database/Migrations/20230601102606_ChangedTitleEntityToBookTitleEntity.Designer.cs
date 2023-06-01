@@ -4,6 +4,7 @@ using BooksLife.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BooksLife.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230601102606_ChangedTitleEntityToBookTitleEntity")]
+    partial class ChangedTitleEntityToBookTitleEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,9 +86,6 @@ namespace BooksLife.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("BookTitleId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Condition")
                         .HasColumnType("int");
 
@@ -95,9 +95,12 @@ namespace BooksLife.Database.Migrations
                     b.Property<int>("EditionPublicationYear")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("TitleId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("BookTitleId");
+                    b.HasIndex("TitleId");
 
                     b.ToTable("Books");
                 });
@@ -122,7 +125,7 @@ namespace BooksLife.Database.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("BookTitles");
+                    b.ToTable("Titles");
                 });
 
             modelBuilder.Entity("BooksLife.Core.ReaderEntity", b =>
@@ -162,7 +165,7 @@ namespace BooksLife.Database.Migrations
                 {
                     b.HasOne("BooksLife.Core.BookTitleEntity", "BookTitle")
                         .WithMany("Books")
-                        .HasForeignKey("BookTitleId")
+                        .HasForeignKey("TitleId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
