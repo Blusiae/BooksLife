@@ -31,6 +31,7 @@ namespace BooksLife.Web
             return View();
         }
 
+        [HttpPost]
         public IActionResult Add(BookViewModel bookViewModel)
         {
             if (!ModelState.IsValid)
