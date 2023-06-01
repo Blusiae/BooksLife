@@ -183,5 +183,106 @@ namespace BooksLife.Tests
             readerViewModels.ElementAt(0).EmailAddress.Should().Be("-");
             readerViewModels.ElementAt(1).EmailAddress.Should().Be("emai2l@address.com");
         }
+
+        [Fact]
+        public void Map_ForBookDto_ShouldReturnBookViewModelWithCorrectValues()
+        {
+            var mapper = new ViewModelMapper();
+            var bookDto = new BookDto()
+            {
+                Id = Guid.NewGuid(),
+                Title = "Title1",
+                PublicationYear = 2000,
+                EditionPublicationYear = 2001,
+                AuthorName = "Firstname1 Lastname1",
+                Condition = BookCondition.Good
+            };
+
+            var bookViewModel = mapper.Map(bookDto);
+
+            bookViewModel.Should().BeOfType<BookViewModel>();
+            bookViewModel.Should().BeEquivalentTo(bookDto, options => options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void Map_ForBookViewModel_ShouldReturnBookDtoWithCorrectValues()
+        {
+            var mapper = new ViewModelMapper();
+            var bookViewModel = new BookViewModel()
+            {
+                BookTitleId = Guid.NewGuid(),
+                PublicationYear = 2000,
+                Condition = BookCondition.Poor,
+                ConditionNote = "Two pages are missing.",
+                AuthorId = Guid.NewGuid()
+            };
+
+            var bookDto = mapper.Map(bookViewModel);
+
+            bookDto.Should().BeOfType<BookDto>();
+            bookDto.Should().BeEquivalentTo(bookViewModel, options => options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void Map_ForListOfBookDto_ShouldReturnListOfBookViewModelWithCorrectValues()
+        {
+            var mapper = new ViewModelMapper();
+            var bookDtos = new List<BookDto>()
+            {
+                new BookDto()
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Title1",
+                    PublicationYear = 2000,
+                    EditionPublicationYear = 2001,
+                    AuthorName = "Firstname1 Lastname1",
+                    Condition = BookCondition.Good
+                },
+                new BookDto()
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Title2",
+                    PublicationYear = 2001,
+                    EditionPublicationYear = 2002,
+                    AuthorName = "Firstname2 Lastname2",
+                    Condition = BookCondition.Good
+                }
+            };
+
+            var bookViewModels = mapper.Map(bookDtos);
+
+            bookViewModels.Should().BeOfType<List<BookViewModel>>();
+            bookViewModels.Should().BeEquivalentTo(bookDtos, options => options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void Map_ForListOfBookViewModel_ShouldReturnListOfBookDto()
+        {
+            var mapper = new ViewModelMapper();
+            var bookViewModels = new List<BookViewModel>()
+            {
+                new BookViewModel()
+                {
+                    BookTitleId = Guid.NewGuid(),
+                    PublicationYear = 2000,
+                    Condition = BookCondition.Poor,
+                    ConditionNote = "Two pages are missing.",
+                    AuthorId = Guid.NewGuid()
+                },
+                new BookViewModel()
+                {
+                    BookTitleId = Guid.NewGuid(),
+                    PublicationYear = 2001,
+                    Condition = BookCondition.Poor,
+                    ConditionNote = "Three pages are missing.",
+                    AuthorId = Guid.NewGuid()
+                }
+            };
+
+            var bookDtos = mapper.Map(bookViewModels);
+
+            bookDtos.Should().BeOfType<List<BookDto>>();
+            bookDtos.Should().BeEquivalentTo(bookViewModels, options => options.ExcludingMissingMembers());
+        }
     }
 }
