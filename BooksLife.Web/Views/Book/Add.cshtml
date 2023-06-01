@@ -1,0 +1,63 @@
+﻿@using BooksLife.Core;
+@model BookViewModel
+@{
+    ViewData["Title"] = "Add a new book";
+}
+
+@if (ViewBag.BookTitles is not null)
+{
+    <h1>Add a new title</h1>
+
+    <form asp-controller="Book" asp-action="Add" class="mt-5">
+        <div class="container">
+            <div class="row mb-3">
+                <div class="form-group col-md-6">
+                    <label for="BookTitleId">Title</label>
+                    <select class="form-control" id="BookTitleId" name="BookTitleId">
+                        @foreach (var bookTitle in ViewBag.BookTitles as List<BookTitleViewModel>)
+                        {
+                            <option value="@bookTitle.Id">@bookTitle.Title, @bookTitle.AuthorName (@bookTitle.PublicationYear)</option>
+                        }
+                    </select>
+                    <a asp-controller="BookTitle" asp-action="List" class="text-decoration-underline text-primary">Manage titles</a>
+                    <div class="text-danger">
+                        <small>@Html.ValidationMessageFor(x => x.BookTitleId)</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group col-md-6">
+                    <label for="EditionPublicationYear">Year of edition publication</label>
+                    <input type="number" class="form-control" id="EditionPublicationYear" placeholder="Year of edition publication" name="EditionPublicationYear" />
+                    <div class="text-danger">
+                        <small>@Html.ValidationMessageFor(x => x.PublicationYear)</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group col-md-6">
+                    <label for="Condition">Condition</label>
+                    <select class="form-control" id="Condition" name="Condition">
+                        <option value="@BookCondition.Poor">@BookCondition.Poor.ToString()</option>
+                        <option value="@BookCondition.Fair">@BookCondition.Fair.ToString()</option>
+                        <option value="@BookCondition.Good">@BookCondition.Good.ToString()</option>
+                        <option value="@BookCondition.Fine">@BookCondition.Fine.ToString()</option>
+                    </select>
+                    <div class="text-danger">
+                        <small>@Html.ValidationMessageFor(x => x.Condition)</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group col-md-6">
+                    <label for="ConditionNote">Condition note</label>
+                    <input type="text" class="form-control" id="ConditionNote" placeholder="Condition note" name="ConditionNote" />
+                    <div class="text-danger">
+                        <small>@Html.ValidationMessageFor(x => x.ConditionNote)</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success ms-2">Submit</button>
+    </form>
+}
