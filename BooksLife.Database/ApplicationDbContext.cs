@@ -9,7 +9,7 @@ namespace BooksLife.Database
         public DbSet<ReaderEntity> Readers { get; set; }
         public DbSet<AddressEntity> Addresses { get; set; }
         public DbSet<BookEntity> Books { get; set; }
-        public DbSet<BookTitleEntity> Titles { get; set; }
+        public DbSet<BookTitleEntity> BookTitles { get; set; }
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
