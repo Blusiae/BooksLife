@@ -16,5 +16,9 @@ namespace BooksLife.Web
         BookDto Map(BookViewModel book);
         IEnumerable<BookViewModel> Map(IEnumerable<BookDto> books);
         IEnumerable<BookDto> Map(IEnumerable<BookViewModel> books);
+        BookTitleViewModel Map(BookTitleDto bookTitle);
+        BookTitleDto Map(BookTitleViewModel bookTitle);
+        IEnumerable<BookTitleViewModel> Map(IEnumerable<BookTitleDto> bookTitles);
+        IEnumerable<BookTitleDto> Map(IEnumerable<BookTitleViewModel> bookTitles);
     }
 }
