@@ -19,6 +19,11 @@ namespace BooksLife.Core
                     .ForMember(x => x.HouseNumber, y => y.MapFrom(z => z.Address.HouseNumber))
                     .ForMember(x => x.FlatNumber, y => y.MapFrom(z => z.Address.FlatNumber))
                     .ReverseMap();
+                config.CreateMap<BookDto, BookEntity>();
+                config.CreateMap<BookEntity, BookDto>()
+                    .ForMember(x => x.AuthorName, y => y.MapFrom(z => $"{z.BookTitle.Author.Firstname} {z.BookTitle.Author.Lastname}"))
+                    .ForMember(x => x.Title, y => y.MapFrom(z => z.BookTitle.Title))
+                    .ForMember(x => x.PublicationYear, y => y.MapFrom(z => z.BookTitle.PublicationYear));
             }).CreateMapper();
         }
 
@@ -33,5 +38,11 @@ namespace BooksLife.Core
 
         public ReaderEntity Map(ReaderDto Reader) => _mapper.Map<ReaderEntity>(Reader); //ReaderDto -> ReaderEntity
         public IEnumerable<ReaderEntity> Map(IEnumerable<ReaderDto> Readers) => _mapper.Map<IEnumerable<ReaderEntity>>(Readers); //Collection of ReaderDto -> collection of ReaderEntity
+
+        public BookDto Map(BookEntity Book) => _mapper.Map<BookDto>(Book); //BookEntity -> BookDto
+        public IEnumerable<BookDto> Map(IEnumerable<BookEntity> Books) => _mapper.Map<IEnumerable<BookDto>>(Books); //Collection of BookEntity -> collection of BookDto
+
+        public BookEntity Map(BookDto Book) => _mapper.Map<BookEntity>(Book); //BookDto -> BookEntity
+        public IEnumerable<BookEntity> Map(IEnumerable<BookDto> Books) => _mapper.Map<IEnumerable<BookEntity>>(Books); //Collection of BookDto -> collection of BookEntity
     }
 }

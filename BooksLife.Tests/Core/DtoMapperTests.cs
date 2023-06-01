@@ -176,7 +176,7 @@ namespace BooksLife.Tests
             var bookDto = mapper.Map(bookEntity);
 
             bookDto.Should().BeOfType<BookDto>();
-            bookDto.Author.Should().BeEquivalentTo(bookEntity.BookTitle.Author);
+            bookDto.AuthorName.Should().Be("Firstname Lastname");
             bookDto.Title.Should().Be(bookEntity.BookTitle.Title);
             bookDto.PublicationYear.Should().Be(bookEntity.BookTitle.PublicationYear);
             bookDto.Should().BeEquivalentTo(bookEntity, options => options
@@ -198,7 +198,7 @@ namespace BooksLife.Tests
             var bookEntity = mapper.Map(bookDto);
 
             bookEntity.Should().BeOfType<BookEntity>();
-            bookEntity.Should().BeEquivalentTo(bookDto);
+            bookEntity.Should().BeEquivalentTo(bookDto, options => options.ExcludingMissingMembers());
         }
 
         [Fact]
@@ -248,13 +248,13 @@ namespace BooksLife.Tests
             var bookDtos = mapper.Map(bookEntities);
 
             bookDtos.Should().BeOfType<List<BookDto>>();
-            bookDtos.ElementAt(0).Author.Should().BeEquivalentTo(bookEntities.ElementAt(0).BookTitle.Author);
+            bookDtos.ElementAt(0).AuthorName.Should().Be("Firstname Lastname");
             bookDtos.ElementAt(0).Title.Should().Be(bookEntities.ElementAt(0).BookTitle.Title);
             bookDtos.ElementAt(0).PublicationYear.Should().Be(bookEntities.ElementAt(0).BookTitle.PublicationYear);
             bookDtos.ElementAt(0).Should().BeEquivalentTo(bookEntities.ElementAt(0), options => options
                 .Excluding(x => x.BookTitle)
                 .ExcludingMissingMembers());
-            bookDtos.ElementAt(1).Author.Should().BeEquivalentTo(bookEntities.ElementAt(1).BookTitle.Author);
+            bookDtos.ElementAt(1).AuthorName.Should().Be("Firstname Lastname");
             bookDtos.ElementAt(1).Title.Should().Be(bookEntities.ElementAt(1).BookTitle.Title);
             bookDtos.ElementAt(1).PublicationYear.Should().Be(bookEntities.ElementAt(1).BookTitle.PublicationYear);
             bookDtos.ElementAt(1).Should().BeEquivalentTo(bookEntities.ElementAt(1), options => options
@@ -285,7 +285,7 @@ namespace BooksLife.Tests
             var bookEntities = mapper.Map(bookDtos);
 
             bookEntities.Should().BeOfType<List<BookEntity>>();
-            bookEntities.Should().BeEquivalentTo(bookDtos);
+            bookEntities.Should().BeEquivalentTo(bookDtos, options => options.ExcludingMissingMembers());
         }
     }
 }
