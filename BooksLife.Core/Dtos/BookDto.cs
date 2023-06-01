@@ -4,6 +4,7 @@
     {
         public Guid Id { get; set; }
         public string Title { get; set; } = string.Empty;
+        public Guid TitleId { get; set; }
         public int PublicationYear { get; set; }
         public int EditionPublicationYear { get; set; }
         public AuthorDto Author { get; set; }
