@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BooksLife.Database
 {
-    public class TitleRepository : BaseRepository<BookTitleEntity>, ITitleRepository
+    public class BookTitleRepository : BaseRepository<BookTitleEntity>, IBookTitleRepository
     {
         protected override DbSet<BookTitleEntity> DbSet => _context.Titles;
-        public TitleRepository(ApplicationDbContext context) : base(context) { }
+        public BookTitleRepository(ApplicationDbContext context) : base(context) { }
     }
 }
