@@ -9,5 +9,7 @@
         public BookCondition Condition { get; set; }
         public string? ConditionNote { get; set; } = string.Empty;
 
+        public virtual List<BorrowEntity>? Borrows { get; set; }
+
     }
 }
