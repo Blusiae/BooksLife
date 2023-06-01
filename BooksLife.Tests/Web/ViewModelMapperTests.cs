@@ -284,5 +284,96 @@ namespace BooksLife.Tests
             bookDtos.Should().BeOfType<List<BookDto>>();
             bookDtos.Should().BeEquivalentTo(bookViewModels, options => options.ExcludingMissingMembers());
         }
+
+        [Fact]
+        public void Map_ForBookTitleDto_ShouldReturnBookTitleViewModelWithCorrectValues()
+        {
+            var mapper = new ViewModelMapper();
+            var bookTitleDto = new BookTitleDto()
+            {
+                Id = Guid.NewGuid(),
+                Title = "Title1",
+                PublicationYear = 2000,
+                AuthorName = "Firstname1 Lastname1",
+            };
+
+            var bookTitleViewModel = mapper.Map(bookTitleDto);
+
+            bookTitleViewModel.Should().BeOfType<BookTitleViewModel>();
+            bookTitleViewModel.Should().BeEquivalentTo(bookTitleDto, options => options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void Map_ForBookTitleViewModel_ShouldReturnBookTitleDtoWithCorrectValues()
+        {
+            var mapper = new ViewModelMapper();
+            var bookTitleViewModel = new BookTitleViewModel()
+            {
+                Title = "Title1",
+                PublicationYear = 2000,
+                AuthorId = Guid.NewGuid()
+            };
+
+            var bookTitleDto = mapper.Map(bookTitleViewModel);
+
+            bookTitleDto.Should().BeOfType<BookTitleDto>();
+            bookTitleDto.Should().BeEquivalentTo(bookTitleViewModel, options => options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void Map_ForListOfBookTitleDto_ShouldReturnListOfBookTitleViewModelWithCorrectValues()
+        {
+            var mapper = new ViewModelMapper();
+            var bookTitleDtos = new List<BookTitleDto>()
+            {
+                new BookTitleDto()
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Title1",
+                    PublicationYear = 2000,
+                    AuthorName = "Firstname1 Lastname1",
+                },
+                new BookTitleDto()
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Title2",
+                    PublicationYear = 2001,
+                    AuthorName = "Firstname2 Lastname2",
+                }
+            };
+
+            var bookTitleViewModels = mapper.Map(bookTitleDtos);
+
+            bookTitleViewModels.Should().BeOfType<List<BookTitleViewModel>>();
+            bookTitleViewModels.Should().BeEquivalentTo(bookTitleDtos, options => options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void Map_ForListOfBookTitleViewModel_ShouldReturnListOfBookTitleDto()
+        {
+            var mapper = new ViewModelMapper();
+            var bookTitleViewModels = new List<BookTitleViewModel>()
+            {
+                new BookTitleViewModel()
+                {
+                    Title = "Title1",
+                    PublicationYear = 2000,
+                    AuthorId = Guid.NewGuid()
+                },
+                new BookTitleViewModel()
+                {
+                    Title = "Title2",
+                    PublicationYear = 2001,
+                    AuthorId = Guid.NewGuid()
+                }
+            };
+
+            var bookTitleDtos = mapper.Map(bookTitleViewModels);
+
+            bookTitleDtos.Should().BeOfType<List<BookTitleDto>>();
+            bookTitleDtos.Should().BeEquivalentTo(bookTitleViewModels, options => options.ExcludingMissingMembers());
+        }
+
+
     }
 }
