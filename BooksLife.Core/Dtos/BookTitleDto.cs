@@ -1,14 +1,11 @@
 ﻿namespace BooksLife.Core
 {
-    public class TitleEntity : BaseEntity
+    public class BookTitleDto
     {
+        public Guid Id { get; set; }
         public string Title { get; set; } = string.Empty;
         public int PublicationYear { get; set; }
-
+        public AuthorDto Author { get; set; }
         public Guid AuthorId { get; set; }
-        public virtual AuthorEntity Author { get; set; }
-
-        public virtual IEnumerable<BookEntity> Books { get; set; }
-
     }
 }

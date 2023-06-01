@@ -15,7 +15,7 @@ namespace BooksLife.Tests
             var authorDto = mapper.Map(authorEntity);
 
             authorDto.Should().BeOfType<AuthorDto>();
-            authorDto.Should().BeEquivalentTo(authorEntity);
+            authorDto.Should().BeEquivalentTo(authorEntity, options => options.ExcludingMissingMembers());
         }
 
         [Fact]
@@ -44,7 +44,7 @@ namespace BooksLife.Tests
             var authorDtos = mapper.Map(authorEntities);
 
             authorDtos.Should().BeOfType<List<AuthorDto>>();
-            authorDtos.Should().BeEquivalentTo(authorEntities);
+            authorDtos.Should().BeEquivalentTo(authorEntities, options => options.ExcludingMissingMembers());
         }
 
         [Fact]
@@ -157,7 +157,7 @@ namespace BooksLife.Tests
             var bookEntity = new BookEntity()
             {
                 Id = Guid.NewGuid(),
-                Title = new TitleEntity()
+                BookTitle = new BookTitleEntity()
                 {
                     Id = Guid.NewGuid(),
                     Title = "Title",
@@ -176,11 +176,11 @@ namespace BooksLife.Tests
             var bookDto = mapper.Map(bookEntity);
 
             bookDto.Should().BeOfType<BookDto>();
-            bookDto.Author.Should().BeEquivalentTo(bookEntity.Title.Author);
-            bookDto.Title.Should().Be(bookEntity.Title.Title);
-            bookDto.PublicationYear.Should().Be(bookEntity.Title.PublicationYear);
+            bookDto.Author.Should().BeEquivalentTo(bookEntity.BookTitle.Author);
+            bookDto.Title.Should().Be(bookEntity.BookTitle.Title);
+            bookDto.PublicationYear.Should().Be(bookEntity.BookTitle.PublicationYear);
             bookDto.Should().BeEquivalentTo(bookEntity, options => options
-                .Excluding(x => x.Title)
+                .Excluding(x => x.BookTitle)
                 .ExcludingMissingMembers());
         }
 
@@ -190,7 +190,7 @@ namespace BooksLife.Tests
             var mapper = new DtoMapper();
             var bookDto = new BookDto()
             {
-                TitleId = Guid.NewGuid(),
+                BookTitleId = Guid.NewGuid(),
                 EditionPublicationYear = 2001,
                 Condition = BookCondition.Good
             };
@@ -210,7 +210,7 @@ namespace BooksLife.Tests
                 new BookEntity()
                 {
                     Id = Guid.NewGuid(),
-                    Title = new TitleEntity()
+                    BookTitle = new BookTitleEntity()
                     {
                         Id = Guid.NewGuid(),
                         Title = "Title",
@@ -228,7 +228,7 @@ namespace BooksLife.Tests
                 new BookEntity()
                 {
                     Id = Guid.NewGuid(),
-                    Title = new TitleEntity()
+                    BookTitle = new BookTitleEntity()
                     {
                         Id = Guid.NewGuid(),
                         Title = "Title2",
@@ -248,17 +248,17 @@ namespace BooksLife.Tests
             var bookDtos = mapper.Map(bookEntities);
 
             bookDtos.Should().BeOfType<List<BookDto>>();
-            bookDtos.ElementAt(0).Author.Should().BeEquivalentTo(bookEntities.ElementAt(0).Title.Author);
-            bookDtos.ElementAt(0).Title.Should().Be(bookEntities.ElementAt(0).Title.Title);
-            bookDtos.ElementAt(0).PublicationYear.Should().Be(bookEntities.ElementAt(0).Title.PublicationYear);
+            bookDtos.ElementAt(0).Author.Should().BeEquivalentTo(bookEntities.ElementAt(0).BookTitle.Author);
+            bookDtos.ElementAt(0).Title.Should().Be(bookEntities.ElementAt(0).BookTitle.Title);
+            bookDtos.ElementAt(0).PublicationYear.Should().Be(bookEntities.ElementAt(0).BookTitle.PublicationYear);
             bookDtos.ElementAt(0).Should().BeEquivalentTo(bookEntities.ElementAt(0), options => options
-                .Excluding(x => x.Title)
+                .Excluding(x => x.BookTitle)
                 .ExcludingMissingMembers());
-            bookDtos.ElementAt(1).Author.Should().BeEquivalentTo(bookEntities.ElementAt(1).Title.Author);
-            bookDtos.ElementAt(1).Title.Should().Be(bookEntities.ElementAt(1).Title.Title);
-            bookDtos.ElementAt(1).PublicationYear.Should().Be(bookEntities.ElementAt(1).Title.PublicationYear);
+            bookDtos.ElementAt(1).Author.Should().BeEquivalentTo(bookEntities.ElementAt(1).BookTitle.Author);
+            bookDtos.ElementAt(1).Title.Should().Be(bookEntities.ElementAt(1).BookTitle.Title);
+            bookDtos.ElementAt(1).PublicationYear.Should().Be(bookEntities.ElementAt(1).BookTitle.PublicationYear);
             bookDtos.ElementAt(1).Should().BeEquivalentTo(bookEntities.ElementAt(1), options => options
-                .Excluding(x => x.Title)
+                .Excluding(x => x.BookTitle)
                 .ExcludingMissingMembers());
         }
 
@@ -270,13 +270,13 @@ namespace BooksLife.Tests
             {
                 new BookDto()
                 {
-                    TitleId = Guid.NewGuid(),
+                    BookTitleId = Guid.NewGuid(),
                     EditionPublicationYear = 2001,
                     Condition = BookCondition.Good
                 },
                 new BookDto()
                 {
-                    TitleId = Guid.NewGuid(),
+                    BookTitleId = Guid.NewGuid(),
                     EditionPublicationYear = 2002,
                     Condition = BookCondition.Poor
                 },

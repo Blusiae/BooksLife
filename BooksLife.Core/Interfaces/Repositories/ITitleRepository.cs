@@ -1,6 +1,6 @@
 ﻿namespace BooksLife.Core
 { 
-    public interface ITitleRepository : IBaseRepository<TitleEntity>
+    public interface ITitleRepository : IBaseRepository<BookTitleEntity>
     {
     }
 }

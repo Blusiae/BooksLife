@@ -5,6 +5,6 @@
         public string? Firstname { get; set; } = string.Empty;
         public string Lastname { get; set; } = string.Empty;
 
-        public virtual IEnumerable<TitleEntity>? Titles { get; set; }
+        public virtual IEnumerable<BookTitleEntity>? BookTitles { get; set; }
     }
 }
