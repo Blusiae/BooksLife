@@ -9,7 +9,6 @@ namespace BooksLife.Web
         public string? Title { get; set; } = string.Empty;
         [Required]
         public Guid BookTitleId { get; set; }
-        [Required]
         public int PublicationYear { get; set; }
         [Required]
         public int EditionPublicationYear { get; set; }
