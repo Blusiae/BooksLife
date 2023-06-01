@@ -22,7 +22,7 @@ namespace BooksLife.Database
             modelBuilder.Entity<BookEntity>()
                 .HasOne(t => t.BookTitle)
                 .WithMany(b => b.Books)
-                .HasForeignKey(t => t.TitleId)
+                .HasForeignKey(t => t.BookTitleId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<BookTitleEntity>()

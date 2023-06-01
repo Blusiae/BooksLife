@@ -2,7 +2,7 @@
 {
     public class BookEntity : BaseEntity
     {
-        public Guid TitleId { get; set; }
+        public Guid BookTitleId { get; set; }
         public virtual BookTitleEntity BookTitle { get; set; }
 
         public int EditionPublicationYear { get; set; }
