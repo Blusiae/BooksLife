@@ -30,6 +30,8 @@ namespace BooksLife.Web
         {
             if (!ModelState.IsValid)
             {
+                var authorDtos = _authorManager.GetAll();
+                ViewBag.Authors = _viewModelMapper.Map(authorDtos);
                 return View(bookTitleViewmodel);
             }
 
