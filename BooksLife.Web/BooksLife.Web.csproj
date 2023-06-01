@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\BookTitle\List.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -25,18 +21,6 @@
 
   <ItemGroup>
     <Folder Include="Views\Book\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\BookTitle\List.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\BookTitle\List.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\BookTitle\List.cshtml" />
   </ItemGroup>
 
 </Project>
