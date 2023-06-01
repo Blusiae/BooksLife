@@ -149,5 +149,143 @@ namespace BooksLife.Tests
             readerEntities.Should().BeOfType<List<ReaderEntity>>();
             readerEntities.Should().BeEquivalentTo(readerDtos, options => options.ExcludingMissingMembers());
         }
+
+        [Fact]
+        public void Map_ForBookEntity_ShouldReturnBookDtoWithCorrectValues()
+        {
+            var mapper = new DtoMapper();
+            var bookEntity = new BookEntity()
+            {
+                Id = Guid.NewGuid(),
+                Title = new TitleEntity()
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Title",
+                    PublicationYear = 2000,
+                    Author = new AuthorEntity()
+                    {
+                        Firstname = "Firstname",
+                        Lastname = "Lastname"
+                    }
+                },
+                EditionPublicationYear = 2001,
+                Condition = BookCondition.Fair,
+                ConditionNote = "First page is missing."
+            };
+
+            var bookDto = mapper.Map(bookEntity);
+
+            bookDto.Should().BeOfType<BookDto>();
+            bookDto.Author.Should().BeEquivalentTo(bookEntity.Title.Author);
+            bookDto.Title.Should().Be(bookEntity.Title.Title);
+            bookDto.PublicationYear.Should().Be(bookEntity.Title.PublicationYear);
+            bookDto.Should().BeEquivalentTo(bookEntity, options => options
+                .Excluding(x => x.Title)
+                .ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void Map_ForBookDto_ShouldReturnBookEntityWithCorrectValues()
+        {
+            var mapper = new DtoMapper();
+            var bookDto = new BookDto()
+            {
+                TitleId = Guid.NewGuid(),
+                EditionPublicationYear = 2001,
+                Condition = BookCondition.Good
+            };
+
+            var bookEntity = mapper.Map(bookDto);
+
+            bookEntity.Should().BeOfType<BookEntity>();
+            bookEntity.Should().BeEquivalentTo(bookDto);
+        }
+
+        [Fact]
+        public void Map_ForListOfBookEntity_ShouldReturnListOfBookDtoWithCorrectValues()
+        {
+            var mapper = new DtoMapper();
+            var bookEntities = new List<BookEntity>()
+            {
+                new BookEntity()
+                {
+                    Id = Guid.NewGuid(),
+                    Title = new TitleEntity()
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = "Title",
+                        PublicationYear = 2000,
+                        Author = new AuthorEntity()
+                        {
+                            Firstname = "Firstname",
+                            Lastname = "Lastname"
+                        }
+                    },
+                    EditionPublicationYear = 2001,
+                    Condition = BookCondition.Fair,
+                    ConditionNote = "First page is missing."
+                },
+                new BookEntity()
+                {
+                    Id = Guid.NewGuid(),
+                    Title = new TitleEntity()
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = "Title2",
+                        PublicationYear = 2001,
+                        Author = new AuthorEntity()
+                        {
+                            Firstname = "Firstname",
+                            Lastname = "Lastname"
+                        }
+                    },
+                    EditionPublicationYear = 2001,
+                    Condition = BookCondition.Poor,
+                    ConditionNote = "First and second pages are missing."
+                }
+            };
+
+            var bookDtos = mapper.Map(bookEntities);
+
+            bookDtos.Should().BeOfType<List<BookDto>>();
+            bookDtos.ElementAt(0).Author.Should().BeEquivalentTo(bookEntities.ElementAt(0).Title.Author);
+            bookDtos.ElementAt(0).Title.Should().Be(bookEntities.ElementAt(0).Title.Title);
+            bookDtos.ElementAt(0).PublicationYear.Should().Be(bookEntities.ElementAt(0).Title.PublicationYear);
+            bookDtos.ElementAt(0).Should().BeEquivalentTo(bookEntities.ElementAt(0), options => options
+                .Excluding(x => x.Title)
+                .ExcludingMissingMembers());
+            bookDtos.ElementAt(1).Author.Should().BeEquivalentTo(bookEntities.ElementAt(1).Title.Author);
+            bookDtos.ElementAt(1).Title.Should().Be(bookEntities.ElementAt(1).Title.Title);
+            bookDtos.ElementAt(1).PublicationYear.Should().Be(bookEntities.ElementAt(1).Title.PublicationYear);
+            bookDtos.ElementAt(1).Should().BeEquivalentTo(bookEntities.ElementAt(1), options => options
+                .Excluding(x => x.Title)
+                .ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void Map_ForListOfBookDto_ShouldReturnListOfBookEntityWithCorrectValues()
+        {
+            var mapper = new DtoMapper();
+            var bookDtos = new List<BookDto>()
+            {
+                new BookDto()
+                {
+                    TitleId = Guid.NewGuid(),
+                    EditionPublicationYear = 2001,
+                    Condition = BookCondition.Good
+                },
+                new BookDto()
+                {
+                    TitleId = Guid.NewGuid(),
+                    EditionPublicationYear = 2002,
+                    Condition = BookCondition.Poor
+                },
+            };
+
+            var bookEntities = mapper.Map(bookDtos);
+
+            bookEntities.Should().BeOfType<List<BookEntity>>();
+            bookEntities.Should().BeEquivalentTo(bookDtos);
+        }
     }
 }
