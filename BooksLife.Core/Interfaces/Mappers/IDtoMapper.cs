@@ -18,5 +18,9 @@
         BookTitleDto Map(BookTitleEntity BookTitle);
         IEnumerable<BookTitleEntity> Map(IEnumerable<BookTitleDto> BookTitles);
         IEnumerable<BookTitleDto> Map(IEnumerable<BookTitleEntity> BookTitles);
+        BorrowEntity Map(BorrowDto Borrow);
+        BorrowDto Map(BorrowEntity Borrow);
+        IEnumerable<BorrowEntity> Map(IEnumerable<BorrowDto> Borrows);
+        IEnumerable<BorrowDto> Map(IEnumerable<BorrowEntity> Borrows);
     }
 }
