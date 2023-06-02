@@ -3,16 +3,18 @@
     public class BorrowManager : IBorrowManager
     {
         private readonly IBorrowRepository _borrowRepository;
+        private readonly IBookRepository _bookRepository;
         private readonly IDtoMapper _mapper;
 
         private const string FAILED_MESSAGE = "Something went wrong!";
         private const string SUCCEED_ADD_MESSAGE = "A new borrow has been added.";
         private const string SUCCEED_REMOVE_MESSAGE = "Borrow has been removed.";
 
-        public BorrowManager(IBorrowRepository borrowRepository, IDtoMapper mapper)
+        public BorrowManager(IBorrowRepository borrowRepository, IDtoMapper mapper, IBookRepository bookRepository)
         {
             _borrowRepository = borrowRepository;
             _mapper = mapper;
+            _bookRepository = bookRepository;
         }
 
         public Response Add(BorrowDto borrowDto)
@@ -21,11 +23,14 @@
             var borrowEntity = _mapper.Map(borrowDto);
             if (_borrowRepository.Add(borrowEntity))
             {
-                return new Response()
+                if (_bookRepository.SetAsBorrowed(borrowDto.BookId))
                 {
-                    Succeed = true,
-                    Message = SUCCEED_ADD_MESSAGE
-                };
+                    return new Response()
+                    {
+                        Succeed = true,
+                        Message = SUCCEED_ADD_MESSAGE
+                    };
+                }
             }
             return new Response()
             {
@@ -48,6 +53,7 @@
         {
             if (_borrowRepository.Remove(id))
             {
+                //set book as unborrowed
                 return new Response()
                 {
                     Succeed = true,
