@@ -402,6 +402,7 @@ namespace BooksLife.Tests
             var mapper = new DtoMapper();
             var borrowEntity = new BorrowEntity()
             {
+                IsActive = true,
                 Id = Guid.NewGuid(),
                 Reader = new ReaderEntity(),
                 Book = new BookEntity(),
@@ -422,7 +423,8 @@ namespace BooksLife.Tests
         {
             var mapper = new DtoMapper();
             var borrowDto = new BorrowDto()
-            {
+            {   
+                IsActive = true,
                 ReaderId = Guid.NewGuid(),
                 BookId = Guid.NewGuid(),
                 BorrowDate = new DateTime(),
@@ -443,6 +445,7 @@ namespace BooksLife.Tests
             {
                 new BorrowEntity()
                 {
+                    IsActive = true,
                     Id = Guid.NewGuid(),
                     Reader = new ReaderEntity(),
                     Book = new BookEntity(),
@@ -451,6 +454,7 @@ namespace BooksLife.Tests
                 },
                 new BorrowEntity()
                 {
+                    IsActive = true,
                     Id = Guid.NewGuid(),
                     Reader = new ReaderEntity(),
                     Book = new BookEntity(),
@@ -478,6 +482,7 @@ namespace BooksLife.Tests
             {
                 new BorrowDto()
                 {
+                    IsActive = true,
                     ReaderId = Guid.NewGuid(),
                     BookId = Guid.NewGuid(),
                     BorrowDate = new DateTime(),
@@ -485,6 +490,7 @@ namespace BooksLife.Tests
                 },
                 new BorrowDto()
                 {
+                    IsActive = true,
                     ReaderId = Guid.NewGuid(),
                     BookId = Guid.NewGuid(),
                     BorrowDate = new DateTime(),
