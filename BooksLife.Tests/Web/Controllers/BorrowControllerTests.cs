@@ -100,5 +100,31 @@ namespace BooksLife.Tests
             result.ActionName.Should().Be("List");
             result.RouteValues.Should().BeEquivalentTo(expectedRouteValues);
         }
+        
+        [Theory]
+        [InlineData(true, "Marked borrow as returned.")]
+        [InlineData(false, "Something went wrong!")]
+        public void SetAsReturned_ForId_ShouldCallManagerAndRedirectToListAndPassTheResponse(bool succeed, string message)
+        {
+            var response = new Response() { Succeed = succeed, Message = message };
+            var borrowManagerMock = new Mock<IBorrowManager>();
+            borrowManagerMock.Setup(m => m.SetAsReturned(It.IsAny<BorrowDto>())).Returns(response);
+            borrowManagerMock.Setup(m => m.Get(It.IsAny<Guid>())).Returns(new BorrowDto());
+            var viewModelMapperMock = new Mock<IViewModelMapper>();
+            var bookManagerMock = new Mock<IBookManager>();
+            var readerManagerMock = new Mock<IReaderManager>();
+            var borrowController = new BorrowController(viewModelMapperMock.Object, borrowManagerMock.Object, bookManagerMock.Object, readerManagerMock.Object);
+
+            var result = borrowController.SetAsReturned(Guid.NewGuid()) as RedirectToActionResult;
+
+            var expectedRouteValues = new RouteValueDictionary()
+            {
+                { "Succeed", succeed },
+                { "Message", message },
+            };
+
+            result.ActionName.Should().Be("List");
+            result.RouteValues.Should().BeEquivalentTo(expectedRouteValues);
+        }
     }
 }
