@@ -1,5 +1,6 @@
 ﻿using BooksLife.Core;
 using FluentAssertions;
+using System.Security.Cryptography.Xml;
 using Xunit;
 
 namespace BooksLife.Tests
@@ -393,6 +394,114 @@ namespace BooksLife.Tests
 
             bookTitleEntities.Should().BeOfType<List<BookTitleEntity>>();
             bookTitleEntities.Should().BeEquivalentTo(bookTitleDtos, options => options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void Map_ForBorrowEntity_ShouldReturnBorrowDtoWithCorrectValues()
+        {
+            var mapper = new DtoMapper();
+            var borrowEntity = new BorrowEntity()
+            {
+                IsActive = true,
+                Id = Guid.NewGuid(),
+                Reader = new ReaderEntity(),
+                Book = new BookEntity(),
+                BorrowDate = new DateTime(),
+                ReturnDate = new DateTime()
+            };
+
+            var borrowDto = mapper.Map(borrowEntity);
+
+            borrowDto.Should().BeOfType<BorrowDto>();
+            borrowDto.Reader.Should().BeOfType<ReaderDto>();
+            borrowDto.Book.Should().BeOfType<BookDto>();
+            borrowDto.Should().BeEquivalentTo(borrowEntity, options => options.Excluding(x => x.Reader).Excluding(x => x.Book));
+        }
+
+        [Fact]
+        public void Map_ForBorrowDto_ShouldReturnBorrowEntityWithCorrectValues()
+        {
+            var mapper = new DtoMapper();
+            var borrowDto = new BorrowDto()
+            {   
+                IsActive = true,
+                ReaderId = Guid.NewGuid(),
+                BookId = Guid.NewGuid(),
+                BorrowDate = new DateTime(),
+                ReturnDate = new DateTime()
+            };
+
+            var borrowEntity = mapper.Map(borrowDto);
+
+            borrowEntity.Should().BeOfType<BorrowEntity>();
+            borrowEntity.Should().BeEquivalentTo(borrowEntity, options => options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void Map_ForListOfBorrowEntity_ShouldReturnListOfBorrowDtoWithCorrectValues()
+        {
+            var mapper = new DtoMapper();
+            var borrowEntities = new List<BorrowEntity>()
+            {
+                new BorrowEntity()
+                {
+                    IsActive = true,
+                    Id = Guid.NewGuid(),
+                    Reader = new ReaderEntity(),
+                    Book = new BookEntity(),
+                    BorrowDate = new DateTime(),
+                    ReturnDate = new DateTime()
+                },
+                new BorrowEntity()
+                {
+                    IsActive = true,
+                    Id = Guid.NewGuid(),
+                    Reader = new ReaderEntity(),
+                    Book = new BookEntity(),
+                    BorrowDate = new DateTime(),
+                    ReturnDate = new DateTime()
+                }
+            };
+
+            var borrowDtos = mapper.Map(borrowEntities);
+
+            borrowDtos.Should().BeOfType<List<BorrowDto>>();
+            borrowDtos.ElementAt(0).Reader.Should().BeOfType<ReaderDto>();
+            borrowDtos.ElementAt(0).Book.Should().BeOfType<BookDto>();
+            borrowDtos.ElementAt(0).Should().BeEquivalentTo(borrowEntities.ElementAt(0), options => options.Excluding(x => x.Reader).Excluding(x => x.Book));
+            borrowDtos.ElementAt(1).Reader.Should().BeOfType<ReaderDto>();
+            borrowDtos.ElementAt(1).Book.Should().BeOfType<BookDto>();
+            borrowDtos.ElementAt(1).Should().BeEquivalentTo(borrowEntities.ElementAt(1), options => options.Excluding(x => x.Reader).Excluding(x => x.Book));
+        }
+
+        [Fact]
+        public void Map_ForListOfBorrowDto_ShouldReturnListOfBorrowEntity()
+        {
+            var mapper = new DtoMapper();
+            var borrowDtos = new List<BorrowDto>()
+            {
+                new BorrowDto()
+                {
+                    IsActive = true,
+                    ReaderId = Guid.NewGuid(),
+                    BookId = Guid.NewGuid(),
+                    BorrowDate = new DateTime(),
+                    ReturnDate = new DateTime()
+                },
+                new BorrowDto()
+                {
+                    IsActive = true,
+                    ReaderId = Guid.NewGuid(),
+                    BookId = Guid.NewGuid(),
+                    BorrowDate = new DateTime(),
+                    ReturnDate = new DateTime()
+                }
+            };
+
+            var borrowEntities = mapper.Map(borrowDtos);
+
+            borrowEntities.Should().BeOfType<List<BorrowEntity>>();
+            borrowEntities.Should().BeEquivalentTo(borrowDtos, options => options.ExcludingMissingMembers());
         }
     }
 }

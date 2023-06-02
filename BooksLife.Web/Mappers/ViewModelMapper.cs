@@ -17,6 +17,7 @@ namespace BooksLife.Web
                     .AddTransform<string?>(x => string.IsNullOrEmpty(x) ? "-" : x);
                 config.CreateMap<BookViewModel, BookDto>().ReverseMap();
                 config.CreateMap<BookTitleViewModel, BookTitleDto>().ReverseMap();
+                config.CreateMap<BorrowViewModel, BorrowDto>().ReverseMap();
             }).CreateMapper();
         }
 
@@ -39,5 +40,12 @@ namespace BooksLife.Web
         public IEnumerable<BookTitleViewModel> Map(IEnumerable<BookTitleDto> bookTitles) => _mapper.Map<IEnumerable<BookTitleViewModel>>(bookTitles); //Collection of BookTitleDto -> collection of BookTitleViewModel
         public BookTitleDto Map(BookTitleViewModel bookTitle) => _mapper.Map<BookTitleDto>(bookTitle); //BookTitleViewModel -> BookTitleDto
         public IEnumerable<BookTitleDto> Map(IEnumerable<BookTitleViewModel> bookTitles) => _mapper.Map<IEnumerable<BookTitleDto>>(bookTitles); //Collection of BookTitleViewModel -> collection of BookTitleDto
+
+        public BorrowViewModel Map(BorrowDto Borrow) => _mapper.Map<BorrowViewModel>(Borrow); //BorrowDto -> BorrowViewModel
+        public IEnumerable<BorrowViewModel> Map(IEnumerable<BorrowDto> Borrows) => _mapper.Map<IEnumerable<BorrowViewModel>>(Borrows); //Collection of BorrowDto -> collection of BorrowViewModel
+
+        public BorrowDto Map(BorrowViewModel Borrow) => _mapper.Map<BorrowDto>(Borrow); //BorrowViewModel -> BorrowDto
+        public IEnumerable<BorrowDto> Map(IEnumerable<BorrowViewModel> Borrows) => _mapper.Map<IEnumerable<BorrowDto>>(Borrows); //Collection of BorrowViewModel -> collection of BorrowDto
+
     }
 }

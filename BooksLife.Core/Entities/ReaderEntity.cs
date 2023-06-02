@@ -10,5 +10,7 @@
 
         public Guid AddressId { get; set; }
         public virtual AddressEntity Address { get; set; }
+
+        public virtual List<BorrowEntity>? Borrows { get; set; }
     }
 }

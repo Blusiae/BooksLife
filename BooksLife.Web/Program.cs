@@ -26,6 +26,8 @@ namespace BooksLife.Web
             builder.Services.AddTransient<IBookManager, BookManager>();
             builder.Services.AddTransient<IBookTitleManager, BookTitleManager>();
             builder.Services.AddTransient<IBookTitleRepository, BookTitleRepository>();
+            builder.Services.AddTransient<IBorrowManager, BorrowManager>();
+            builder.Services.AddTransient<IBorrowRepository, BorrowRepository>();
 
             var app = builder.Build();
 

@@ -3,6 +3,7 @@
     public class BookDto
     {
         public Guid Id { get; set; }
+        public bool IsBorrowed { get; set; }
         public string Title { get; set; } = string.Empty;
         public Guid BookTitleId { get; set; }
         public int PublicationYear { get; set; }

@@ -20,5 +20,9 @@ namespace BooksLife.Web
         BookTitleDto Map(BookTitleViewModel bookTitle);
         IEnumerable<BookTitleViewModel> Map(IEnumerable<BookTitleDto> bookTitles);
         IEnumerable<BookTitleDto> Map(IEnumerable<BookTitleViewModel> bookTitles);
+        BorrowViewModel Map(BorrowDto borrow);
+        BorrowDto Map(BorrowViewModel borrow);
+        IEnumerable<BorrowViewModel> Map(IEnumerable<BorrowDto> borrows);
+        IEnumerable<BorrowDto> Map(IEnumerable<BorrowViewModel> borrows);
     }
 }

@@ -5,6 +5,7 @@ namespace BooksLife.Web
 {
     public class BookViewModel
     {
+        public bool IsBorrowed { get; set; } = false;
         public Guid Id { get; set; }
         public string? Title { get; set; } = string.Empty;
         [Required]
