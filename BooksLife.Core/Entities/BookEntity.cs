@@ -2,6 +2,8 @@
 {
     public class BookEntity : BaseEntity
     {
+        public bool IsBorrowed { get; set; }
+
         public Guid BookTitleId { get; set; }
         public virtual BookTitleEntity BookTitle { get; set; }
 
