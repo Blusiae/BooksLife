@@ -1,0 +1,55 @@
+﻿@using BooksLife.Core;
+@model BorrowViewModel
+@{
+    ViewData["Title"] = "Add a new borrow";
+}
+
+@if (ViewBag.Readers is not null && ViewBag.Books is not null)
+{
+    <h1>Add a new borrow</h1>
+
+    <form asp-controller="Borrow" asp-action="Add" class="mt-5">
+        <div class="container">
+            <div class="row mb-3">
+                <div class="form-group col-md-6">
+                    <label for="BookId">Book</label>
+                    <select class="form-control" id="BookId" name="BookId">
+                        @foreach (var book in ViewBag.Books as List<BookViewModel>)
+                        {
+                            <option value="@book.Id">@book.Title, @book.AuthorName (@book.EditionPublicationYear)</option>
+                        }
+                    </select>
+                    <div class="text-danger">
+                        <small>@Html.ValidationMessageFor(x => x.BookId)</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group col-md-6">
+                    <label for="ReaderId">Reader</label>
+                    <select class="form-control" id="ReaderId" name="ReaderId">
+                        @foreach (var reader in ViewBag.Readers as List<ReaderViewModel>)
+                        {
+                            <option value="@reader.Id">@reader.Firstname @reader.Lastname</option>
+                        }
+                    </select>
+                    <div class="text-danger">
+                        <small>@Html.ValidationMessageFor(x => x.ReaderId)</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group col-md-6">
+                    <label for="ReturnDate">Return date</label>
+                    <input type="date" class="form-control" id="ReturnDate" placeholder="Return date" name="ReturnDate" />
+                    <div class="text-danger">
+                        <small>@Html.ValidationMessageFor(x => x.ReturnDate)</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success ms-2">Submit</button>
+    </form>
+    @Html.ValidationSummary();
+
+}
