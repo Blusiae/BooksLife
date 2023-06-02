@@ -17,6 +17,7 @@
 
         public Response Add(BorrowDto borrowDto)
         {
+            borrowDto.BorrowDate = DateTime.Now;
             var borrowEntity = _mapper.Map(borrowDto);
             if (_borrowRepository.Add(borrowEntity))
             {

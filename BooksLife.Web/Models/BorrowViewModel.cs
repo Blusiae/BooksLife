@@ -13,7 +13,6 @@ namespace BooksLife.Web
         [Required]
         public Guid ReaderId { get; set; }
         public ReaderViewModel Reader { get; set; } = new ReaderViewModel();
-        [Required]
         public DateTime BorrowDate { get; set; }
         [Required]
         public DateTime ReturnDate { get; set; }
