@@ -42,7 +42,7 @@
 
         public Response SetAsReturned(BorrowDto borrowDto)
         {
-            if (!_borrowRepository.SetAsUnactive(borrowDto.BookId))
+            if (!_borrowRepository.SetAsUnactive(borrowDto.Id))
             {
                 return new Response()
                 {
