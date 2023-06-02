@@ -9,6 +9,7 @@
         private const string FAILED_MESSAGE = "Something went wrong!";
         private const string SUCCEED_ADD_MESSAGE = "A new borrow has been added.";
         private const string SUCCEED_REMOVE_MESSAGE = "Borrow has been removed.";
+        private const string SUCCED_RETURNED_MESSAGE = "Marked borrow as returned.";
 
         public BorrowManager(IBorrowRepository borrowRepository, IDtoMapper mapper, IBookRepository bookRepository)
         {
@@ -36,6 +37,34 @@
             {
                 Succeed = false,
                 Message = FAILED_MESSAGE
+            };
+        }
+
+        public Response SetAsReturned(BorrowDto borrowDto)
+        {
+            if (!_borrowRepository.SetAsUnactive(borrowDto.BookId))
+            {
+                return new Response()
+                {
+                    Succeed = false,
+                    Message = FAILED_MESSAGE
+                };
+            } 
+            
+            if(!_bookRepository.SetAsUnborrowed(borrowDto.BookId))
+            {
+                _ = _borrowRepository.SetAsActive(borrowDto.Id);
+                return new Response()
+                {
+                    Succeed = false,
+                    Message = FAILED_MESSAGE
+                };
+            }
+
+            return new Response()
+            {
+                Succeed = true,
+                Message = SUCCED_RETURNED_MESSAGE
             };
         }
 
