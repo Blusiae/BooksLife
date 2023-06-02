@@ -18,5 +18,16 @@ namespace BooksLife.Database
             }
             return false;
         }
+
+        public bool SetAsActive(Guid id)
+        {
+            var borrow = _context.Borrows.FirstOrDefault(x => x.Id == id);
+            if (borrow != null)
+            {
+                borrow.IsActive = true;
+                return _context.SaveChanges() > 0;
+            }
+            return false;
+        }
     }
 }
