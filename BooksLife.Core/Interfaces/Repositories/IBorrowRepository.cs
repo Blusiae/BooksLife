@@ -2,5 +2,6 @@
 {
     public interface IBorrowRepository : IBaseRepository<BorrowEntity>
     {
+        bool SetAsUnactive(Guid id);
     }
 }
