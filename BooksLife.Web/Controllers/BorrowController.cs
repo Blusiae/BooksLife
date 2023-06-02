@@ -63,6 +63,13 @@ namespace BooksLife.Web
             return View(borrowViewModels);
         }
 
+        public IActionResult SetAsReturned(Guid id)
+        {
+            var borrowDto = _borrowManager.Get(id);
+            var response = _borrowManager.SetAsReturned(borrowDto);
+            return RedirectToAction("List", response);
+        }
+
         public IActionResult Remove (Guid id)
         {
             var response = _borrowManager.Remove(id);
