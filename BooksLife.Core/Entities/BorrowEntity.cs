@@ -2,6 +2,7 @@
 {
     public class BorrowEntity : BaseEntity
     {
+        public bool IsActive { get; set; }
         public Guid BookId { get; set; }
         public virtual BookEntity Book { get; set; }
         public Guid ReaderId { get; set; }
