@@ -75,7 +75,7 @@
 
         public List<BorrowDto> GetAll()
         {
-            return _mapper.Map(_borrowRepository.GetAll()).ToList();
+            return _mapper.Map(_borrowRepository.GetAll()).Reverse().ToList();
         }
 
         public Response Remove(Guid id)
