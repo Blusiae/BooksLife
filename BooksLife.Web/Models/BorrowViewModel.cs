@@ -9,11 +9,11 @@ namespace BooksLife.Web
         public bool IsActive { get; set; } = true;
         [Required]
         public Guid BookId { get; set; }
-        public BookViewModel Book { get; set; } = new BookViewModel();
+        public BookViewModel? Book { get; set; }
         [Required]
         public Guid ReaderId { get; set; }
-        public ReaderViewModel Reader { get; set; } = new ReaderViewModel();
-        public DateTime BorrowDate { get; set; }
+        public ReaderViewModel? Reader { get; set; }
+        public DateTime BorrowDate { get; set; } = new DateTime();
         [Required]
         public DateTime ReturnDate { get; set; }
     }
