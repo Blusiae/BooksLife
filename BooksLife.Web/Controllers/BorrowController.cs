@@ -27,7 +27,7 @@ namespace BooksLife.Web
 
         public IActionResult Add()
         {
-            var bookDtos = _bookManager.GetAll();
+            var bookDtos = _bookManager.GetAll().Where(x => !x.IsBorrowed).ToList(); //move it  to BookManager later
             ViewBag.Books = _mapper.Map(bookDtos);
 
             var readerDtos = _readerManager.GetAllForList();
@@ -41,7 +41,7 @@ namespace BooksLife.Web
         {
             if (!ModelState.IsValid)
             {
-                var bookDtos = _bookManager.GetAll();
+                var bookDtos = _bookManager.GetAll().Where(x => !x.IsBorrowed).ToList(); //move it  to BookManager later
                 ViewBag.Books = _mapper.Map(bookDtos);
 
                 var readerDtos = _readerManager.GetAllForList();
