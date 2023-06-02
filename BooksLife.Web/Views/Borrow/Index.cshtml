@@ -1,0 +1,55 @@
+﻿@model BorrowViewModel
+@if (Model is not null)
+{
+    ViewData["Title"] = "Borrow";
+
+    <h1 class="@(Model.IsActive ? "text-success" : "text-secondary")">
+        @(Model.IsActive ? "Active" : "Returned")
+        <a class="btn btn-sm transparent disabled" title="Remove" asp-controller="Borrow" asp-action="Remove" asp-route-id="@Model.Id">
+            <i class="bi bi-trash text-danger h4"></i>
+        </a>
+    </h1>
+    <small class="text-secondary">@Model.Id</small>
+
+    <hr />
+
+    <div class="container">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="text-secondary" for="BorrowDate">Date of borrow</label>
+                <p id="BorrowDate">@Model.BorrowDate.ToString("dd MMMM yyyy")</p>
+            </div>
+            <div class="col-md-6">
+                <label class="text-secondary" for="ReturnDate">Return deadline</label>
+                <p id="ReturnDate">@Model.ReturnDate.ToString("dd MMMM yyyy")</p>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class = "container">
+        <div class="row">
+            <div class="col-md-6">
+                <label class="text-secondary h4" for="Reader">Reader</label>
+                <div class="card" id="Reader">
+                    <div class="card-body">
+                        <h4 class="card-title">@Model.Reader.Firstname @Model.Reader.Lastname</h4>
+                        <h6 class="card-subtitle mb-2 text-muted">@Model.Reader.Id</h6>
+                        <a class="card-link text-decoration-none" asp-controller="Reader" asp-action="Index" asp-route-id="@Model.Reader.Id">Show details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="text-secondary h4" for="Reader">Book</label>
+                <div class="card" id="Book">
+                    <div class="card-body">
+                        <h4 class="card-title">@Model.Book.Title</h4>
+                        <h6 class="card-subtitle mb-2 text-muted">@Model.Book.Id</h6>
+                        <a class="card-link text-decoration-none" asp-controller="Book" asp-action="Index" asp-route-id="@Model.Book.Id">Show details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
