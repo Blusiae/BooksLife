@@ -10,7 +10,7 @@ namespace BooksLife.Database
 
         public bool SetAsUnactive(Guid id)
         {
-            var borrow = _context.Borrows.FirstOrDefault(x => x.Id == id);
+            var borrow = DbSet.FirstOrDefault(x => x.Id == id);
             if (borrow != null)
             {
                 borrow.IsActive = false;
@@ -21,7 +21,7 @@ namespace BooksLife.Database
 
         public bool SetAsActive(Guid id)
         {
-            var borrow = _context.Borrows.FirstOrDefault(x => x.Id == id);
+            var borrow = DbSet.FirstOrDefault(x => x.Id == id);
             if (borrow != null)
             {
                 borrow.IsActive = true;
