@@ -171,5 +171,49 @@ namespace BooksLife.Tests
             bookTitleEntities.Should().BeOfType<List<BookTitleEntity>>();
             bookTitleEntities.Should().BeEquivalentTo(bookTitleDtos, options => options.ExcludingMissingMembers());
         }
+
+        [Fact]
+        public void ForBookDto_ShouldReturnBookEntityWithCorrectValues()
+        {
+            var bookDto = new BookDto()
+            {
+                BookTitleId = Guid.NewGuid(),
+                EditionPublicationYear = 2000,
+                Condition = BookCondition.Fine,
+                ConditionNote = "Condition"
+            };
+
+            var bookEntity = bookDto.ToEntity();
+
+            bookEntity.Should().BeOfType<BookEntity>();
+            bookEntity.Should().BeEquivalentTo(bookDto, options => options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void ForCollectionOfBookDto_ShouldReturnListOfBookEntity()
+        {
+            var bookDtos = new List<BookDto>()
+            {
+                new BookDto()
+                {
+                    BookTitleId = Guid.NewGuid(),
+                    EditionPublicationYear = 2000,
+                    Condition = BookCondition.Fine,
+                    ConditionNote = "Condition"
+                },
+                new BookDto()
+                {
+                    BookTitleId = Guid.NewGuid(),
+                    EditionPublicationYear = 2000,
+                    Condition = BookCondition.Fine,
+                    ConditionNote = "Condition"
+                }
+            };
+
+            var bookEntities = bookDtos.ToEntity();
+
+            bookEntities.Should().BeOfType<List<BookEntity>>();
+            bookEntities.Should().BeEquivalentTo(bookDtos, options => options.ExcludingMissingMembers());
+        }
     }
 }
