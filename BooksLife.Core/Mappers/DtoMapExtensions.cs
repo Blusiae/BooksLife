@@ -1,4 +1,7 @@
-﻿namespace BooksLife.Core
+﻿using System.Diagnostics.Metrics;
+using System.IO;
+
+namespace BooksLife.Core
 {
     public static class DtoMapExtensions
     {
@@ -19,21 +22,27 @@
 
         public static ReaderDto ToDto(this ReaderEntity readerEntity)
         {
-            return new ReaderDto()
+            var readerDto =  new ReaderDto()
             {
                 Id = readerEntity.Id,
                 Firstname = readerEntity.Firstname,
                 Lastname = readerEntity.Lastname,
                 Birthdate = readerEntity.Birthdate,
                 EmailAddress = readerEntity.EmailAddress,
-                PhoneNumber = readerEntity.PhoneNumber,
-                Country = readerEntity.Address.Country,
-                City = readerEntity.Address.City,
-                PostalCode = readerEntity.Address.PostalCode,
-                Street = readerEntity.Address.Street,
-                HouseNumber = readerEntity.Address.HouseNumber,
-                FlatNumber = readerEntity.Address.FlatNumber
+                PhoneNumber = readerEntity.PhoneNumber
             };
+
+            if(readerEntity.Address is not null)
+            {
+                readerDto.Country = readerEntity.Address.Country;
+                readerDto.City = readerEntity.Address.City;
+                readerDto.PostalCode = readerEntity.Address.PostalCode;
+                readerDto.Street = readerEntity.Address.Street;
+                readerDto.HouseNumber = readerEntity.Address.HouseNumber;
+                readerDto.FlatNumber = readerEntity.Address.FlatNumber;
+            }
+
+            return readerDto;
         }
 
         public static List<ReaderDto> ToDto(this IEnumerable<ReaderEntity> readerEntities)
