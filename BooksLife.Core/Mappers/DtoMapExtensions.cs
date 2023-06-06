@@ -40,5 +40,22 @@
         {
             return readerEntities.Select(x => x.ToDto()).ToList();
         }
+
+        public static BookTitleDto ToDto(this BookTitleEntity bookTitleEntity)
+        {
+            return new BookTitleDto()
+            {
+                Id = bookTitleEntity.Id,
+                Title = bookTitleEntity.Title,
+                PublicationYear = bookTitleEntity.PublicationYear,
+                AuthorId = bookTitleEntity.AuthorId,
+                AuthorName = $"{bookTitleEntity.Author.Firstname} {bookTitleEntity.Author.Lastname}"
+            };
+        }
+
+        public static List<BookTitleDto> ToDto(this IEnumerable<BookTitleEntity> bookTitleEntities) 
+        {
+            return bookTitleEntities.Select(x => x.ToDto()).ToList();
+        }
     }
 }
