@@ -44,5 +44,91 @@ namespace BooksLife.Tests
             authorEntities.Should().BeOfType<List<AuthorEntity>>();
             authorEntities.Should().BeEquivalentTo(authorDtos, options => options.ExcludingMissingMembers());
         }
+
+        [Fact]
+        public void ForReaderDto_ShouldReturnReaderEntityWithCorrectValues()
+        {
+            var readerDto = new ReaderDto()
+            {
+                Firstname = "ReaderFirstname",
+                Lastname = "ReaderLastname",
+                Birthdate = DateTime.Now,
+                EmailAddress = "email@address.com",
+                PhoneNumber = "123456789",
+                Country = "AddressCountry",
+                City = "AddressCity",
+                PostalCode = "12345",
+                Street = "AddressStreet",
+                HouseNumber = "22b",
+                FlatNumber = "1"
+            };
+
+            var readerEntity = readerDto.ToEntity();
+
+            readerEntity.Should().BeOfType<ReaderEntity>();
+            readerEntity.Should().BeEquivalentTo(readerDto, options => options.ExcludingMissingMembers());
+            readerEntity.Address.Should().BeEquivalentTo(new AddressEntity()
+            {
+                Country = "AddressCountry",
+                City = "AddressCity",
+                PostalCode = "12345",
+                Street = "AddressStreet",
+                HouseNumber = "22b",
+                FlatNumber = "1"
+            }, options => options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void ForCollectionOfReaderDto_ShouldReturnListOfReaderEntityWithCorrectValues()
+        {
+            var readerDtos = new List<ReaderDto>()
+            {
+                new ReaderDto()
+                {
+                    Firstname = "ReaderFirstname",
+                    Lastname = "ReaderLastname",
+                    Birthdate = DateTime.Now,
+                    EmailAddress = "email@address.com",
+                    PhoneNumber = "123456789",
+                    Country = "AddressCountry",
+                    City = "AddressCity",
+                    PostalCode = "12345",
+                    Street = "AddressStreet",
+                    HouseNumber = "22b",
+                    FlatNumber = "1"
+                },
+                new ReaderDto()
+                {
+                    Firstname = "ReaderFirstname",
+                    Lastname = "ReaderLastname",
+                    Birthdate = DateTime.Now,
+                    EmailAddress = "email@address.com",
+                    PhoneNumber = "123456789",
+                    Country = "AddressCountry",
+                    City = "AddressCity",
+                    PostalCode = "12345",
+                    Street = "AddressStreet",
+                    HouseNumber = "22b",
+                    FlatNumber = "1"
+                }
+            };
+
+            var readerEntities = readerDtos.ToEntity();
+
+            readerEntities.Should().BeOfType<List<ReaderEntity>>();
+            readerEntities.Should().BeEquivalentTo(readerDtos, options => options.ExcludingMissingMembers());
+            foreach (var readerEntity in readerEntities) 
+            {
+                readerEntity.Address.Should().BeEquivalentTo(new AddressEntity()
+                {
+                    Country = "AddressCountry",
+                    City = "AddressCity",
+                    PostalCode = "12345",
+                    Street = "AddressStreet",
+                    HouseNumber = "22b",
+                    FlatNumber = "1"
+                }, options => options.ExcludingMissingMembers());
+            }
+        }
     }
 }
