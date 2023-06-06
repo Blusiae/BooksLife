@@ -75,5 +75,22 @@
         {
             return bookDtos.Select(x => x.ToEntity()).ToList();
         }
+
+        public static BorrowEntity ToEntity(this BorrowDto borrowDto)
+        {
+            return new BorrowEntity()
+            {
+                IsActive = borrowDto.IsActive,
+                BookId = borrowDto.BookId,
+                ReaderId = borrowDto.ReaderId,
+                BorrowDate = borrowDto.BorrowDate,
+                ReturnDate = borrowDto.ReturnDate
+            };
+        }
+
+        public static List<BorrowEntity> ToEntity(this IEnumerable<BorrowDto> borrowDtos)
+        {
+            return borrowDtos.Select(x => x.ToEntity()).ToList();
+        }
     }
 }
