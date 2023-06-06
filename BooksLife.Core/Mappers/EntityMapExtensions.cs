@@ -59,5 +59,21 @@
         {
             return bookTitleDtos.Select(x => x.ToEntity()).ToList();
         }
+
+        public static BookEntity ToEntity(this BookDto bookDto)
+        {
+            return new BookEntity()
+            {
+                BookTitleId = bookDto.BookTitleId,
+                EditionPublicationYear = bookDto.EditionPublicationYear,
+                Condition = bookDto.Condition,
+                ConditionNote = bookDto.ConditionNote
+            };
+        }
+
+        public static List<BookEntity> ToEntity(this IEnumerable<BookDto> bookDtos)
+        {
+            return bookDtos.Select(x => x.ToEntity()).ToList();
+        }
     }
 }
