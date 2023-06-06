@@ -57,5 +57,25 @@
         {
             return bookTitleEntities.Select(x => x.ToDto()).ToList();
         }
+
+        public static BookDto ToDto(this BookEntity bookEntity)
+        {
+            return new BookDto()
+            {
+                Id = bookEntity.Id,
+                IsBorrowed = bookEntity.IsBorrowed,
+                Title = bookEntity.BookTitle.Title,
+                PublicationYear = bookEntity.BookTitle.PublicationYear,
+                EditionPublicationYear = bookEntity.EditionPublicationYear,
+                AuthorName = $"{bookEntity.BookTitle.Author.Firstname} {bookEntity.BookTitle.Author.Lastname}",
+                Condition = bookEntity.Condition,
+                ConditionNote = bookEntity.ConditionNote
+            };
+        }
+
+        public static List<BookDto> ToDto(this IEnumerable<BookEntity> bookEntities)
+        {
+            return bookEntities.Select(x => x.ToDto()).ToList();
+        }
     }
 }
