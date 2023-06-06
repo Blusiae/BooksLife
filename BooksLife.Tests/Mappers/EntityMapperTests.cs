@@ -130,5 +130,46 @@ namespace BooksLife.Tests
                 }, options => options.ExcludingMissingMembers());
             }
         }
+
+        [Fact]
+        public void ForBookTitleDto_ShouldReturnBookTitleEntityWithCorrectValues()
+        {
+            var bookTitleDto = new BookTitleDto()
+            {
+                Title = "BookTitle",
+                PublicationYear = 2000,
+                AuthorId = Guid.NewGuid()
+            };
+
+            var bookTitleEntity = bookTitleDto.ToEntity();
+
+            bookTitleEntity.Should().BeOfType<BookTitleEntity>();
+            bookTitleEntity.Should().BeEquivalentTo(bookTitleDto, options => options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void ForCollectionOfBookTitleDto_ShouldReturnListOfBookTitleEntityWithCorrectValues()
+        {
+            var bookTitleDtos = new List<BookTitleDto>()
+            {
+                new BookTitleDto()
+                {
+                    Title = "BookTitle",
+                    PublicationYear = 2000,
+                    AuthorId = Guid.NewGuid()
+                },
+                new BookTitleDto()
+                {
+                    Title = "BookTitle",
+                    PublicationYear = 2000,
+                    AuthorId = Guid.NewGuid()
+                }
+            };
+
+            var bookTitleEntities = bookTitleDtos.ToEntity();
+
+            bookTitleEntities.Should().BeOfType<List<BookTitleEntity>>();
+            bookTitleEntities.Should().BeEquivalentTo(bookTitleDtos, options => options.ExcludingMissingMembers());
+        }
     }
 }
