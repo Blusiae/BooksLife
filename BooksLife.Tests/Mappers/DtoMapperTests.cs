@@ -288,5 +288,94 @@ namespace BooksLife.Tests
                 bookDto.AuthorName.Should().Be("Firstname Lastname");
             }
         }
+
+        [Fact]
+        public void ForBorrowEntity_ShouldReturnBorrowDtoWithCorrectValues()
+        {
+            var borrowEntity = new BorrowEntity()
+            {
+                Id = Guid.NewGuid(),
+                IsActive = true,
+                Book = new BookEntity()
+                {
+                    BookTitle = new BookTitleEntity()
+                    {
+                        Author = new AuthorEntity()
+                        {
+                            Lastname = "Lastname"
+                        }
+                    }
+                },
+                Reader = new ReaderEntity()
+                {
+                    Birthdate = DateTime.Now,
+                    Address = new AddressEntity()
+                },
+                BorrowDate = DateTime.Now,
+                ReturnDate = DateTime.Now
+            };
+
+            var borrowDto = borrowEntity.ToDto();
+
+            borrowDto.Should().BeOfType<BorrowDto>();
+            borrowDto.Should().BeEquivalentTo(borrowEntity, options => options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void ForCollectionOfBorrowEntity_ShouldReturnListOfBorrowDtoWithCorrectValues()
+        {
+            var borrowEntities = new List<BorrowEntity>()
+            {
+                new BorrowEntity()
+                {
+                    Id = Guid.NewGuid(),
+                    IsActive = true,
+                    Book = new BookEntity()
+                    {
+                        BookTitle = new BookTitleEntity()
+                        {
+                            Author = new AuthorEntity()
+                            {
+                                Lastname = "Lastname"
+                            }
+                        }
+                    },
+                    Reader = new ReaderEntity()
+                    {
+                        Birthdate = DateTime.Now,
+                        Address = new AddressEntity()
+                    },
+                    BorrowDate = DateTime.Now,
+                    ReturnDate = DateTime.Now
+                },
+                new BorrowEntity()
+                {
+                    Id = Guid.NewGuid(),
+                    IsActive = true,
+                    Book = new BookEntity()
+                    {
+                        BookTitle = new BookTitleEntity()
+                        {
+                            Author = new AuthorEntity()
+                            {
+                                Lastname = "Lastname"
+                            }
+                        }
+                    },
+                    Reader = new ReaderEntity()
+                    {
+                        Birthdate = DateTime.Now,
+                        Address = new AddressEntity()
+                    },
+                    BorrowDate = DateTime.Now,
+                    ReturnDate = DateTime.Now
+                }
+            };
+
+            var borrowDtos = borrowEntities.ToDto();
+
+            borrowDtos.Should().BeOfType<List<BorrowDto>>();
+            borrowDtos.Should().BeEquivalentTo(borrowEntities, options => options.ExcludingMissingMembers());
+        }
     }
 }
