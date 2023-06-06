@@ -1,5 +1,6 @@
 ﻿using BooksLife.Core;
 using FluentAssertions;
+using Newtonsoft.Json.Bson;
 using Xunit;
 
 namespace BooksLife.Tests
@@ -136,6 +137,70 @@ namespace BooksLife.Tests
                 readerDto.Street.Should().Be("AddressStreet");
                 readerDto.HouseNumber.Should().Be("22");
                 readerDto.FlatNumber.Should().BeNullOrEmpty();
+            }
+        }
+
+        [Fact]
+        public void ForBookTitleEntity_ShouldReturnBookTitleDtoWithCorrectValues()
+        {
+            var bookTitleEntity = new BookTitleEntity()
+            {
+                Id = Guid.NewGuid(),
+                Title = "Title",
+                PublicationYear = 2000,
+                AuthorId = Guid.NewGuid(),
+                Author = new AuthorEntity()
+                {
+                    Firstname = "AuthorFirstname",
+                    Lastname = "AuthorLastname"
+                }
+            };
+
+            var bookTitleDto = bookTitleEntity.ToDto();
+
+            bookTitleDto.Should().BeOfType<BookTitleDto>();
+            bookTitleDto.Should().BeEquivalentTo(bookTitleEntity, options => options.ExcludingMissingMembers());
+            bookTitleDto.AuthorName.Should().Be("AuthorFirstname AuthorLastname");
+        }
+
+        [Fact]
+        public void ForCollectionOfBookTitleEntity_ShouldReturnListOfBookTitleDtoWithCorrectValues()
+        {
+            var bookTitleEntities = new List<BookTitleEntity>()
+            {
+                new BookTitleEntity()
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Title",
+                    PublicationYear = 2000,
+                    AuthorId = Guid.NewGuid(),
+                    Author = new AuthorEntity()
+                    {
+                        Firstname = "AuthorFirstname",
+                        Lastname = "AuthorLastname"
+                    }
+                },
+                new BookTitleEntity()
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Title",
+                    PublicationYear = 2000,
+                    AuthorId = Guid.NewGuid(),
+                    Author = new AuthorEntity()
+                    {
+                        Firstname = "AuthorFirstname",
+                        Lastname = "AuthorLastname"
+                    }
+                }
+            };
+            
+            var bookTitleDtos = bookTitleEntities.ToDto();
+
+            bookTitleDtos.Should().BeOfType<List<BookTitleDto>>();
+            bookTitleDtos.Should().BeEquivalentTo(bookTitleEntities, options => options.ExcludingMissingMembers());
+            foreach(var bookTitleDto in bookTitleDtos)
+            {
+                bookTitleDto.AuthorName.Should().Be("AuthorFirstname AuthorLastname");
             }
         }
     }
