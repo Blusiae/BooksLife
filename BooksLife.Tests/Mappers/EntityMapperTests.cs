@@ -1,5 +1,6 @@
 ﻿using BooksLife.Core;
 using FluentAssertions;
+using Microsoft.Extensions.Options;
 using Xunit;
 
 namespace BooksLife.Tests
@@ -214,6 +215,53 @@ namespace BooksLife.Tests
 
             bookEntities.Should().BeOfType<List<BookEntity>>();
             bookEntities.Should().BeEquivalentTo(bookDtos, options => options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void ForBorrowDto_ShouldReturnBorrowEntityWithCorrectValues()
+        {
+            var borrowDto = new BorrowDto()
+            {
+                IsActive = true,
+                BookId = Guid.NewGuid(),
+                ReaderId = Guid.NewGuid(),
+                BorrowDate = DateTime.Now,
+                ReturnDate = DateTime.Now
+            };
+
+            var borrowEntity = borrowDto.ToEntity();
+
+            borrowEntity.Should().BeOfType<BorrowEntity>();
+            borrowEntity.Should().BeEquivalentTo(borrowDto, options => options.ExcludingMissingMembers().Excluding(x => x.Book).Excluding(x => x.Reader));
+        }
+
+        [Fact]
+        public void ForCollectionOfBorrowDto_ShouldReturnCollectionOfBorrowEntityWithCorrectValues()
+        {
+            var borrowDtos = new List<BorrowDto>()
+            {
+                new BorrowDto()
+                {
+                    IsActive = true,
+                    BookId = Guid.NewGuid(),
+                    ReaderId = Guid.NewGuid(),
+                    BorrowDate = DateTime.Now,
+                    ReturnDate = DateTime.Now
+                },
+                new BorrowDto()
+                {
+                    IsActive = true,
+                    BookId = Guid.NewGuid(),
+                    ReaderId = Guid.NewGuid(),
+                    BorrowDate = DateTime.Now,
+                    ReturnDate = DateTime.Now
+                }
+            };
+
+            var borrowEntities = borrowDtos.ToEntity();
+
+            borrowEntities.Should().BeOfType<List<BorrowEntity>>();
+            borrowEntities.Should().BeEquivalentTo(borrowDtos, options => options.ExcludingMissingMembers().Excluding(x => x.Book).Excluding(x => x.Reader));
         }
     }
 }
