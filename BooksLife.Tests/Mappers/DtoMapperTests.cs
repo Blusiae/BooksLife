@@ -1,6 +1,5 @@
 ﻿using BooksLife.Core;
 using FluentAssertions;
-using Newtonsoft.Json.Bson;
 using Xunit;
 
 namespace BooksLife.Tests
@@ -201,6 +200,92 @@ namespace BooksLife.Tests
             foreach(var bookTitleDto in bookTitleDtos)
             {
                 bookTitleDto.AuthorName.Should().Be("AuthorFirstname AuthorLastname");
+            }
+        }
+
+        [Fact]
+        public void ForBookEntity_ShouldReturnBookDtoWithCorrectValues()
+        {
+            var bookEntity = new BookEntity()
+            {
+                Id = Guid.NewGuid(),
+                BookTitle = new BookTitleEntity()
+                {
+                    Title = "Title",
+                    PublicationYear = 2000,
+                    Author = new AuthorEntity()
+                    {
+                        Firstname = "Firstname",
+                        Lastname = "Lastname"
+                    }
+                },
+                IsBorrowed = true,
+                EditionPublicationYear = 2000,
+                Condition = BookCondition.Good,
+                ConditionNote = "ConditionNote"
+            };
+
+            var bookDto = bookEntity.ToDto();
+
+            bookDto.Should().BeOfType<BookDto>();
+            bookDto.Should().BeEquivalentTo(bookEntity, options => options.ExcludingMissingMembers());
+            bookDto.Title.Should().Be("Title");
+            bookDto.PublicationYear.Should().Be(2000);
+            bookDto.AuthorName.Should().Be("Firstname Lastname");
+        }
+
+        [Fact]
+        public void ForCollectionOfBookEntity_ShouldReturnListOfBookDtoWithCorrectValues()
+        {
+            var bookEntities = new List<BookEntity>()
+            {
+                 new BookEntity()
+                {
+                    Id = Guid.NewGuid(),
+                    BookTitle = new BookTitleEntity()
+                    {
+                        Title = "Title",
+                        PublicationYear = 2000,
+                        Author = new AuthorEntity()
+                        {
+                            Firstname = "Firstname",
+                            Lastname = "Lastname"
+                        }
+                    },
+                    IsBorrowed = true,
+                    EditionPublicationYear = 2000,
+                    Condition = BookCondition.Good,
+                    ConditionNote = "ConditionNote"
+                }, 
+                new BookEntity()
+                {
+                    Id = Guid.NewGuid(),
+                    BookTitle = new BookTitleEntity()
+                    {
+                        Title = "Title",
+                        PublicationYear = 2000,
+                        Author = new AuthorEntity()
+                        {
+                            Firstname = "Firstname",
+                            Lastname = "Lastname"
+                        }
+                    },
+                    IsBorrowed = true,
+                    EditionPublicationYear = 2000,
+                    Condition = BookCondition.Good,
+                    ConditionNote = "ConditionNote"
+                }
+            };
+
+            var bookDtos = bookEntities.ToDto();
+
+            bookDtos.Should().BeOfType<List<BookDto>>();
+            bookDtos.Should().BeEquivalentTo(bookEntities, options => options.ExcludingMissingMembers());
+            foreach(var bookDto in  bookDtos)
+            {
+                bookDto.Title.Should().Be("Title");
+                bookDto.PublicationYear.Should().Be(2000);
+                bookDto.AuthorName.Should().Be("Firstname Lastname");
             }
         }
     }
