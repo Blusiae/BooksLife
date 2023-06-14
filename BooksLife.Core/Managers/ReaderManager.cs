@@ -3,19 +3,21 @@
     public class ReaderManager : IReaderManager
     {
         private readonly IReaderRepository _readerRepository;
+        private readonly IDtoMapper _dtoMapper;
 
         private const string FAILED_MESSAGE = "Something went wrong!";
         private const string SUCCEED_ADD_MESSAGE = "A new reader has been added.";
         private const string SUCCEED_REMOVE_MESSAGE = "Reader has been removed.";
 
-        public ReaderManager(IReaderRepository readerRepository)
+        public ReaderManager(IReaderRepository readerRepository, IDtoMapper dtoMapper)
         {
             _readerRepository = readerRepository;
+            _dtoMapper = dtoMapper;
         }
 
         public Response Add(ReaderDto readerDto)
         {
-            var readerEntity = readerDto.ToEntity();
+            var readerEntity = _dtoMapper.Map(readerDto);
             var dbResponse = _readerRepository.Add(readerEntity);
             if (dbResponse)
             {
@@ -54,7 +56,7 @@
 
         public ReaderDto Get(Guid id)
         {
-            return _readerRepository.Get(id).ToDto();
+            return _dtoMapper.Map(_readerRepository.Get(id));
         }
 
         public List<ReaderDto> GetAllForList()
@@ -68,7 +70,7 @@
                 PhoneNumber = x.PhoneNumber
             });
 
-            return readerEntities.ToDto();
+            return _dtoMapper.Map(readerEntities).ToList();
         }
         
     }

@@ -17,7 +17,9 @@ namespace BooksLife.Tests
         {
             var authorRepositoryMock = new Mock<IAuthorRepository>();
             authorRepositoryMock.Setup(m => m.Add(It.IsAny<AuthorEntity>())).Returns(dbResponse);
-            var authorManager = new AuthorManager(authorRepositoryMock.Object);
+            var dtoMapperMock = new Mock<IDtoMapper>();
+            dtoMapperMock.Setup(m => m.Map(It.IsAny<AuthorDto>())).Returns(new AuthorEntity());
+            var authorManager = new AuthorManager(authorRepositoryMock.Object, dtoMapperMock.Object);
 
             var result = authorManager.Add(new AuthorDto());
 
@@ -32,7 +34,8 @@ namespace BooksLife.Tests
         {
             var authorRepositoryMock = new Mock<IAuthorRepository>();
             authorRepositoryMock.Setup(m => m.Remove(It.IsAny<Guid>())).Returns(dbResponse);
-            var authorManager = new AuthorManager(authorRepositoryMock.Object);
+            var dtoMapperMock = new Mock<IDtoMapper>();
+            var authorManager = new AuthorManager(authorRepositoryMock.Object, dtoMapperMock.Object);
 
             var result = authorManager.Remove(Guid.NewGuid());
 

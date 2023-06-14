@@ -18,9 +18,11 @@ namespace BooksLife.Tests
         {
             var borrowRepositoryMock = new Mock<IBorrowRepository>();
             borrowRepositoryMock.Setup(m => m.Add(It.IsAny<BorrowEntity>())).Returns(dbResponse);
+            var dtoMapperMock = new Mock<IDtoMapper>();
+            dtoMapperMock.Setup(m => m.Map(It.IsAny<BorrowDto>())).Returns(new BorrowEntity());
             var bookRepositoryMock = new Mock<IBookRepository>();
             bookRepositoryMock.Setup(m => m.SetAsBorrowed(It.IsAny<Guid>())).Returns(true);
-            var borrowManager = new BorrowManager(borrowRepositoryMock.Object, bookRepositoryMock.Object);
+            var borrowManager = new BorrowManager(borrowRepositoryMock.Object, dtoMapperMock.Object, bookRepositoryMock.Object);
 
             var result = borrowManager.Add(new BorrowDto());
 
@@ -35,9 +37,10 @@ namespace BooksLife.Tests
         {
             var borrowRepositoryMock = new Mock<IBorrowRepository>();
             borrowRepositoryMock.Setup(m => m.Remove(It.IsAny<Guid>())).Returns(dbResponse);
+            var dtoMapperMock = new Mock<IDtoMapper>();
             var bookRepositoryMock = new Mock<IBookRepository>();
             //bookRepositoryMock.Setup(m => m.SetAsUnborrowed(It.IsAny<Guid>())).Returns(true);
-            var borrowManager = new BorrowManager(borrowRepositoryMock.Object, bookRepositoryMock.Object);
+            var borrowManager = new BorrowManager(borrowRepositoryMock.Object, dtoMapperMock.Object, bookRepositoryMock.Object);
 
             var result = borrowManager.Remove(Guid.NewGuid());
 
@@ -54,9 +57,10 @@ namespace BooksLife.Tests
         {
             var borrowRepositoryMock = new Mock<IBorrowRepository>();
             borrowRepositoryMock.Setup(m => m.SetAsUnactive(It.IsAny<Guid>())).Returns(borrowResponse);
+            var dtoMapperMock = new Mock<IDtoMapper>();
             var bookRepositoryMock = new Mock<IBookRepository>();
             bookRepositoryMock.Setup(m => m.SetAsUnborrowed(It.IsAny<Guid>())).Returns(bookResponse);
-            var borrowManager = new BorrowManager(borrowRepositoryMock.Object, bookRepositoryMock.Object);
+            var borrowManager = new BorrowManager(borrowRepositoryMock.Object, dtoMapperMock.Object, bookRepositoryMock.Object);
 
             var result = borrowManager.SetAsReturned(new BorrowDto() { Id = Guid.NewGuid(), BookId = Guid.NewGuid()});
 
