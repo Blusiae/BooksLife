@@ -20,6 +20,7 @@ namespace BooksLife.Web
             builder.Services.AddTransient<IAuthorRepository, AuthorRepository>();
             builder.Services.AddTransient<IReaderManager, ReaderManager>();
             builder.Services.AddTransient<IReaderRepository, ReaderRepository>();
+            builder.Services.AddTransient<IDtoMapper, DtoMapper>();
             builder.Services.AddTransient<IViewModelMapper, ViewModelMapper>();
             builder.Services.AddTransient<IBookRepository, BookRepository>();
             builder.Services.AddTransient<IBookManager, BookManager>();
