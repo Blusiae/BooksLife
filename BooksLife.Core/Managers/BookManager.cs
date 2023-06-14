@@ -3,21 +3,19 @@
     public class BookManager : IBookManager
     {
         private readonly IBookRepository _bookRepository;
-        private readonly IDtoMapper _dtoMapper;
 
         private const string FAILED_MESSAGE = "Something went wrong!";
         private const string SUCCEED_ADD_MESSAGE = "A new book has been added.";
         private const string SUCCEED_REMOVE_MESSAGE = "Book has been removed.";
 
-        public BookManager(IBookRepository bookRepository, IDtoMapper dtoMapper)
+        public BookManager(IBookRepository bookRepository)
         {
             _bookRepository = bookRepository;
-            _dtoMapper = dtoMapper;
         }
 
         public Response Add(BookDto bookDto)
         {
-            var bookEntity = _dtoMapper.Map(bookDto);
+            var bookEntity = bookDto.ToEntity();
             var dbResponse = _bookRepository.Add(bookEntity);
             if (dbResponse)
             {
@@ -56,12 +54,12 @@
 
         public List<BookDto> GetAll()
         {
-            return _dtoMapper.Map(_bookRepository.GetAll()).ToList();
+            return _bookRepository.GetAll().ToDto();
         }
 
         public BookDto Get(Guid id)
         {
-            return _dtoMapper.Map(_bookRepository.Get(id));
+            return _bookRepository.Get(id).ToDto();
         }
     }
 }
