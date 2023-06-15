@@ -61,5 +61,18 @@
         public static List<BookTitleDto> ToDto(this IEnumerable<BookTitleEntity> entities)
             => entities.Select(x => x.ToDto()).ToList();
 
+        public static BorrowDto ToDto(this BorrowEntity entity)
+            => new()
+            {
+                Id = entity.Id,
+                IsActive = entity.IsActive,
+                Book = entity.Book.ToDto(),
+                Reader = entity.Reader.ToDto(),
+                BorrowDate = entity.BorrowDate,
+                ReturnDate = entity.ReturnDate
+            };
+
+        public static List<BorrowDto> ToDto(this IEnumerable<BorrowEntity> entities)
+            => entities.Select(x => x.ToDto()).ToList();
     }
 }
