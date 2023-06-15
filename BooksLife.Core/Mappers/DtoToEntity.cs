@@ -12,5 +12,16 @@
         public static List<AuthorEntity> ToEntity(this IEnumerable<AddAuthorDto> dtos)
             => dtos.Select(x => x.ToEntity()).ToList();
 
+        public static BookTitleEntity ToEntity(this AddBookTitleDto dto)
+            => new()
+            {
+                Title = dto.Title,
+                PublicationYear = dto.PublicationYear,
+                AuthorId = dto.AuthorId
+            };
+
+        public static List<BookTitleEntity> ToEntity(this IEnumerable<AddBookTitleDto> dtos)
+            => dtos.Select(x => x.ToEntity()).ToList();
+
     }
 }

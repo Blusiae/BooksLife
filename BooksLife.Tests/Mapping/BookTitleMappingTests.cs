@@ -31,5 +31,25 @@ namespace BookTitlesLife.Tests
             bookTitleDto.Should().BeEquivalentTo(bookTitleEntity, options => options.ExcludingMissingMembers());
             bookTitleDto.AuthorName.Should().Be("Firstname Lastname");
         }
+
+        [Fact]
+        public void ToEntity_ForAddBookTitleDto_ShouldReturnBookTitleEntityWithCorrectValues()
+        {
+            //arrange
+            var addBookTitleDto = new AddBookTitleDto()
+            {
+                Title = "Test",
+                PublicationYear = 2000,
+                AuthorId = Guid.NewGuid()
+            };
+
+            //act
+            var bookEntity = addBookTitleDto.ToEntity();
+
+            //assert
+            bookEntity.Should().BeOfType<BookTitleEntity>();
+            bookEntity.Should().BeEquivalentTo(addBookTitleDto, options => options.ExcludingMissingMembers());
+        }
+
     }
 }
