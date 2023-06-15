@@ -44,5 +44,41 @@ namespace ReadersLife.Tests
             readerDto.FlatNumber.Should().Be("2");
         }
 
+        [Fact]
+        public void ToEntity_ForAddReaderDto_ShouldReturnReaderEntityWithCorrectValues()
+        {
+            //arrange
+            var addReaderDto = new AddReaderDto()
+            {
+                Firstname = "Firstname",
+                Lastname = "Lastname",
+                Birthdate = DateTime.Now,
+                EmailAddress = "email@address.com",
+                PhoneNumber = "000000000",
+                Country = "Country",
+                City = "City",
+                PostalCode = "00-000",
+                Street = "Street",
+                HouseNumber = "00a",
+                FlatNumber = "2"
+            };
+
+            //act
+            var readerEntity = addReaderDto.ToEntity();
+
+            //assert
+            readerEntity.Should().BeOfType<ReaderEntity>();
+            readerEntity.Should().BeEquivalentTo(addReaderDto, options => options.ExcludingMissingMembers());
+            readerEntity.Address.Should().BeEquivalentTo(new AddressEntity()
+            {
+                Country = "Country",
+                City = "City",
+                PostalCode = "00-000",
+                Street = "Street",
+                HouseNumber = "00a",
+                FlatNumber = "2"
+            });
+        }
+
     }
 }
