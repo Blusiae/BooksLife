@@ -18,6 +18,7 @@
             {
                 Id = entity.Id,
                 Title = entity.BookTitle.Title,
+                IsBorrowed = false,
                 AuthorName = $"{entity.BookTitle.Author.Firstname} {entity.BookTitle.Author.Lastname}",
                 PublicationYear = entity.BookTitle.PublicationYear,
                 EditionPublicationYear = entity.EditionPublicationYear,

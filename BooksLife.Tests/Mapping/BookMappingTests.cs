@@ -13,6 +13,7 @@ namespace BooksLife.Tests
             var bookEntity = new BookEntity()
             {
                 Id = Guid.NewGuid(),
+                IsBorrowed = false,
                 BookTitleId = Guid.NewGuid(),
                 BookTitle = new BookTitleEntity()
                 {
