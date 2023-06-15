@@ -41,5 +41,26 @@ namespace BorrowsLife.Tests
             borrowDto.Reader.Should().BeOfType<ReaderDto>();
         }
 
+        [Fact]
+        public void ToEntity_ForAddBorrowDto_ShouldReturnBorrowEntityWithCorrectValues()
+        {
+            //arrange
+            var addBorrowDto = new AddBorrowDto()
+            {
+                IsActive = false,
+                BookId = Guid.NewGuid(),
+                ReaderId = Guid.NewGuid(),
+                BorrowDate = DateTime.Now,
+                ReturnDate = DateTime.Now
+            };
+
+            //act
+            var borrowEntity = addBorrowDto.ToEntity();
+
+            //assert
+            borrowEntity.Should().BeOfType<BorrowEntity>();
+            borrowEntity.Should().BeEquivalentTo(addBorrowDto, options => options.ExcludingMissingMembers());
+        }
+
     }
 }
