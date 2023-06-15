@@ -30,10 +30,10 @@ namespace BooksLife.Tests
         [Theory]
         [InlineData("Firstname", "Lastname")]
         [InlineData(null, "Lastname")]
-        public void ToEntity_ForAuthorDto_ShouldReturnAuthorEntityWithCorrectValues(string firstname, string lastname)
+        public void ToEntity_ForAddAuthorDto_ShouldReturnAuthorEntityWithCorrectValues(string firstname, string lastname)
         {
             //arrange
-            var authorDto = new AuthorDto()
+            var authorDto = new AddAuthorDto()
             {
                 Firstname = firstname,
                 Lastname = lastname
