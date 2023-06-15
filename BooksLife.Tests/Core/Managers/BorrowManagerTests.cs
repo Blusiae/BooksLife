@@ -62,7 +62,7 @@ namespace BooksLife.Tests
             bookRepositoryMock.Setup(m => m.SetAsUnborrowed(It.IsAny<Guid>())).Returns(bookResponse);
             var borrowManager = new BorrowManager(borrowRepositoryMock.Object, dtoMapperMock.Object, bookRepositoryMock.Object);
 
-            var result = borrowManager.SetAsReturned(new BorrowDto() { Id = Guid.NewGuid(), BookId = Guid.NewGuid()});
+            var result = borrowManager.SetAsReturned(new ReturnDto() { BorrowId = Guid.NewGuid(), BookId = Guid.NewGuid()});
 
             result.Succeed.Should().Be(borrowResponse && bookResponse);
             result.Message.Should().Be(message);

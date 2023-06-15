@@ -24,7 +24,7 @@
             var borrowEntity = _mapper.Map(borrowDto);
             if (_borrowRepository.Add(borrowEntity))
             {
-                if (_bookRepository.SetAsBorrowed(borrowDto.BookId))
+                if (_bookRepository.SetAsBorrowed(borrowDto.Book.Id))
                 {
                     return new Response()
                     {
@@ -40,9 +40,9 @@
             };
         }
 
-        public Response SetAsReturned(BorrowDto borrowDto)
+        public Response SetAsReturned(ReturnDto returnDto)
         {
-            if (!_borrowRepository.SetAsUnactive(borrowDto.Id))
+            if (!_borrowRepository.SetAsUnactive(returnDto.BorrowId))
             {
                 return new Response()
                 {
@@ -51,9 +51,9 @@
                 };
             } 
             
-            if(!_bookRepository.SetAsUnborrowed(borrowDto.BookId))
+            if(!_bookRepository.SetAsUnborrowed(returnDto.BookId))
             {
-                _ = _borrowRepository.SetAsActive(borrowDto.Id);
+                _ = _borrowRepository.SetAsActive(returnDto.BorrowId);
                 return new Response()
                 {
                     Succeed = false,

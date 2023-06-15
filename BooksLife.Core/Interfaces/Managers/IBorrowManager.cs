@@ -4,7 +4,7 @@
     {
         Response Add(BorrowDto borrowDto);
         Response Remove(Guid id);
-        Response SetAsReturned(BorrowDto borrowDto);
+        Response SetAsReturned(ReturnDto returnDto);
         List<BorrowDto> GetAll();
         BorrowDto Get(Guid id);
     }

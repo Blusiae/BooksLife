@@ -108,7 +108,7 @@ namespace BooksLife.Tests
         {
             var response = new Response() { Succeed = succeed, Message = message };
             var borrowManagerMock = new Mock<IBorrowManager>();
-            borrowManagerMock.Setup(m => m.SetAsReturned(It.IsAny<BorrowDto>())).Returns(response);
+            borrowManagerMock.Setup(m => m.SetAsReturned(It.IsAny<ReturnDto>())).Returns(response);
             borrowManagerMock.Setup(m => m.Get(It.IsAny<Guid>())).Returns(new BorrowDto());
             var viewModelMapperMock = new Mock<IViewModelMapper>();
             var bookManagerMock = new Mock<IBookManager>();

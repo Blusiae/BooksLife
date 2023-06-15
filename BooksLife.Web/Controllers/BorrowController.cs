@@ -66,7 +66,13 @@ namespace BooksLife.Web
         public IActionResult SetAsReturned(Guid id)
         {
             var borrowDto = _borrowManager.Get(id);
-            var response = _borrowManager.SetAsReturned(borrowDto);
+            var returnDto = new ReturnDto()
+            {
+                BorrowId = borrowDto.Id,
+                BookId = borrowDto.Book.Id
+            };
+
+            var response = _borrowManager.SetAsReturned(returnDto);
             return RedirectToAction("List", response);
         }
 
