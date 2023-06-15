@@ -13,6 +13,26 @@
         public static List<AuthorDto> ToDto(this IEnumerable<AuthorEntity> entities)
             => entities.Select(x => x.ToDto()).ToList();
 
+        public static ReaderDto ToDto(this ReaderEntity entity)
+            => new()
+            {
+                Id = entity.Id,
+                Firstname = entity.Firstname,
+                Lastname = entity.Lastname,
+                Birthdate = entity.Birthdate,
+                EmailAddress = entity.EmailAddress,
+                PhoneNumber = entity.PhoneNumber,
+                Country = entity.Address.Country,
+                City = entity.Address.City,
+                Street = entity.Address.Street,
+                PostalCode = entity.Address.PostalCode,
+                HouseNumber = entity.Address.HouseNumber,
+                FlatNumber = entity.Address.FlatNumber
+            };
+
+        public static List<ReaderDto> ToDto(this IEnumerable<ReaderEntity> entities)
+            => entities.Select(x => x.ToDto()).ToList();
+
         public static BookDto ToDto(this BookEntity entity) 
             => new()
             {
