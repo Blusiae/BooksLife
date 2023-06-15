@@ -40,5 +40,27 @@ namespace BooksLife.Tests
             bookDto.PublicationYear.Should().Be(2000);
             bookDto.AuthorName.Should().Be("Firstname Lastname");
         }
+
+        [Fact]
+        public void ToEntity_ForAddBookDto_ShouldReturnBookEntityWithCorrectValues()
+        {
+            //arrange
+            var addBookDto = new AddBookDto()
+            {
+                IsBorrowed = false,
+                BookTitleId = Guid.NewGuid(),
+                EditionPublicationYear = 2000,
+                Condition = BookCondition.Fine,
+                ConditionNote = "Test"
+            };
+
+            //act
+            var bookEntity = addBookDto.ToEntity();
+
+            //assert
+            bookEntity.Should().BeOfType<BookEntity>();
+            bookEntity.Should().BeEquivalentTo(addBookDto, options => options.ExcludingMissingMembers());
+        }
+
     }
 }
