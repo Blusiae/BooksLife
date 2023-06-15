@@ -56,21 +56,12 @@
 
         public ReaderDto Get(Guid id)
         {
-            return _dtoMapper.Map(_readerRepository.Get(id));
+            return _readerRepository.Get(id).ToDto();
         }
 
         public List<ReaderDto> GetAllForList()
         {
-            var readerEntities = _readerRepository.GetAll().Select(x => new ReaderEntity()
-            {
-                Id = x.Id,
-                Firstname = x.Firstname,
-                Lastname = x.Lastname,
-                EmailAddress = x.EmailAddress,
-                PhoneNumber = x.PhoneNumber
-            });
-
-            return _dtoMapper.Map(readerEntities).ToList();
+            return _readerRepository.GetAll().ToDto();
         }
         
     }

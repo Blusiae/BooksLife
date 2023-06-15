@@ -56,7 +56,7 @@
 
         public List<BookTitleDto> GetAll()
         {
-            return _dtoMapper.Map(_bookTitleRepository.GetAll()).ToList();
+            return _bookTitleRepository.GetAll().ToDto();
         }
     }
 }

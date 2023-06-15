@@ -56,12 +56,12 @@
 
         public AuthorDto Get(Guid id)
         {
-            return _dtoMapper.Map(_authorRepository.Get(id));
+            return _authorRepository.Get(id).ToDto();
         }
 
         public List<AuthorDto> GetAll()
         {
-            return _dtoMapper.Map(_authorRepository.GetAll()).ToList();
+            return _authorRepository.GetAll().ToDto();
         }
     }
 }

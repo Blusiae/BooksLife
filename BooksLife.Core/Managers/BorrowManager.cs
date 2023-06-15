@@ -70,12 +70,12 @@
 
         public BorrowDto Get(Guid id)
         {
-            return _mapper.Map(_borrowRepository.Get(id));
+            return _borrowRepository.Get(id).ToDto();
         }
 
         public List<BorrowDto> GetAll()
         {
-            return _mapper.Map(_borrowRepository.GetAll()).Reverse().ToList();
+            return _borrowRepository.GetAll().Reverse().ToDto();
         }
 
         public Response Remove(Guid id)
