@@ -18,11 +18,9 @@ namespace BooksLife.Tests
         {
             var readerRepositoryMock = new Mock<IReaderRepository>();
             readerRepositoryMock.Setup(m => m.Add(It.IsAny<ReaderEntity>())).Returns(dbResponse);
-            var dtoMapperMock = new Mock<IDtoMapper>();
-            dtoMapperMock.Setup(m => m.Map(It.IsAny<ReaderDto>())).Returns(new ReaderEntity());
-            var readerManager = new ReaderManager(readerRepositoryMock.Object, dtoMapperMock.Object);
+            var readerManager = new ReaderManager(readerRepositoryMock.Object);
 
-            var result = readerManager.Add(new ReaderDto());
+            var result = readerManager.Add(new AddReaderDto());
 
             result.Succeed.Should().Be(dbResponse);
             result.Message.Should().Be(message);
@@ -35,8 +33,7 @@ namespace BooksLife.Tests
         {
             var readerRepositoryMock = new Mock<IReaderRepository>();
             readerRepositoryMock.Setup(m => m.Remove(It.IsAny<Guid>())).Returns(dbResponse);
-            var dtoMapperMock = new Mock<IDtoMapper>();
-            var readerManager = new ReaderManager(readerRepositoryMock.Object, dtoMapperMock.Object);
+            var readerManager = new ReaderManager(readerRepositoryMock.Object);
 
             var result = readerManager.Remove(Guid.NewGuid());
 

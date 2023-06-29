@@ -17,11 +17,9 @@ namespace BooksLife.Tests
         {
             var bookRepositoryMock = new Mock<IBookRepository>();
             bookRepositoryMock.Setup(m => m.Add(It.IsAny<BookEntity>())).Returns(dbResponse);
-            var dtoMapperMock = new Mock<IDtoMapper>();
-            dtoMapperMock.Setup(m => m.Map(It.IsAny<BookDto>())).Returns(new BookEntity());
-            var bookManager = new BookManager(bookRepositoryMock.Object, dtoMapperMock.Object);
+            var bookManager = new BookManager(bookRepositoryMock.Object);
 
-            var result = bookManager.Add(new BookDto());
+            var result = bookManager.Add(new AddBookDto());
 
             result.Succeed.Should().Be(dbResponse);
             result.Message.Should().Be(message);
@@ -34,8 +32,7 @@ namespace BooksLife.Tests
         {
             var bookRepositoryMock = new Mock<IBookRepository>();
             bookRepositoryMock.Setup(m => m.Remove(It.IsAny<Guid>())).Returns(dbResponse);
-            var dtoMapperMock = new Mock<IDtoMapper>();
-            var bookManager = new BookManager(bookRepositoryMock.Object, dtoMapperMock.Object);
+            var bookManager = new BookManager(bookRepositoryMock.Object);
 
             var result = bookManager.Remove(Guid.NewGuid());
 

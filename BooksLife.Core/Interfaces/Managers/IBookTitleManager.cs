@@ -2,7 +2,7 @@
 {
     public interface IBookTitleManager
     {
-        Response Add(BookTitleDto bookTitleDto);
+        Response Add(AddBookTitleDto bookTitleDto);
         Response Remove(Guid id);
         List<BookTitleDto> GetAll();
     }
