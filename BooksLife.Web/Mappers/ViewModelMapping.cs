@@ -41,5 +41,31 @@ namespace BooksLife.Core
 
         public static List<BookTitleViewModel> ToViewModel(this IEnumerable<BookTitleDto> dtos)
             => dtos.Select(x => x.ToViewModel()).ToList();
+
+        public static BookViewModel ToViewModel(this BookDto dto)
+            => new()
+            {
+                Id = dto.Id,
+                IsBorrowed = dto.IsBorrowed,
+                Title = dto.Title,
+                PublicationYear = dto.PublicationYear,
+                AuthorName = dto.AuthorName,
+                EditionPublicationYear = dto.EditionPublicationYear,
+                Condition = dto.Condition,
+                ConditionNote = dto.ConditionNote,
+            };
+
+        public static AddBookDto ToDto(this AddBookViewModel viewModel)
+            => new()
+            {
+                IsBorrowed = false,
+                BookTitleId = viewModel.BookTitleId,
+                EditionPublicationYear = viewModel.EditionPublicationYear,
+                Condition = viewModel.Condition,
+                ConditionNote = viewModel.ConditionNote,
+            };
+
+        public static List<BookViewModel> ToViewModel(this IEnumerable<BookDto> dtos)
+            => dtos.Select(x => x.ToViewModel()).ToList();
     }
 }
