@@ -12,7 +12,7 @@ namespace BooksLife.Core
                 Lastname = dto.Lastname
             };
 
-        public static AuthorDto ToDto(this AddAuthorViewModel viewModel)
+        public static AddAuthorDto ToDto(this AddAuthorViewModel viewModel)
             => new()
             {
                 Firstname = viewModel.Firstname,
