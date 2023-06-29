@@ -1,5 +1,5 @@
 ﻿@using BooksLife.Core;
-@model BookViewModel
+@model AddBookViewModel
 @{
     ViewData["Title"] = "Add a new book";
 }
@@ -30,7 +30,7 @@
                     <label for="EditionPublicationYear">Year of edition publication</label>
                     <input type="number" class="form-control" id="EditionPublicationYear" placeholder="Year of edition publication" name="EditionPublicationYear" />
                     <div class="text-danger">
-                        <small>@Html.ValidationMessageFor(x => x.PublicationYear)</small>
+                        <small>@Html.ValidationMessageFor(x => x.EditionPublicationYear)</small>
                     </div>
                 </div>
             </div>
