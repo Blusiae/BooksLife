@@ -15,11 +15,9 @@ namespace BooksLife.Tests
         {
             var borrowManagerMock = new Mock<IBorrowManager>();
             borrowManagerMock.Setup(m => m.GetAll()).Returns(new List<BorrowDto>());
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
-            viewModelMapperMock.Setup(m => m.Map(It.IsAny<List<BorrowDto>>())).Returns(new List<BorrowViewModel>());
             var bookManagerMock = new Mock<IBookManager>();
             var readerManagerMock = new Mock<IReaderManager>();
-            var borrowController = new BorrowController(viewModelMapperMock.Object, borrowManagerMock.Object, bookManagerMock.Object, readerManagerMock.Object);
+            var borrowController = new BorrowController(borrowManagerMock.Object, bookManagerMock.Object, readerManagerMock.Object);
 
             var result = borrowController.List() as ViewResult;
 
@@ -31,12 +29,11 @@ namespace BooksLife.Tests
         public void Add_ForNoParameters_ShouldReturnAddView()
         {
             var borrowManagerMock = new Mock<IBorrowManager>();
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
             var bookManagerMock = new Mock<IBookManager>();
             bookManagerMock.Setup(m => m.GetAll()).Returns(new List<BookDto>());
             var readerManagerMock = new Mock<IReaderManager>();
             readerManagerMock.Setup(m => m.GetAllForList()).Returns(new List<ReaderDto>());
-            var borrowController = new BorrowController(viewModelMapperMock.Object, borrowManagerMock.Object, bookManagerMock.Object, readerManagerMock.Object);
+            var borrowController = new BorrowController(borrowManagerMock.Object, bookManagerMock.Object, readerManagerMock.Object);
 
             var result = borrowController.Add() as ViewResult;
 
@@ -50,13 +47,11 @@ namespace BooksLife.Tests
         {
             var response = new Response() { Succeed = succeed, Message = message };
             var borrowManagerMock = new Mock<IBorrowManager>();
-            borrowManagerMock.Setup(m => m.Add(It.IsAny<BorrowDto>())).Returns(response);
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
-            viewModelMapperMock.Setup(m => m.Map(It.IsAny<BorrowViewModel>())).Returns(new BorrowDto());
+            borrowManagerMock.Setup(m => m.Add(It.IsAny<AddBorrowDto>())).Returns(response);
             var bookManagerMock = new Mock<IBookManager>();
             var readerManagerMock = new Mock<IReaderManager>();
-            var borrowController = new BorrowController(viewModelMapperMock.Object, borrowManagerMock.Object, bookManagerMock.Object, readerManagerMock.Object);
-            var borrow = new BorrowViewModel()
+            var borrowController = new BorrowController(borrowManagerMock.Object, bookManagerMock.Object, readerManagerMock.Object);
+            var borrow = new AddBorrowViewModel()
             {
                 BookId = Guid.NewGuid(),
                 ReaderId = Guid.NewGuid(),
@@ -84,10 +79,9 @@ namespace BooksLife.Tests
             var response = new Response() { Succeed = succeed, Message = message };
             var borrowManagerMock = new Mock<IBorrowManager>();
             borrowManagerMock.Setup(m => m.Remove(It.IsAny<Guid>())).Returns(response);
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
             var bookManagerMock = new Mock<IBookManager>();
             var readerManagerMock = new Mock<IReaderManager>();
-            var borrowController = new BorrowController(viewModelMapperMock.Object, borrowManagerMock.Object, bookManagerMock.Object, readerManagerMock.Object);
+            var borrowController = new BorrowController(borrowManagerMock.Object, bookManagerMock.Object, readerManagerMock.Object);
 
             var result = borrowController.Remove(Guid.NewGuid()) as RedirectToActionResult;
 
@@ -108,12 +102,11 @@ namespace BooksLife.Tests
         {
             var response = new Response() { Succeed = succeed, Message = message };
             var borrowManagerMock = new Mock<IBorrowManager>();
-            borrowManagerMock.Setup(m => m.SetAsReturned(It.IsAny<BorrowDto>())).Returns(response);
+            borrowManagerMock.Setup(m => m.SetAsReturned(It.IsAny<ReturnDto>())).Returns(response);
             borrowManagerMock.Setup(m => m.Get(It.IsAny<Guid>())).Returns(new BorrowDto());
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
             var bookManagerMock = new Mock<IBookManager>();
             var readerManagerMock = new Mock<IReaderManager>();
-            var borrowController = new BorrowController(viewModelMapperMock.Object, borrowManagerMock.Object, bookManagerMock.Object, readerManagerMock.Object);
+            var borrowController = new BorrowController(borrowManagerMock.Object, bookManagerMock.Object, readerManagerMock.Object);
 
             var result = borrowController.SetAsReturned(Guid.NewGuid()) as RedirectToActionResult;
 

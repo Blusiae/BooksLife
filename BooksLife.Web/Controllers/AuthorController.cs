@@ -1,25 +1,22 @@
 ﻿using BooksLife.Core;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 
 namespace BooksLife.Web
 {
     public class AuthorController : Controller
     {
         private readonly IAuthorManager _authorManager;
-        private readonly IViewModelMapper _viewModelMapper;
 
-        public AuthorController(IAuthorManager authorManager, IViewModelMapper viewModelMapper)
+        public AuthorController(IAuthorManager authorManager)
         {
             _authorManager = authorManager;
-            _viewModelMapper = viewModelMapper;
         }
 
         public IActionResult List(Response? response = null)
         {
             ViewBag.Response = response;
             var authorDtos = _authorManager.GetAll();
-            var authorViewModels = _viewModelMapper.Map(authorDtos);
+            var authorViewModels = authorDtos.ToViewModel();
             return View(authorViewModels);
         }
 
@@ -29,14 +26,14 @@ namespace BooksLife.Web
         }
 
         [HttpPost]
-        public IActionResult Add(AuthorViewModel authorVM)
+        public IActionResult Add(AddAuthorViewModel authorVM)
         {
             if (!ModelState.IsValid)
             {
                 return View(authorVM);
             }
 
-            var authorDto = _viewModelMapper.Map(authorVM);
+            var authorDto = authorVM.ToDto();
             var response = _authorManager.Add(authorDto);
             return RedirectToAction("List", response);
         }

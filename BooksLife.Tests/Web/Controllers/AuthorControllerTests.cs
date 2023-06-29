@@ -3,7 +3,6 @@ using BooksLife.Web;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Moq;
 using Xunit;
 
@@ -16,9 +15,7 @@ namespace BooksLife.Tests
         {
             var authorManagerMock = new Mock<IAuthorManager>();
             authorManagerMock.Setup(m => m.GetAll()).Returns(new List<AuthorDto>());
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
-            viewModelMapperMock.Setup(m => m.Map(It.IsAny<List<AuthorDto>>())).Returns(new List<AuthorViewModel>());
-            var authorController = new AuthorController(authorManagerMock.Object, viewModelMapperMock.Object);
+            var authorController = new AuthorController(authorManagerMock.Object);
 
             var result = authorController.List() as ViewResult;
 
@@ -30,8 +27,7 @@ namespace BooksLife.Tests
         public void Add_ForNoParameters_ShouldReturnAddView()
         {
             var authorManagerMock = new Mock<IAuthorManager>();
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
-            var authorController = new AuthorController(authorManagerMock.Object, viewModelMapperMock.Object);
+            var authorController = new AuthorController(authorManagerMock.Object);
 
             var result = authorController.Add() as ViewResult;
 
@@ -45,11 +41,9 @@ namespace BooksLife.Tests
         {
             var response = new Response() { Succeed = succeed, Message = message };
             var authorManagerMock = new Mock<IAuthorManager>();
-            authorManagerMock.Setup(m => m.Add(It.IsAny<AuthorDto>())).Returns(response);
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
-            viewModelMapperMock.Setup(m => m.Map(It.IsAny<AuthorViewModel>())).Returns(new AuthorDto());
-            var authorController = new AuthorController(authorManagerMock.Object, viewModelMapperMock.Object);
-            var author = new AuthorViewModel()
+            authorManagerMock.Setup(m => m.Add(It.IsAny<AddAuthorDto>())).Returns(response);
+            var authorController = new AuthorController(authorManagerMock.Object);
+            var author = new AddAuthorViewModel()
             {
                 Firstname = "Firstname",
                 Lastname = "Lastname"
@@ -75,8 +69,7 @@ namespace BooksLife.Tests
             var response = new Response() { Succeed = succeed, Message = message };
             var authorManagerMock = new Mock<IAuthorManager>();
             authorManagerMock.Setup(m => m.Remove(It.IsAny<Guid>())).Returns(response);
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
-            var authorController = new AuthorController(authorManagerMock.Object, viewModelMapperMock.Object);
+            var authorController = new AuthorController(authorManagerMock.Object);
 
             var result = authorController.Remove(Guid.NewGuid()) as RedirectToActionResult;
 

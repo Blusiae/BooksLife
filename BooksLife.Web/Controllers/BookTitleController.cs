@@ -6,14 +6,11 @@ namespace BooksLife.Web
     public class BookTitleController : Controller
     {
         private readonly IBookTitleManager _bookTitleManager;
-        private readonly IViewModelMapper _viewModelMapper;
         private readonly IAuthorManager _authorManager;
 
-        public BookTitleController(IBookTitleManager bookTitleManager, IViewModelMapper viewModelMapper,
-            IAuthorManager authorManager)
+        public BookTitleController(IBookTitleManager bookTitleManager, IAuthorManager authorManager)
         {
             _bookTitleManager = bookTitleManager;
-            _viewModelMapper = viewModelMapper;
             _authorManager = authorManager;
         }
 
@@ -21,21 +18,21 @@ namespace BooksLife.Web
         {
             ViewBag.Response = response;
             var bookTitleDtos = _bookTitleManager.GetAll();
-            var bookTitleViewModels = _viewModelMapper.Map(bookTitleDtos);
+            var bookTitleViewModels = bookTitleDtos.ToViewModel();
             return View(bookTitleViewModels);
         }
 
         [HttpPost]
-        public IActionResult Add(BookTitleViewModel bookTitleViewmodel)
+        public IActionResult Add(AddBookTitleViewModel bookTitleViewmodel)
         {
             if (!ModelState.IsValid)
             {
                 var authorDtos = _authorManager.GetAll();
-                ViewBag.Authors = _viewModelMapper.Map(authorDtos);
+                ViewBag.Authors = authorDtos.ToViewModel();
                 return View(bookTitleViewmodel);
             }
 
-            var bookTitleDto = _viewModelMapper.Map(bookTitleViewmodel);
+            var bookTitleDto = bookTitleViewmodel.ToDto();
             var response = _bookTitleManager.Add(bookTitleDto);
             return RedirectToAction("List", response);
         }
@@ -43,7 +40,7 @@ namespace BooksLife.Web
         public IActionResult Add()
         {
             var authorDtos = _authorManager.GetAll();
-            ViewBag.Authors = _viewModelMapper.Map(authorDtos);
+            ViewBag.Authors = authorDtos.ToViewModel();
             return View();
         }
 

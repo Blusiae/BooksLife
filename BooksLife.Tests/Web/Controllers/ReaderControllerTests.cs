@@ -15,9 +15,7 @@ namespace BooksLife.Tests
         {
             var readerManagerMock = new Mock<IReaderManager>();
             readerManagerMock.Setup(m => m.GetAllForList()).Returns(new List<ReaderDto>());
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
-            viewModelMapperMock.Setup(m => m.Map(It.IsAny<List<ReaderDto>>())).Returns(new List<ReaderViewModel>());
-            var readerController = new ReaderController(readerManagerMock.Object, viewModelMapperMock.Object);
+            var readerController = new ReaderController(readerManagerMock.Object);
 
             var result = readerController.List() as ViewResult;
 
@@ -30,9 +28,7 @@ namespace BooksLife.Tests
         {
             var readerManagerMock = new Mock<IReaderManager>();
             readerManagerMock.Setup(m => m.Get(It.IsAny<Guid>())).Returns(new ReaderDto());
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
-            viewModelMapperMock.Setup(m => m.Map(It.IsAny<ReaderDto>())).Returns(new ReaderViewModel());
-            var readerController = new ReaderController(readerManagerMock.Object, viewModelMapperMock.Object);
+            var readerController = new ReaderController(readerManagerMock.Object);
 
             var result = readerController.Index(new Guid()) as ViewResult;
 
@@ -47,11 +43,9 @@ namespace BooksLife.Tests
         {
             var response = new Response() { Succeed = succeed, Message = message };
             var readerManagerMock = new Mock<IReaderManager>();
-            readerManagerMock.Setup(m => m.Add(It.IsAny<ReaderDto>())).Returns(response);
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
-            viewModelMapperMock.Setup(m => m.Map(It.IsAny<ReaderViewModel>())).Returns(new ReaderDto());
-            var readerController = new ReaderController(readerManagerMock.Object, viewModelMapperMock.Object);
-            var reader = new ReaderViewModel()
+            readerManagerMock.Setup(m => m.Add(It.IsAny<AddReaderDto>())).Returns(response);
+            var readerController = new ReaderController(readerManagerMock.Object);
+            var reader = new AddReaderViewModel()
             {
                 Firstname = "Firstname",
                 Lastname = "Lastname",
@@ -77,8 +71,7 @@ namespace BooksLife.Tests
         public void Add_ForNoParameters_ShouldReturnAddView()
         {
             var readerManagerMock = new Mock<IReaderManager>();
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
-            var readerController = new ReaderController(readerManagerMock.Object, viewModelMapperMock.Object);
+            var readerController = new ReaderController(readerManagerMock.Object);
 
             var result = readerController.Add() as ViewResult;
 
@@ -93,8 +86,7 @@ namespace BooksLife.Tests
             var response = new Response() { Succeed = succeed, Message = message };
             var readerManagerMock = new Mock<IReaderManager>();
             readerManagerMock.Setup(m => m.Remove(It.IsAny<Guid>())).Returns(response);
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
-            var readerController = new ReaderController(readerManagerMock.Object, viewModelMapperMock.Object);
+            var readerController = new ReaderController(readerManagerMock.Object);
 
             var result = readerController.Remove(Guid.NewGuid()) as RedirectToActionResult;
 

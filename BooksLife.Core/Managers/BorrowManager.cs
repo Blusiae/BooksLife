@@ -4,24 +4,22 @@
     {
         private readonly IBorrowRepository _borrowRepository;
         private readonly IBookRepository _bookRepository;
-        private readonly IDtoMapper _mapper;
 
         private const string FAILED_MESSAGE = "Something went wrong!";
         private const string SUCCEED_ADD_MESSAGE = "A new borrow has been added.";
         private const string SUCCEED_REMOVE_MESSAGE = "Borrow has been removed.";
         private const string SUCCED_RETURNED_MESSAGE = "Marked borrow as returned.";
 
-        public BorrowManager(IBorrowRepository borrowRepository, IDtoMapper mapper, IBookRepository bookRepository)
+        public BorrowManager(IBorrowRepository borrowRepository, IBookRepository bookRepository)
         {
             _borrowRepository = borrowRepository;
-            _mapper = mapper;
             _bookRepository = bookRepository;
         }
 
-        public Response Add(BorrowDto borrowDto)
+        public Response Add(AddBorrowDto borrowDto)
         {
             borrowDto.BorrowDate = DateTime.Now;
-            var borrowEntity = _mapper.Map(borrowDto);
+            var borrowEntity = borrowDto.ToEntity();
             if (_borrowRepository.Add(borrowEntity))
             {
                 if (_bookRepository.SetAsBorrowed(borrowDto.BookId))
@@ -40,9 +38,9 @@
             };
         }
 
-        public Response SetAsReturned(BorrowDto borrowDto)
+        public Response SetAsReturned(ReturnDto returnDto)
         {
-            if (!_borrowRepository.SetAsUnactive(borrowDto.Id))
+            if (!_borrowRepository.SetAsUnactive(returnDto.BorrowId))
             {
                 return new Response()
                 {
@@ -51,9 +49,9 @@
                 };
             } 
             
-            if(!_bookRepository.SetAsUnborrowed(borrowDto.BookId))
+            if(!_bookRepository.SetAsUnborrowed(returnDto.BookId))
             {
-                _ = _borrowRepository.SetAsActive(borrowDto.Id);
+                _ = _borrowRepository.SetAsActive(returnDto.BorrowId);
                 return new Response()
                 {
                     Succeed = false,
@@ -70,12 +68,12 @@
 
         public BorrowDto Get(Guid id)
         {
-            return _mapper.Map(_borrowRepository.Get(id));
+            return _borrowRepository.Get(id).ToDto();
         }
 
         public List<BorrowDto> GetAll()
         {
-            return _mapper.Map(_borrowRepository.GetAll()).Reverse().ToList();
+            return _borrowRepository.GetAll().Reverse().ToDto();
         }
 
         public Response Remove(Guid id)

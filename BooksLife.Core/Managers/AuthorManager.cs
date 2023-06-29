@@ -3,20 +3,18 @@
     public class AuthorManager : IAuthorManager
     {
         private readonly IAuthorRepository _authorRepository;
-        private readonly IDtoMapper _dtoMapper;
 
         private const string FAILED_MESSAGE = "Something went wrong!";
         private const string SUCCEED_ADD_MESSAGE = "A new author has been added.";
         private const string SUCCEED_REMOVE_MESSAGE = "Author has been removed.";
 
-        public AuthorManager(IAuthorRepository authorRepository, IDtoMapper dtoMapper)
+        public AuthorManager(IAuthorRepository authorRepository)
         {
             _authorRepository = authorRepository;
-            _dtoMapper = dtoMapper;
         }
-        public Response Add(AuthorDto author)
+        public Response Add(AddAuthorDto author)
         {
-            var authorEntity = _dtoMapper.Map(author);
+            var authorEntity = author.ToEntity();
             var dbResponse = _authorRepository.Add(authorEntity);
             if (dbResponse)
             {
@@ -56,12 +54,12 @@
 
         public AuthorDto Get(Guid id)
         {
-            return _dtoMapper.Map(_authorRepository.Get(id));
+            return _authorRepository.Get(id).ToDto();
         }
 
         public List<AuthorDto> GetAll()
         {
-            return _dtoMapper.Map(_authorRepository.GetAll()).ToList();
+            return _authorRepository.GetAll().ToDto();
         }
     }
 }

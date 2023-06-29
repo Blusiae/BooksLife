@@ -15,10 +15,8 @@ namespace BookTitlesLife.Tests
         {
             var bookTitleManagerMock = new Mock<IBookTitleManager>();
             bookTitleManagerMock.Setup(m => m.GetAll()).Returns(new List<BookTitleDto>());
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
-            viewModelMapperMock.Setup(m => m.Map(It.IsAny<List<BookTitleDto>>())).Returns(new List<BookTitleViewModel>());
             var authorManagerMock = new Mock<IAuthorManager>();
-            var bookTitleController = new BookTitleController(bookTitleManagerMock.Object, viewModelMapperMock.Object, authorManagerMock.Object);
+            var bookTitleController = new BookTitleController(bookTitleManagerMock.Object, authorManagerMock.Object);
 
             var result = bookTitleController.List() as ViewResult;
 
@@ -33,12 +31,10 @@ namespace BookTitlesLife.Tests
         {
             var response = new Response() { Succeed = succeed, Message = message };
             var bookTitleManagerMock = new Mock<IBookTitleManager>();
-            bookTitleManagerMock.Setup(m => m.Add(It.IsAny<BookTitleDto>())).Returns(response);
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
-            viewModelMapperMock.Setup(m => m.Map(It.IsAny<BookTitleViewModel>())).Returns(new BookTitleDto());
+            bookTitleManagerMock.Setup(m => m.Add(It.IsAny<AddBookTitleDto>())).Returns(response);
             var authorManagerMock = new Mock<IAuthorManager>();
-            var bookTitleController = new BookTitleController(bookTitleManagerMock.Object, viewModelMapperMock.Object, authorManagerMock.Object);
-            var bookTitle = new BookTitleViewModel()
+            var bookTitleController = new BookTitleController(bookTitleManagerMock.Object, authorManagerMock.Object);
+            var bookTitle = new AddBookTitleViewModel()
             {
                 Title = "Title1",
                 PublicationYear = 2000,
@@ -61,10 +57,9 @@ namespace BookTitlesLife.Tests
         public void Add_ForNoParameters_ShouldReturnAddView()
         {
             var bookTitleManagerMock = new Mock<IBookTitleManager>();
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
             var authorManagerMock = new Mock<IAuthorManager>();
             authorManagerMock.Setup(m => m.GetAll()).Returns(new List<AuthorDto>());
-            var bookTitleController = new BookTitleController(bookTitleManagerMock.Object, viewModelMapperMock.Object, authorManagerMock.Object);
+            var bookTitleController = new BookTitleController(bookTitleManagerMock.Object, authorManagerMock.Object);
 
             var result = bookTitleController.Add() as ViewResult;
 
@@ -79,9 +74,8 @@ namespace BookTitlesLife.Tests
             var response = new Response() { Succeed = succeed, Message = message };
             var bookTitleManagerMock = new Mock<IBookTitleManager>();
             bookTitleManagerMock.Setup(m => m.Remove(It.IsAny<Guid>())).Returns(response);
-            var viewModelMapperMock = new Mock<IViewModelMapper>();
             var authorManagerMock = new Mock<IAuthorManager>();
-            var bookTitleController = new BookTitleController(bookTitleManagerMock.Object, viewModelMapperMock.Object, authorManagerMock.Object);
+            var bookTitleController = new BookTitleController(bookTitleManagerMock.Object, authorManagerMock.Object);
 
             var result = bookTitleController.Remove(Guid.NewGuid()) as RedirectToActionResult;
 
