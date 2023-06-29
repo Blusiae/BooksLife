@@ -67,5 +67,41 @@ namespace BooksLife.Core
 
         public static List<BookViewModel> ToViewModel(this IEnumerable<BookDto> dtos)
             => dtos.Select(x => x.ToViewModel()).ToList();
+
+        public static ReaderViewModel ToViewModel(this ReaderDto dto)
+            => new()
+            {
+                Id = dto.Id,
+                Firstname = dto.Firstname,
+                Lastname = dto.Lastname,
+                Birthdate = dto.Birthdate,
+                EmailAddress = dto.EmailAddress,
+                PhoneNumber = dto.PhoneNumber,
+                Country = dto.Country,
+                City = dto.City,
+                PostalCode = dto.PostalCode,
+                Street = dto.Street,
+                HouseNumber = dto.HouseNumber,
+                FlatNumber = dto.FlatNumber,
+            };
+
+        public static AddReaderDto ToDto(this AddReaderViewModel viewModel)
+            => new()
+            {
+                Firstname = viewModel.Firstname,
+                Lastname = viewModel.Lastname,
+                Birthdate = viewModel.Birthdate,
+                EmailAddress = viewModel.EmailAddress,
+                PhoneNumber = viewModel.PhoneNumber,
+                Country = viewModel.Country,
+                City = viewModel.City,
+                PostalCode = viewModel.PostalCode,
+                Street = viewModel.Street,
+                HouseNumber = viewModel.HouseNumber,
+                FlatNumber = viewModel.FlatNumber,
+            };
+
+        public static List<ReaderViewModel> ToViewModel(this IEnumerable<ReaderDto> dtos) 
+            => dtos.Select(x => x.ToViewModel()).ToList();
     }
 }
