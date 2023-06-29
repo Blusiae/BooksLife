@@ -6,10 +6,12 @@ namespace BooksLife.Web
     public class BookController : Controller
     {
         private readonly IBookManager _bookManager;
+        private readonly IAuthorManager _authorManager;
 
-        public BookController(IBookManager bookManager)
+        public BookController(IBookManager bookManager, IAuthorManager authorManager)
         {
             _bookManager = bookManager;
+            _authorManager = authorManager;
         }
 
         public IActionResult Index(Guid id)
@@ -21,6 +23,8 @@ namespace BooksLife.Web
 
         public IActionResult Add()
         {
+            var authorDtos = _authorManager.GetAll();
+            ViewBag.Authors = authorDtos.ToViewModel();
             return View();
         }
 
@@ -29,6 +33,8 @@ namespace BooksLife.Web
         {
             if (!ModelState.IsValid)
             {
+                var authorDtos = _authorManager.GetAll();
+                ViewBag.Authors = authorDtos.ToViewModel();
                 return View(bookViewModel);
             }
 

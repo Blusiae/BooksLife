@@ -10,7 +10,39 @@
 
     <form asp-controller="Book" asp-action="Add" class="mt-5">
         <div class="container">
-            <!-- TITLE-->
+            <div class="row mb-3">
+                <div class="form-group col-md-4">
+                    <label for="Title">Title</label>
+                    <input type="text" class="form-control" id="Title" placeholder="Title" name="Title" />
+                    <div class="text-danger">
+                        <small>@Html.ValidationMessageFor(x => x.Title)</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group col-md-4">
+                    <label for="PublicationYear">Year of publication</label>
+                    <input type="number" class="form-control" id="PublicationYear" placeholder="PublicationYear" name="PublicationYear" />
+                    <div class="text-danger">
+                        <small>@Html.ValidationMessageFor(x => x.PublicationYear)</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group col-md-4">
+                    <label for="AuthorId">Author</label>
+                    <select class="form-control" id="AuthorId" name="AuthorId">
+                        @foreach (var author in ViewBag.Authors as List<AuthorViewModel>)
+                        {
+                            <option value="@author.Id">@author.Firstname @author.Lastname</option>
+                        }
+                    </select>
+                    <a asp-controller="Author" asp-action="List" class="text-decoration-underline text-primary">Manage authors</a>
+                    <div class="text-danger">
+                        <small>@Html.ValidationMessageFor(x => x.AuthorId)</small>
+                    </div>
+                </div>
+            </div>
             <div class="row mb-3">
                 <div class="form-group col-md-6">
                     <label for="EditionPublicationYear">Year of edition publication</label>
