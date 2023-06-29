@@ -1,4 +1,5 @@
 ﻿using BooksLife.Web;
+using Microsoft.Identity.Client;
 
 namespace BooksLife.Core
 {
@@ -102,6 +103,29 @@ namespace BooksLife.Core
             };
 
         public static List<ReaderViewModel> ToViewModel(this IEnumerable<ReaderDto> dtos) 
+            => dtos.Select(x => x.ToViewModel()).ToList();
+
+        public static BorrowViewModel ToViewModel(this BorrowDto dto)
+            => new()
+            {
+                Id = dto.Id,
+                IsActive = dto.IsActive,
+                Reader = dto.Reader.ToViewModel(),
+                Book = dto.Book.ToViewModel(),
+                BorrowDate = dto.BorrowDate,
+                ReturnDate = dto.ReturnDate
+            };
+
+        public static AddBorrowDto ToDto(this AddBorrowViewModel viewModel)
+            => new()
+            {
+                BookId = viewModel.BookId,
+                ReaderId = viewModel.ReaderId,
+                ReturnDate = viewModel.ReturnDate,
+                IsActive = true
+            };
+
+        public static List<BorrowViewModel> ToViewModel(this IEnumerable<BorrowDto> dtos)
             => dtos.Select(x => x.ToViewModel()).ToList();
     }
 }
