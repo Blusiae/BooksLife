@@ -10,21 +10,7 @@
 
     <form asp-controller="Book" asp-action="Add" class="mt-5">
         <div class="container">
-            <div class="row mb-3">
-                <div class="form-group col-md-6">
-                    <label for="BookTitleId">Title</label>
-                    <select class="form-control" id="BookTitleId" name="BookTitleId">
-                        @foreach (var bookTitle in ViewBag.BookTitles as List<BookTitleViewModel>)
-                        {
-                            <option value="@bookTitle.Id">@bookTitle.Title, @bookTitle.AuthorName (@bookTitle.PublicationYear)</option>
-                        }
-                    </select>
-                    <a asp-controller="BookTitle" asp-action="List" class="text-decoration-underline text-primary">Manage titles</a>
-                    <div class="text-danger">
-                        <small>@Html.ValidationMessageFor(x => x.BookTitleId)</small>
-                    </div>
-                </div>
-            </div>
+            <!-- TITLE-->
             <div class="row mb-3">
                 <div class="form-group col-md-6">
                     <label for="EditionPublicationYear">Year of edition publication</label>

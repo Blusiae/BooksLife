@@ -38,7 +38,7 @@
             {
                 Id = entity.Id,
                 Title = entity.BookTitle.Title,
-                IsBorrowed = false,
+                IsBorrowed = entity.IsBorrowed,
                 AuthorName = $"{entity.BookTitle.Author.Firstname} {entity.BookTitle.Author.Lastname}",
                 PublicationYear = entity.BookTitle.PublicationYear,
                 EditionPublicationYear = entity.EditionPublicationYear,
@@ -49,17 +49,6 @@
         public static List<BookDto> ToDto(this IEnumerable<BookEntity> entities)
             => entities.Select(x => x.ToDto()).ToList();
 
-        public static BookTitleDto ToDto(this BookTitleEntity entity)
-            => new()
-            {
-                Id = entity.Id,
-                Title = entity.Title,
-                PublicationYear = entity.PublicationYear,
-                AuthorName = $"{entity.Author.Firstname} {entity.Author.Lastname}"
-            };
-
-        public static List<BookTitleDto> ToDto(this IEnumerable<BookTitleEntity> entities)
-            => entities.Select(x => x.ToDto()).ToList();
 
         public static BorrowDto ToDto(this BorrowEntity entity)
             => new()

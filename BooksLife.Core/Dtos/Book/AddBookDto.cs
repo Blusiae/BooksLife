@@ -2,8 +2,9 @@
 {
     public class AddBookDto
     {
-        public bool IsBorrowed { get; set; }
-        public Guid BookTitleId { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public int PublicationYear { get; set; }
+        public Guid AuthorId { get; set; }
         public int EditionPublicationYear { get; set; }
         public BookCondition Condition { get; set; }
         public string? ConditionNote { get; set; } = string.Empty;

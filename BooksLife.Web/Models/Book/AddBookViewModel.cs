@@ -6,7 +6,10 @@ namespace BooksLife.Web
     public class AddBookViewModel
     {
         [Required]
-        public Guid BookTitleId { get; set; }
+        public string Title { get; set; } = string.Empty;
+        [Required]
+        public Guid AuthorId { get; set; }
+        public int PublicationYear { get; set; }
         public int EditionPublicationYear { get; set; }
         [Required]
         public BookCondition Condition { get; set; }
