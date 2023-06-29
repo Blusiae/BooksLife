@@ -5,19 +5,17 @@ namespace BooksLife.Web
 {
     public class ReaderController : Controller
     {
-        private IReaderManager _readerManager;
-        private IViewModelMapper _viewModelMapper;
+        private readonly IReaderManager _readerManager;
 
-        public ReaderController(IReaderManager readerManager, IViewModelMapper viewModelMapper)
+        public ReaderController(IReaderManager readerManager)
         {
             _readerManager = readerManager;
-            _viewModelMapper = viewModelMapper;
         }
 
         public IActionResult Index(Guid id)
         {
             var readerDto = _readerManager.Get(id);
-            var readerVm = _viewModelMapper.Map(readerDto);
+            var readerVm = readerDto.ToViewModel();
             return View(readerVm);
         }
 
@@ -25,7 +23,7 @@ namespace BooksLife.Web
         {
             ViewBag.Response = response;
             var readerDtos = _readerManager.GetAllForList();
-            var readerVMs = _viewModelMapper.Map(readerDtos);
+            var readerVMs = readerDtos.ToViewModel();
             return View(readerVMs);
         }
 
@@ -35,14 +33,14 @@ namespace BooksLife.Web
         }
 
         [HttpPost]
-        public IActionResult Add(ReaderViewModel readerViewModel)
+        public IActionResult Add(AddReaderViewModel readerViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(readerViewModel);
             }
 
-            var readerDto = _viewModelMapper.Map(readerViewModel); 
+            var readerDto = readerViewModel.ToDto(); 
             var response = _readerManager.Add(readerDto);
             return RedirectToAction("List", response);
         }

@@ -1,5 +1,4 @@
 ﻿using BooksLife.Web;
-using Microsoft.Identity.Client;
 
 namespace BooksLife.Core
 {

@@ -7,39 +7,36 @@ namespace BooksLife.Web
     {
         private readonly IBookManager _bookManager;
         private readonly IBookTitleManager _bookTitleManager;
-        private readonly IViewModelMapper _viewModelMapper;
 
-        public BookController(IBookManager bookManager, IViewModelMapper viewModelMapper, 
-            IBookTitleManager bookTitleManager)
+        public BookController(IBookManager bookManager, IBookTitleManager bookTitleManager)
         {
             _bookManager = bookManager;
-            _viewModelMapper = viewModelMapper;
             _bookTitleManager = bookTitleManager;
         }
 
         public IActionResult Index(Guid id)
         {
             var bookDto = _bookManager.Get(id);
-            var bookViewModel = _viewModelMapper.Map(bookDto);
+            var bookViewModel = bookDto.ToViewModel();
             return View(bookViewModel);
         }
 
         public IActionResult Add()
         {
             var bookTitleDtos = _bookTitleManager.GetAll();
-            ViewBag.BookTitles = _viewModelMapper.Map(bookTitleDtos);
+            ViewBag.BookTitles = bookTitleDtos.ToViewModel();
             return View();
         }
 
         [HttpPost]
-        public IActionResult Add(BookViewModel bookViewModel)
+        public IActionResult Add(AddBookViewModel bookViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return View(bookViewModel);
             }
 
-            var bookDto = _viewModelMapper.Map(bookViewModel);
+            var bookDto = bookViewModel.ToDto();
             var result = _bookManager.Add(bookDto);
             return RedirectToAction("List", result);
         }
@@ -48,7 +45,7 @@ namespace BooksLife.Web
         {
             ViewBag.Response = response;
             var bookDtos = _bookManager.GetAll();
-            var bookViewModels = _viewModelMapper.Map(bookDtos);
+            var bookViewModels = bookDtos.ToViewModel();
             return View(bookViewModels);
         }
 
