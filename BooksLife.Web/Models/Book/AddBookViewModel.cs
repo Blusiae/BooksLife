@@ -5,7 +5,6 @@ namespace BooksLife.Web
 {
     public class AddBookViewModel
     {
-        public bool IsBorrowed { get; set; }
         [Required]
         public Guid BookTitleId { get; set; }
         public int EditionPublicationYear { get; set; }
