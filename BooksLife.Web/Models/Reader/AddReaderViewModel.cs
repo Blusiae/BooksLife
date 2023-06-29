@@ -2,16 +2,15 @@
 
 namespace BooksLife.Web
 {
-    public class ReaderViewModel
+    public class AddReaderViewModel
     {
-        public Guid Id { get; set; }
         [Required(AllowEmptyStrings = false)]
         public string Firstname { get; set; } = string.Empty;
         [Required(AllowEmptyStrings = false)]
         public string Lastname { get; set; } = string.Empty;
         [Required]
         public DateTime Birthdate { get; set; }
-        [EmailAddress] 
+        [EmailAddress]
         public string? EmailAddress { get; set; } = string.Empty;
         [Phone]
         public string? PhoneNumber { get; set; } = string.Empty;
