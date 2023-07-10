@@ -15,8 +15,8 @@ namespace BooksLife.Tests
         {
             var bookManagerMock = new Mock<IBookManager>();
             bookManagerMock.Setup(m => m.GetAll()).Returns(new List<BookDto>());
-            var bookTitleManagerMock = new Mock<IBookTitleManager>();
-            var bookController = new BookController(bookManagerMock.Object, bookTitleManagerMock.Object);
+            var authorManagerMock = new Mock<IAuthorManager>();
+            var bookController = new BookController(bookManagerMock.Object, authorManagerMock.Object);
 
             var result = bookController.List() as ViewResult;
 
@@ -29,8 +29,8 @@ namespace BooksLife.Tests
         {
             var bookManagerMock = new Mock<IBookManager>();
             bookManagerMock.Setup(m => m.Get(It.IsAny<Guid>())).Returns(new BookDto());
-            var bookTitleManagerMock = new Mock<IBookTitleManager>();
-            var bookController = new BookController(bookManagerMock.Object, bookTitleManagerMock.Object);
+            var authorManagerMock = new Mock<IAuthorManager>();
+            var bookController = new BookController(bookManagerMock.Object, authorManagerMock.Object);
 
             var result = bookController.Index(new Guid()) as ViewResult;
 
@@ -46,11 +46,13 @@ namespace BooksLife.Tests
             var response = new Response() { Succeed = succeed, Message = message };
             var bookManagerMock = new Mock<IBookManager>();
             bookManagerMock.Setup(m => m.Add(It.IsAny<AddBookDto>())).Returns(response);
-            var bookTitleManagerMock = new Mock<IBookTitleManager>();
-            var bookController = new BookController(bookManagerMock.Object, bookTitleManagerMock.Object);
+            var authorManagerMock = new Mock<IAuthorManager>();
+            var bookController = new BookController(bookManagerMock.Object, authorManagerMock.Object);
             var book = new AddBookViewModel()
             {
-                BookTitleId = Guid.NewGuid(),
+                Title = "Title",
+                PublicationYear = 1999,
+                AuthorId = Guid.NewGuid(),
                 EditionPublicationYear = 2000,
                 Condition = BookCondition.Good,
                 ConditionNote = "Everything's good."
@@ -72,9 +74,9 @@ namespace BooksLife.Tests
         public void Add_ForNoParameters_ShouldReturnAddView()
         {
             var bookManagerMock = new Mock<IBookManager>();
-            var bookTitleManagerMock = new Mock<IBookTitleManager>();
-            bookTitleManagerMock.Setup(m => m.GetAll()).Returns(new List<BookTitleDto>());
-            var bookController = new BookController(bookManagerMock.Object, bookTitleManagerMock.Object);
+            var authorManagerMock = new Mock<IAuthorManager>();
+            authorManagerMock.Setup(m => m.GetAll()).Returns(new List<AuthorDto>());
+            var bookController = new BookController(bookManagerMock.Object, authorManagerMock.Object);
 
             var result = bookController.Add() as ViewResult;
 
@@ -89,8 +91,8 @@ namespace BooksLife.Tests
             var response = new Response() { Succeed = succeed, Message = message };
             var bookManagerMock = new Mock<IBookManager>();
             bookManagerMock.Setup(m => m.Remove(It.IsAny<Guid>())).Returns(response);
-            var bookTitleManagerMock = new Mock<IBookTitleManager>();
-            var bookController = new BookController(bookManagerMock.Object, bookTitleManagerMock.Object);
+            var authorManagerMock = new Mock<IAuthorManager>();
+            var bookController = new BookController(bookManagerMock.Object, authorManagerMock.Object);
 
             var result = bookController.Remove(Guid.NewGuid()) as RedirectToActionResult;
 

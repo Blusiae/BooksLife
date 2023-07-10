@@ -37,25 +37,18 @@
         public static BookEntity ToEntity(this AddBookDto dto)
             => new()
             {
-                IsBorrowed = dto.IsBorrowed,
-                BookTitleId = dto.BookTitleId,
+                BookTitle = new BookTitleEntity()
+                {
+                    Title = dto.Title,
+                    PublicationYear = dto.PublicationYear,
+                    AuthorId = dto.AuthorId
+                },
                 EditionPublicationYear = dto.EditionPublicationYear,
                 Condition = dto.Condition,
                 ConditionNote = dto.ConditionNote
             };
 
         public static List<BookEntity> ToEntity(this IEnumerable<AddBookDto> dtos)
-            => dtos.Select(x => x.ToEntity()).ToList();
-
-        public static BookTitleEntity ToEntity(this AddBookTitleDto dto)
-            => new()
-            {
-                Title = dto.Title,
-                PublicationYear = dto.PublicationYear,
-                AuthorId = dto.AuthorId
-            };
-
-        public static List<BookTitleEntity> ToEntity(this IEnumerable<AddBookTitleDto> dtos)
             => dtos.Select(x => x.ToEntity()).ToList();
 
         public static BorrowEntity ToEntity(this AddBorrowDto dto)

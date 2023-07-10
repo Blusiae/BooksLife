@@ -47,8 +47,9 @@ namespace BooksLife.Tests
             //arrange
             var addBookDto = new AddBookDto()
             {
-                IsBorrowed = false,
-                BookTitleId = Guid.NewGuid(),
+                Title = "Title",
+                PublicationYear = 1999,
+                AuthorId = Guid.NewGuid(),
                 EditionPublicationYear = 2000,
                 Condition = BookCondition.Fine,
                 ConditionNote = "Test"
@@ -60,6 +61,13 @@ namespace BooksLife.Tests
             //assert
             bookEntity.Should().BeOfType<BookEntity>();
             bookEntity.Should().BeEquivalentTo(addBookDto, options => options.ExcludingMissingMembers());
+            bookEntity.BookTitle.Should().BeOfType<BookTitleEntity>();
+            bookEntity.BookTitle.Should().BeEquivalentTo(new BookTitleEntity()
+            {
+                Title = "Title",
+                PublicationYear = 1999,
+                AuthorId = addBookDto.AuthorId
+            });
         }
 
     }
