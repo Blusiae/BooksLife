@@ -32,7 +32,7 @@ namespace BooksLife.Tests
             var bookManagerMock = new Mock<IBookManager>();
             bookManagerMock.Setup(m => m.GetAll()).Returns(new List<BookDto>());
             var readerManagerMock = new Mock<IReaderManager>();
-            readerManagerMock.Setup(m => m.GetAllForList()).Returns(new List<ReaderDto>());
+            readerManagerMock.Setup(m => m.GetAll()).Returns(new List<ReaderDto>());
             var borrowController = new BorrowController(borrowManagerMock.Object, bookManagerMock.Object, readerManagerMock.Object);
 
             var result = borrowController.Add() as ViewResult;
