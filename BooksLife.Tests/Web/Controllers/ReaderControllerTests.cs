@@ -14,7 +14,7 @@ namespace BooksLife.Tests
         public void List_WhenCalled_ShouldReturnListViewWithListOfReadersAsViewModel()
         {
             var readerManagerMock = new Mock<IReaderManager>();
-            readerManagerMock.Setup(m => m.GetAllForList()).Returns(new List<ReaderDto>());
+            readerManagerMock.Setup(m => m.GetAll()).Returns(new List<ReaderDto>());
             var readerController = new ReaderController(readerManagerMock.Object);
 
             var result = readerController.List() as ViewResult;

@@ -22,7 +22,7 @@ namespace BooksLife.Web
         public IActionResult List(Response? response = null)
         {
             ViewBag.Response = response;
-            var readerDtos = _readerManager.GetAllForList();
+            var readerDtos = _readerManager.GetAll();
             var readerVMs = readerDtos.ToViewModel();
             return View(readerVMs);
         }
