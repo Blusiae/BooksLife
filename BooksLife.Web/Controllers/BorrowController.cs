@@ -28,7 +28,7 @@ namespace BooksLife.Web
             var bookDtos = _bookManager.GetAll().Where(x => !x.IsBorrowed).ToList(); //move it  to BookManager later
             ViewBag.Books = bookDtos.ToViewModel();
 
-            var readerDtos = _readerManager.GetAllForList();
+            var readerDtos = _readerManager.GetAll();
             ViewBag.Readers = readerDtos.ToViewModel();
 
             return View();
@@ -42,7 +42,7 @@ namespace BooksLife.Web
                 var bookDtos = _bookManager.GetAll().Where(x => !x.IsBorrowed).ToList(); //move it  to BookManager later
                 ViewBag.Books = bookDtos.ToViewModel();
 
-                var readerDtos = _readerManager.GetAllForList();
+                var readerDtos = _readerManager.GetAll();
                 ViewBag.Readers = readerDtos.ToViewModel();
 
                 return View(borrowViewModel);
