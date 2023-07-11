@@ -3,17 +3,17 @@
     public class BorrowManager : IBorrowManager
     {
         private readonly IBorrowRepository _borrowRepository;
-        private readonly IBookRepository _bookRepository;
+        private readonly IBookManager _bookManager;
 
         private const string FAILED_MESSAGE = "Something went wrong!";
         private const string SUCCEED_ADD_MESSAGE = "A new borrow has been added.";
         private const string SUCCEED_REMOVE_MESSAGE = "Borrow has been removed.";
         private const string SUCCED_RETURNED_MESSAGE = "Marked borrow as returned.";
 
-        public BorrowManager(IBorrowRepository borrowRepository, IBookRepository bookRepository)
+        public BorrowManager(IBorrowRepository borrowRepository, IBookManager bookManager)
         {
             _borrowRepository = borrowRepository;
-            _bookRepository = bookRepository;
+            _bookManager = bookManager;
         }
 
         public Response Add(AddBorrowDto borrowDto)
@@ -22,7 +22,7 @@
             var borrowEntity = borrowDto.ToEntity();
             if (_borrowRepository.Add(borrowEntity))
             {
-                if (_bookRepository.SetAsBorrowed(borrowDto.BookId))
+                if (_bookManager.ChangeAvailability(borrowDto.BookId))
                 {
                     return new Response()
                     {
@@ -40,7 +40,11 @@
 
         public Response SetAsReturned(ReturnDto returnDto)
         {
-            if (!_borrowRepository.SetAsUnactive(returnDto.BorrowId))
+            var borrowEntity = _borrowRepository.Get(returnDto.BorrowId);
+
+            borrowEntity.IsActive = false;
+
+            if (!_borrowRepository.Update(borrowEntity))
             {
                 return new Response()
                 {
@@ -49,9 +53,10 @@
                 };
             } 
             
-            if(!_bookRepository.SetAsUnborrowed(returnDto.BookId))
+            if(!_bookManager.ChangeAvailability(returnDto.BookId))
             {
-                _ = _borrowRepository.SetAsActive(returnDto.BorrowId);
+                borrowEntity.IsActive = true;
+                _borrowRepository.Update(borrowEntity);
                 return new Response()
                 {
                     Succeed = false,
@@ -78,9 +83,21 @@
 
         public Response Remove(Guid id)
         {
+            var borrowActivity = _borrowRepository
+                .Get(id)
+                .IsActive;
+
+            var bookId = _borrowRepository
+                .Get(id)
+                .BookId;
+
             if (_borrowRepository.Remove(id))
             {
-                //set book as unborrowed
+                if (borrowActivity)
+                {
+                    _bookManager.ChangeAvailability(bookId);
+                }
+
                 return new Response()
                 {
                     Succeed = true,

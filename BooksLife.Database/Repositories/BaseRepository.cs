@@ -18,6 +18,12 @@ namespace BooksLife.Database
             return _context.SaveChanges() > 0;
         }
 
+        public bool Update(Entity entity)
+        {
+            DbSet.Update(entity);
+            return _context.SaveChanges() > 0;
+        }
+
         public Entity Get(Guid id)
         {
             return DbSet.FirstOrDefault(x => x.Id == id);
