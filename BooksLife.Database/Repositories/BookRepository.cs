@@ -23,19 +23,5 @@ namespace BooksLife.Database
             DbSet.Add(entity);
             return _context.SaveChanges() > 0;
         }
-
-        public bool SetAsBorrowed(Guid id)
-        {
-            var book = _context.Books.FirstOrDefault(x => x.Id == id);
-            book.IsBorrowed = true;
-            return _context.SaveChanges() > 0;
-        }
-
-        public bool SetAsUnborrowed(Guid id)
-        {
-            var book = _context.Books.FirstOrDefault(x => x.Id == id);
-            book.IsBorrowed = false;
-            return _context.SaveChanges() > 0;
-        }
     }
 }

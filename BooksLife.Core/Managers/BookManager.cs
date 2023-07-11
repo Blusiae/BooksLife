@@ -33,6 +33,15 @@
             };
         }
 
+        public bool ChangeAvailability(Guid id)
+        {
+            var bookEntity = _bookRepository.Get(id);
+
+            bookEntity.IsBorrowed = !bookEntity.IsBorrowed;
+
+            return _bookRepository.Update(bookEntity);
+        }
+
         public Response Remove(Guid id)
         {
             var dbResponse = _bookRepository.Remove(id);
