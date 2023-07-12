@@ -398,3 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 BooksLife.Web/appsettings.Development.json
 BooksLife.Web/appsettings.json
+BooksLife.Web/.config/dotnet-tools.json
