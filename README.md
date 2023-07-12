@@ -2,8 +2,8 @@
 A simply library management app made with ASP.NET Core MVC.
 
 ## Server requirements
-.NET 7 Runtime (or SDK)
-SQL Server 2022
+- .NET 7 Runtime (or SDK)
+- SQL Server 2022
 
 ## Configuration
 In appsettings.json file put the connection string for your database as "DefaultConnection".
