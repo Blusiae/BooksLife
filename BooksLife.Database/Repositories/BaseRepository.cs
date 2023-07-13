@@ -34,6 +34,11 @@ namespace BooksLife.Database
             return DbSet.Select(x => x);
         }
 
+        public int Count()
+        {
+            return DbSet.Count();
+        }
+
         public bool Remove(Guid id)
         {
             var entityToDelete = DbSet.FirstOrDefault(x =>x.Id == id);
