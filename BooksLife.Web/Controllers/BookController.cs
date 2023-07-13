@@ -24,8 +24,8 @@ namespace BooksLife.Web
 
         public IActionResult Add()
         {
-            var authorDtos = _authorManager.GetAll();
-            ViewBag.Authors = authorDtos.ToViewModel();
+            //var authorDtos = _authorManager.GetAll();
+            //ViewBag.Authors = authorDtos.ToViewModel();
             return View();
         }
 
@@ -34,8 +34,8 @@ namespace BooksLife.Web
         {
             if (!ModelState.IsValid)
             {
-                var authorDtos = _authorManager.GetAll();
-                ViewBag.Authors = authorDtos.ToViewModel();
+                //var authorDtos = _authorManager.GetAll();
+                //ViewBag.Authors = authorDtos.ToViewModel();
                 return View(bookViewModel);
             }
 
@@ -47,13 +47,16 @@ namespace BooksLife.Web
         public IActionResult List(int? page, Response? response = null)
         {
             ViewBag.Response = response;
-            var bookDtos = _bookManager.GetAll();
-            var bookViewModels = bookDtos.ToViewModel();
 
             int pageSize = 10;
             int pageNumber = page ?? 1;
 
-            return View(bookViewModels.ToPagedList(pageNumber, pageSize));
+            var bookDtos = _bookManager.GetAll(pageSize, pageNumber, out int totalCount);
+            var bookViewModels = bookDtos.ToViewModel();
+
+            var pagedList = new StaticPagedList<BookViewModel>(bookViewModels, pageNumber, pageSize, totalCount);
+
+            return View(pagedList);
         }
 
         public IActionResult Remove(Guid id)

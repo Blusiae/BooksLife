@@ -61,9 +61,10 @@
             };
         }
 
-        public IEnumerable<BookDto> GetAll()
+        public IEnumerable<BookDto> GetAll(int pageSize, int pageNumber, out int totalCount)
         {
-            return _bookRepository.GetAll().ToDto();
+            totalCount = _bookRepository.Count();
+            return _bookRepository.GetAll(pageSize, pageSize * (pageNumber-1)).ToDto();
         }
 
         public BookDto Get(Guid id)

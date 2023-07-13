@@ -57,9 +57,10 @@
             return _readerRepository.Get(id).ToDto();
         }
 
-        public IEnumerable<ReaderDto> GetAll()
+        public IEnumerable<ReaderDto> GetAll(int pageSize, int pageNumber, out int totalCount)
         {
-            return _readerRepository.GetAll().ToDto();
+            totalCount = _readerRepository.Count();
+            return _readerRepository.GetAll(pageSize, pageSize * (pageNumber-1)).ToDto();
         }
         
     }

@@ -29,9 +29,11 @@ namespace BooksLife.Database
             return DbSet.FirstOrDefault(x => x.Id == id);
         }
 
-        public IEnumerable<Entity> GetAll()
+        public IEnumerable<Entity> GetAll(int take, int skip)
         {
-            return DbSet.Select(x => x);
+            return DbSet
+                .Skip(skip)
+                .Take(take);
         }
 
         public int Count()

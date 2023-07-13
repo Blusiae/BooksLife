@@ -5,6 +5,6 @@
         Response Add(AddAuthorDto author);
         Response Remove(Guid id);
         AuthorDto Get(Guid id);
-        IEnumerable<AuthorDto> GetAll();
+        IEnumerable<AuthorDto> GetAll(int pageSize, int pageNumber, out int totalCount);
     }
 }
