@@ -1,5 +1,8 @@
 ﻿@using BooksLife.Core;
-@model List<ReaderViewModel>;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@model IPagedList<ReaderViewModel>;
 @if(Model is not null){
 
     ViewData["Title"] = "List of readers";
@@ -47,4 +50,12 @@
             }
         </tbody>
     </table>
+
+    <p class="float-end">Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</p>
+    <div class="d-flex justify-content-center">
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("List", new { page }), new PagedListRenderOptions{
+    LiElementClasses = new string[] { "page-item" },
+    PageClasses = new string[] { "page-link" }
+    })
+    </div>
 }
