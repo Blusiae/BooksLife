@@ -76,7 +76,7 @@
             return _borrowRepository.Get(id).ToDto();
         }
 
-        public List<BorrowDto> GetAll()
+        public IEnumerable<BorrowDto> GetAll()
         {
             return _borrowRepository.GetAll().Reverse().ToDto();
         }

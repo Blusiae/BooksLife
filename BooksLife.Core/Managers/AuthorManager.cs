@@ -57,7 +57,7 @@
             return _authorRepository.Get(id).ToDto();
         }
 
-        public List<AuthorDto> GetAll()
+        public IEnumerable<AuthorDto> GetAll()
         {
             return _authorRepository.GetAll().ToDto();
         }

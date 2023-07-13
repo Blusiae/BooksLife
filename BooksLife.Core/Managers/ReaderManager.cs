@@ -57,7 +57,7 @@
             return _readerRepository.Get(id).ToDto();
         }
 
-        public List<ReaderDto> GetAll()
+        public IEnumerable<ReaderDto> GetAll()
         {
             return _readerRepository.GetAll().ToDto();
         }

@@ -5,6 +5,6 @@
         Response Add(AddAuthorDto author);
         Response Remove(Guid id);
         AuthorDto Get(Guid id);
-        List<AuthorDto> GetAll();
+        IEnumerable<AuthorDto> GetAll();
     }
 }

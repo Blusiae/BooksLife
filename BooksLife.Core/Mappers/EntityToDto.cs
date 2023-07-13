@@ -10,7 +10,7 @@
                 Lastname = entity.Lastname
             };
 
-        public static List<AuthorDto> ToDto(this IEnumerable<AuthorEntity> entities)
+        public static IEnumerable<AuthorDto> ToDto(this IEnumerable<AuthorEntity> entities)
             => entities.Select(x => x.ToDto()).ToList();
 
         public static ReaderDto ToDto(this ReaderEntity entity)
@@ -30,7 +30,7 @@
                 FlatNumber = entity.Address.FlatNumber
             };
 
-        public static List<ReaderDto> ToDto(this IEnumerable<ReaderEntity> entities)
+        public static IEnumerable<ReaderDto> ToDto(this IEnumerable<ReaderEntity> entities)
             => entities.Select(x => x.ToDto()).ToList();
 
         public static BookDto ToDto(this BookEntity entity) 
@@ -46,8 +46,8 @@
                 ConditionNote = entity.ConditionNote
             };
 
-        public static List<BookDto> ToDto(this IEnumerable<BookEntity> entities)
-            => entities.Select(x => x.ToDto()).ToList();
+        public static IEnumerable<BookDto> ToDto(this IEnumerable<BookEntity> entities)
+            => entities.Select(x => x.ToDto());
 
 
         public static BorrowDto ToDto(this BorrowEntity entity)
@@ -61,7 +61,7 @@
                 ReturnDate = entity.ReturnDate
             };
 
-        public static List<BorrowDto> ToDto(this IEnumerable<BorrowEntity> entities)
+        public static IEnumerable<BorrowDto> ToDto(this IEnumerable<BorrowEntity> entities)
             => entities.Select(x => x.ToDto()).ToList();
     }
 }

@@ -5,7 +5,7 @@
         Response Add(AddBookDto bookDto);
         bool ChangeAvailability(Guid id);
         Response Remove(Guid id);
-        List<BookDto> GetAll();
+        IEnumerable<BookDto> GetAll();
         BookDto Get(Guid id);
     }
 }

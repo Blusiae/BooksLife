@@ -61,7 +61,7 @@
             };
         }
 
-        public List<BookDto> GetAll()
+        public IEnumerable<BookDto> GetAll()
         {
             return _bookRepository.GetAll().ToDto();
         }
