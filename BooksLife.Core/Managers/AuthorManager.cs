@@ -62,5 +62,14 @@
             totalCount = _authorRepository.Count();
             return _authorRepository.GetAll(pageSize, pageSize * (pageNumber-1)).ToDto();
         }
+
+        public IEnumerable<AuthorDto> GetAll()
+        {
+            var totalCount = _authorRepository.Count();
+            return _authorRepository
+                .GetAll(totalCount)
+                .OrderBy(x => x.Firstname)
+                .ToDto();
+        }
     }
 }

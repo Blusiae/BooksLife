@@ -24,8 +24,8 @@ namespace BooksLife.Web
 
         public IActionResult Add()
         {
-            //var authorDtos = _authorManager.GetAll();
-            //ViewBag.Authors = authorDtos.ToViewModel();
+            var authorDtos = _authorManager.GetAll();
+            ViewBag.Authors = authorDtos.ToViewModel();
             return View();
         }
 
@@ -34,8 +34,8 @@ namespace BooksLife.Web
         {
             if (!ModelState.IsValid)
             {
-                //var authorDtos = _authorManager.GetAll();
-                //ViewBag.Authors = authorDtos.ToViewModel();
+                var authorDtos = _authorManager.GetAll();
+                ViewBag.Authors = authorDtos.ToViewModel();
                 return View(bookViewModel);
             }
 
