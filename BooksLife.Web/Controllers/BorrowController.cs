@@ -25,11 +25,11 @@ namespace BooksLife.Web
 
         public IActionResult Add()
         {
-            //var bookDtos = _bookManager.GetAll().Where(x => !x.IsBorrowed).ToList(); //move it  to BookManager later
-            //ViewBag.Books = bookDtos.ToViewModel();
+            var bookDtos = _bookManager.GetAll(true);
+            ViewBag.Books = bookDtos.ToViewModel();
 
-            //var readerDtos = _readerManager.GetAll();
-            //ViewBag.Readers = readerDtos.ToViewModel();
+            var readerDtos = _readerManager.GetAll();
+            ViewBag.Readers = readerDtos.ToViewModel();
 
             return View();
         }
@@ -39,11 +39,11 @@ namespace BooksLife.Web
         {
             if (!ModelState.IsValid)
             {
-                //var bookDtos = _bookManager.GetAll().Where(x => !x.IsBorrowed).ToList(); //move it  to BookManager later
-                //ViewBag.Books = bookDtos.ToViewModel();
+                var bookDtos = _bookManager.GetAll(true);
+                ViewBag.Books = bookDtos.ToViewModel();
 
-                //var readerDtos = _readerManager.GetAll();
-                //ViewBag.Readers = readerDtos.ToViewModel();
+                var readerDtos = _readerManager.GetAll();
+                ViewBag.Readers = readerDtos.ToViewModel();
 
                 return View(borrowViewModel);
             }

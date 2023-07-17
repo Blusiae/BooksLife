@@ -67,6 +67,16 @@
             return _bookRepository.GetAll(pageSize, pageSize * (pageNumber-1)).ToDto();
         }
 
+        public IEnumerable<BookDto> GetAll(bool unborrowedOnly = false)
+        {
+            var totalCount = _bookRepository.Count();
+            return _bookRepository
+                .GetAll(totalCount)
+                .Where(x => !unborrowedOnly || !x.IsBorrowed)
+                .OrderBy(x => x.BookTitle.Title)
+                .ToDto();
+        }
+
         public BookDto Get(Guid id)
         {
             return _bookRepository.Get(id).ToDto();

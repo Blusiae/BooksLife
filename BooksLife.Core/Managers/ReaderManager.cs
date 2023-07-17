@@ -62,6 +62,15 @@
             totalCount = _readerRepository.Count();
             return _readerRepository.GetAll(pageSize, pageSize * (pageNumber-1)).ToDto();
         }
+
+        public IEnumerable<ReaderDto> GetAll()
+        {
+            var totalCount = _readerRepository.Count();
+            return _readerRepository
+                .GetAll(totalCount)
+                .OrderBy(x => x.Firstname)
+                .ToDto();
+        }
         
     }
 }
