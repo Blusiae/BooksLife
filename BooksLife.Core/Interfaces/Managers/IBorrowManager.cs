@@ -5,7 +5,7 @@
         Response Add(AddBorrowDto borrowDto);
         Response Remove(Guid id);
         Response SetAsReturned(ReturnDto returnDto);
-        List<BorrowDto> GetAll();
+        IEnumerable<BorrowDto> GetAll(int pageSize, int pageNumber, out int totalCount);
         BorrowDto Get(Guid id);
     }
 }

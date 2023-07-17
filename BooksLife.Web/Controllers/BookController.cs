@@ -1,5 +1,6 @@
 ﻿using BooksLife.Core;
 using Microsoft.AspNetCore.Mvc;
+using X.PagedList;
 
 namespace BooksLife.Web
 {
@@ -43,12 +44,19 @@ namespace BooksLife.Web
             return RedirectToAction("List", result);
         }
 
-        public IActionResult List(Response? response = null)
+        public IActionResult List(int? page, Response? response = null)
         {
             ViewBag.Response = response;
-            var bookDtos = _bookManager.GetAll();
+
+            int pageSize = 10;
+            int pageNumber = page ?? 1;
+
+            var bookDtos = _bookManager.GetAll(pageSize, pageNumber, out int totalCount);
             var bookViewModels = bookDtos.ToViewModel();
-            return View(bookViewModels);
+
+            var pagedList = new StaticPagedList<BookViewModel>(bookViewModels, pageNumber, pageSize, totalCount);
+
+            return View(pagedList);
         }
 
         public IActionResult Remove(Guid id)

@@ -76,9 +76,13 @@
             return _borrowRepository.Get(id).ToDto();
         }
 
-        public List<BorrowDto> GetAll()
+        public IEnumerable<BorrowDto> GetAll(int pageSize, int pageNumber, out int totalCount)
         {
-            return _borrowRepository.GetAll().Reverse().ToDto();
+            totalCount = _borrowRepository.Count();
+            return _borrowRepository
+                .GetAll(pageSize, pageSize * (pageNumber-1))
+                .Reverse()
+                .ToDto();
         }
 
         public Response Remove(Guid id)

@@ -1,5 +1,6 @@
 ﻿using BooksLife.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BooksLife.Database
 {
@@ -29,9 +30,16 @@ namespace BooksLife.Database
             return DbSet.FirstOrDefault(x => x.Id == id);
         }
 
-        public IEnumerable<Entity> GetAll()
+        public IEnumerable<Entity> GetAll(int take, int skip = 0)
         {
-            return DbSet.Select(x => x);
+            return DbSet
+                .Skip(skip)
+                .Take(take);
+        }
+
+        public int Count()
+        {
+            return DbSet.Count();
         }
 
         public bool Remove(Guid id)
