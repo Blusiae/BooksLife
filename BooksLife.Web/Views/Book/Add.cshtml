@@ -4,8 +4,6 @@
     ViewData["Title"] = "Add a new book";
 }
 
-@if (ViewBag.Authors is not null)
-{
     <h1>Add a new title</h1>
 
     <form asp-controller="Book" asp-action="Add" class="mt-5">
@@ -32,10 +30,14 @@
                 <div class="form-group col-md-4">
                     <label for="AuthorId">Author</label>
                     <select class="form-control" id="AuthorId" name="AuthorId">
-                        @foreach (var author in ViewBag.Authors as List<AuthorViewModel>)
+                    @if(ViewBag.Authors is not null)
+                    {
+                        foreach (var author in ViewBag.Authors as List<AuthorViewModel>)
                         {
                             <option value="@author.Id">@author.Firstname @author.Lastname</option>
                         }
+                    }
+
                     </select>
                     <a asp-controller="Author" asp-action="List" class="text-decoration-underline text-primary">Manage authors</a>
                     <div class="text-danger">
@@ -78,4 +80,3 @@
         </div>
         <button type="submit" class="btn btn-success ms-2">Submit</button>
     </form>
-}
