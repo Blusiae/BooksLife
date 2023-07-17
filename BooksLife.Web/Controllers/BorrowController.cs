@@ -1,5 +1,6 @@
 ﻿using BooksLife.Core;
 using Microsoft.AspNetCore.Mvc;
+using X.PagedList;
 
 namespace BooksLife.Web
 {
@@ -53,12 +54,20 @@ namespace BooksLife.Web
             return RedirectToAction("List", response);
         }
 
-        public IActionResult List(Response? response = null)
+        public IActionResult List(int? page, Response? response = null)
         {
             ViewBag.Response = response;
-            var borrowDtos = _borrowManager.GetAll();
+
+            int pageSize = 10;
+
+            int pageNumber = page ?? 1;
+
+            var borrowDtos = _borrowManager.GetAll(pageSize, pageNumber, out int totalCount);
             var borrowViewModels = borrowDtos.ToViewModel();
-            return View(borrowViewModels);
+
+            var pagedList = new StaticPagedList<BorrowViewModel>(borrowViewModels, pageNumber, pageSize, totalCount);
+
+            return View(pagedList);
         }
 
         public IActionResult SetAsReturned(Guid id)

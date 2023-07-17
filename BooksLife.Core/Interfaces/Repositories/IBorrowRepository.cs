@@ -2,6 +2,5 @@
 {
     public interface IBorrowRepository : IBaseRepository<BorrowEntity>
     {
-        IEnumerable<BorrowEntity> GetAll();
     }
 }

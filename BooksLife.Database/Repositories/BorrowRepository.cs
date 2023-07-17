@@ -8,9 +8,5 @@ namespace BooksLife.Database
         protected override DbSet<BorrowEntity> DbSet => _context.Borrows;
         public BorrowRepository(ApplicationDbContext context) : base(context) { }
 
-        public IEnumerable<BorrowEntity> GetAll()
-        {
-            return DbSet.Select(x => x);
-        }
     }
 }
