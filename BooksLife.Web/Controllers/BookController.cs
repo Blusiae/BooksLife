@@ -44,14 +44,15 @@ namespace BooksLife.Web
             return RedirectToAction("List", result);
         }
 
-        public IActionResult List(int? page, Response? response = null)
+        public IActionResult List(int? page, string? filterString = null, Response? response = null)
         {
             ViewBag.Response = response;
+            ViewBag.FilterString = filterString;
 
             int pageSize = 10;
             int pageNumber = page ?? 1;
 
-            var bookDtos = _bookManager.GetAll(pageSize, pageNumber, out int totalCount);
+            var bookDtos = _bookManager.GetAll(pageSize, pageNumber, filterString, out int totalCount);
             var bookViewModels = bookDtos.ToViewModel();
 
             var pagedList = new StaticPagedList<BookViewModel>(bookViewModels, pageNumber, pageSize, totalCount);

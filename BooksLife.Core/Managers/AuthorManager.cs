@@ -57,10 +57,9 @@
             return _authorRepository.Get(id).ToDto();
         }
 
-        public IEnumerable<AuthorDto> GetAll(int pageSize, int pageNumber, out int totalCount)
+        public IEnumerable<AuthorDto> GetAll(int pageSize, int pageNumber, string? filterString, out int totalCount)
         {
-            totalCount = _authorRepository.Count();
-            return _authorRepository.GetAll(pageSize, pageSize * (pageNumber-1)).ToDto();
+            return _authorRepository.GetAll(out totalCount, pageSize, pageSize * (pageNumber-1), filterString).ToDto();
         }
 
         public IEnumerable<AuthorDto> GetAll()
