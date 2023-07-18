@@ -27,7 +27,7 @@ namespace BooksLife.Database
 
         public IEnumerable<BookEntity> GetAll(out int totalCount, int take, int skip = 0, string? filterString = null)
         {
-            var filteringMethod = new Func<BookEntity, bool>(x => filterString.IsNullOrEmpty() || x.BookTitle.Title.Contains(filterString));
+            var filteringMethod = new Func<BookEntity, bool>(x => filterString.IsNullOrEmpty() || x.BookTitle.Title.ToLower().Contains(filterString.ToLower()));
 
             totalCount = Count(filteringMethod);
 
