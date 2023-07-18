@@ -30,11 +30,17 @@ namespace BooksLife.Database
             return DbSet.FirstOrDefault(x => x.Id == id);
         }
 
-        public IEnumerable<Entity> GetAll(int take, int skip = 0)
+        public IEnumerable<Entity> GetAll(Func<Entity, bool> filteringMethod, int take, int skip = 0)
         {
             return DbSet
+                .Where(filteringMethod)
                 .Skip(skip)
                 .Take(take);
+        }
+
+        public int Count(Func<Entity, bool> filteringMethod)
+        {
+            return DbSet.Count(filteringMethod);
         }
 
         public int Count()
@@ -52,6 +58,13 @@ namespace BooksLife.Database
             }
 
             return false; //Entity not found, so it's not been deleted.
+        }
+
+        public IEnumerable<Entity> GetAll(int take, int skip = 0)
+        {
+            return DbSet
+                .Skip(skip)
+                .Take(take);
         }
     }
 }

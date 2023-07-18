@@ -61,10 +61,9 @@
             };
         }
 
-        public IEnumerable<BookDto> GetAll(int pageSize, int pageNumber, out int totalCount)
+        public IEnumerable<BookDto> GetAll(int pageSize, int pageNumber, string? filterString, out int totalCount)
         {
-            totalCount = _bookRepository.Count();
-            return _bookRepository.GetAll(pageSize, pageSize * (pageNumber-1)).ToDto();
+            return _bookRepository.GetAll(out totalCount, pageSize, pageSize * (pageNumber-1), filterString).ToDto();
         }
 
         public IEnumerable<BookDto> GetAll(bool unborrowedOnly = false)

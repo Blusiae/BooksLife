@@ -1,5 +1,6 @@
 ﻿using BooksLife.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BooksLife.Database
 {
@@ -22,6 +23,15 @@ namespace BooksLife.Database
 
             DbSet.Add(entity);
             return _context.SaveChanges() > 0;
+        }
+
+        public IEnumerable<BookEntity> GetAll(out int totalCount, int take, int skip = 0, string? filterString = null)
+        {
+            var filteringMethod = new Func<BookEntity, bool>(x => filterString.IsNullOrEmpty() || x.BookTitle.Title.Contains(filterString));
+
+            totalCount = Count(filteringMethod);
+
+            return GetAll(filteringMethod, take, skip);
         }
     }
 }
