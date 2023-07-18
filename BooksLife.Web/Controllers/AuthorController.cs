@@ -13,14 +13,15 @@ namespace BooksLife.Web
             _authorManager = authorManager;
         }
 
-        public IActionResult List(int? page, Response? response = null)
+        public IActionResult List(int? page, string? filterString = null, Response? response = null)
         {
             ViewBag.Response = response;
+            ViewBag.FilterString = filterString;
 
             int pageSize = 10;
             int pageNumber = page ?? 1;
 
-            var authorDtos = _authorManager.GetAll(pageSize, pageNumber, out int totalCount);
+            var authorDtos = _authorManager.GetAll(pageSize, pageNumber, filterString, out int totalCount);
             var authorViewModels = authorDtos.ToViewModel();
 
             var pagedList = new StaticPagedList<AuthorViewModel>(authorViewModels, pageNumber, pageSize, totalCount);
