@@ -15,3 +15,6 @@ For example:
   },
 ```
 Remember to put 'MultipleActiveResultSets=true;' at the end, since it's necessary for application to work properly (it'll be fixed in the future).
+
+##Logs
+Logs are stored in `C:\Users\%USERNAME%\AppData\Roaming\BooksLife\Logs`.
