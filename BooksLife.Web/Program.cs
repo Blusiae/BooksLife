@@ -1,6 +1,7 @@
 using BooksLife.Core;
 using BooksLife.Database;
 using Microsoft.EntityFrameworkCore;
+using NLog.Web;
 
 namespace BooksLife.Web
 {
@@ -24,6 +25,9 @@ namespace BooksLife.Web
             builder.Services.AddTransient<IBookManager, BookManager>();
             builder.Services.AddTransient<IBorrowManager, BorrowManager>();
             builder.Services.AddTransient<IBorrowRepository, BorrowRepository>();
+
+            builder.Logging.ClearProviders();
+            builder.Host.UseNLog();
 
             var app = builder.Build();
 
