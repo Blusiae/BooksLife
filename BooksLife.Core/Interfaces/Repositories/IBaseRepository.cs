@@ -1,15 +1,20 @@
-﻿namespace BooksLife.Core
+﻿using System.Linq.Expressions;
+
+namespace BooksLife.Core
 {
     public interface IBaseRepository<Entity>
     {
-        bool Add(Entity entity);
-        bool Remove(Guid id);
-        bool Update(Entity entity);
-        IEnumerable<Entity> GetAll(int take, int skip = 0);
-        IEnumerable<Entity> GetAll(Func<Entity, bool> filteringMethod, int take, int skip = 0);
-        int Count();
+        bool Create(Entity entity);
+        bool Delete(Entity entity);
+        bool Save();
+        Entity? GetById(Guid id);
+        IEnumerable<Entity> GetAll();
+        IEnumerable<Entity> FindAll(Func<Entity, bool> filteringMethod);
+        IEnumerable<Entity> GetFilteredPage(Func<Entity, bool> filteringMethod, int take, int skip);
+        IEnumerable<Entity> GetPage(int take, int skip);
         int Count(Func<Entity, bool> filteringMethod);
-        Entity Get(Guid id);
+        int Count();
+
     }
 }
 

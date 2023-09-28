@@ -10,7 +10,7 @@ namespace BooksLife.Database
 
         public BookRepository(ApplicationDbContext context) : base(context) { }
 
-        public new bool Add(BookEntity entity)
+        public new bool Create(BookEntity entity)
         {
             var bookTitle = _context.BookTitles.FirstOrDefault(x => x.Title == entity.BookTitle.Title
                 && x.PublicationYear == entity.BookTitle.PublicationYear
@@ -25,13 +25,5 @@ namespace BooksLife.Database
             return _context.SaveChanges() > 0;
         }
 
-        public IEnumerable<BookEntity> GetAll(out int totalCount, int take, int skip = 0, string? filterString = null)
-        {
-            var filteringMethod = new Func<BookEntity, bool>(x => filterString.IsNullOrEmpty() || x.BookTitle.Title.ToLower().Contains(filterString.ToLower()));
-
-            totalCount = Count(filteringMethod);
-
-            return GetAll(filteringMethod, take, skip);
-        }
     }
 }

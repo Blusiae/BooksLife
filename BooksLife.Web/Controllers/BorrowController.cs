@@ -26,7 +26,7 @@ namespace BooksLife.Web
 
         public IActionResult Add()
         {
-            var bookDtos = _bookManager.GetAll(true);
+            var bookDtos = _bookManager.GetAllUnborrowed();
             ViewBag.Books = bookDtos.ToViewModel();
 
             var readerDtos = _readerManager.GetAll();
@@ -40,7 +40,7 @@ namespace BooksLife.Web
         {
             if (!ModelState.IsValid)
             {
-                var bookDtos = _bookManager.GetAll(true);
+                var bookDtos = _bookManager.GetAllUnborrowed();
                 ViewBag.Books = bookDtos.ToViewModel();
 
                 var readerDtos = _readerManager.GetAll();
@@ -62,7 +62,7 @@ namespace BooksLife.Web
 
             int pageNumber = page ?? 1;
 
-            var borrowDtos = _borrowManager.GetAll(pageSize, pageNumber, out int totalCount);
+            var borrowDtos = _borrowManager.GetPage(pageSize, pageNumber, out int totalCount);
             var borrowViewModels = borrowDtos.ToViewModel();
 
             var pagedList = new StaticPagedList<BorrowViewModel>(borrowViewModels, pageNumber, pageSize, totalCount);

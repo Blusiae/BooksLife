@@ -16,7 +16,7 @@
         public Response Add(AddBookDto bookDto)
         {
             var bookEntity = bookDto.ToEntity();
-            var dbResponse = _bookRepository.Add(bookEntity);
+            var dbResponse = _bookRepository.Create(bookEntity);
             if (dbResponse)
             {
                 return new Response()
@@ -35,23 +35,29 @@
 
         public bool ChangeAvailability(Guid id)
         {
-            var bookEntity = _bookRepository.Get(id);
+            var bookEntity = _bookRepository.GetById(id);
 
             bookEntity.IsBorrowed = !bookEntity.IsBorrowed;
 
-            return _bookRepository.Update(bookEntity);
+            return _bookRepository.Save();
         }
 
         public Response Remove(Guid id)
         {
-            var dbResponse = _bookRepository.Remove(id);
-            if (dbResponse)
+            var book = _bookRepository.GetById(id);
+
+            if (book != null)
             {
-                return new Response()
+                var dbResponse = _bookRepository.Delete(book);
+
+                if (dbResponse)
                 {
-                    Succeed = true,
-                    Message = SUCCEED_REMOVE_MESSAGE
-                };
+                    return new Response()
+                    {
+                        Succeed = true,
+                        Message = SUCCEED_REMOVE_MESSAGE
+                    };
+                }
             }
 
             return new Response()
@@ -61,24 +67,29 @@
             };
         }
 
-        public IEnumerable<BookDto> GetAll(int pageSize, int pageNumber, string? filterString, out int totalCount)
+        public IEnumerable<BookDto> GetPage(int pageSize, int pageNumber, string? filterString, out int totalCount)
         {
-            return _bookRepository.GetAll(out totalCount, pageSize, pageSize * (pageNumber-1), filterString).ToDto();
+            var filteringMethod = new Func<BookEntity, bool>(b => string.IsNullOrEmpty(filterString)
+            || b.BookTitle.Title.ToLower().Contains(filterString.ToLower()));
+
+            totalCount = _bookRepository.Count(filteringMethod);
+
+            var books = _bookRepository.GetFilteredPage(filteringMethod, pageSize, (pageNumber - 1) * pageSize);
+
+            return books.ToDto();
         }
 
-        public IEnumerable<BookDto> GetAll(bool unborrowedOnly = false)
+        public IEnumerable<BookDto> GetAllUnborrowed()
         {
-            var totalCount = _bookRepository.Count();
             return _bookRepository
-                .GetAll(totalCount)
-                .Where(x => !unborrowedOnly || !x.IsBorrowed)
-                .OrderBy(x => x.BookTitle.Title)
+                .FindAll(b => !b.IsBorrowed)
+                .OrderBy(b => b.BookTitle.Title)
                 .ToDto();
         }
 
         public BookDto Get(Guid id)
         {
-            return _bookRepository.Get(id).ToDto();
+            return _bookRepository.GetById(id).ToDto();
         }
     }
 }

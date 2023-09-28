@@ -28,7 +28,7 @@ namespace BooksLife.Web
             int pageSize = 10;
             int pageNumber = page ?? 1;
 
-            var readerDtos = _readerManager.GetAll(pageSize, pageNumber, filterString, out int totalCount);
+            var readerDtos = _readerManager.GetPage(pageSize, pageNumber, filterString, out int totalCount);
             var readerViewModels = readerDtos.ToViewModel();
 
             var pagedList = new StaticPagedList<ReaderViewModel>(readerViewModels, pageNumber, pageSize, totalCount);

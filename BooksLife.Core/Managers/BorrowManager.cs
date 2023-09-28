@@ -20,7 +20,7 @@
         {
             borrowDto.BorrowDate = DateTime.Now;
             var borrowEntity = borrowDto.ToEntity();
-            if (_borrowRepository.Add(borrowEntity))
+            if (_borrowRepository.Create(borrowEntity))
             {
                 if (_bookManager.ChangeAvailability(borrowDto.BookId))
                 {
@@ -40,11 +40,11 @@
 
         public Response SetAsReturned(ReturnDto returnDto)
         {
-            var borrowEntity = _borrowRepository.Get(returnDto.BorrowId);
+            var borrowEntity = _borrowRepository.GetById(returnDto.BorrowId);
 
             borrowEntity.IsActive = false;
 
-            if (!_borrowRepository.Update(borrowEntity))
+            if (!_borrowRepository.Save())
             {
                 return new Response()
                 {
@@ -56,7 +56,7 @@
             if(!_bookManager.ChangeAvailability(returnDto.BookId))
             {
                 borrowEntity.IsActive = true;
-                _borrowRepository.Update(borrowEntity);
+                _borrowRepository.Save();
                 return new Response()
                 {
                     Succeed = false,
@@ -73,40 +73,42 @@
 
         public BorrowDto Get(Guid id)
         {
-            return _borrowRepository.Get(id).ToDto();
+            return _borrowRepository.GetById(id).ToDto();
         }
 
-        public IEnumerable<BorrowDto> GetAll(int pageSize, int pageNumber, out int totalCount)
+        public IEnumerable<BorrowDto> GetPage(int pageSize, int pageNumber, out int totalCount)
         {
+
             totalCount = _borrowRepository.Count();
-            return _borrowRepository
-                .GetAll(pageSize, pageSize * (pageNumber-1))
-                .Reverse()
-                .ToDto();
+
+            var borrows = _borrowRepository.GetPage(pageSize, (pageNumber - 1) * pageSize);
+
+            return borrows.ToDto();
         }
 
         public Response Remove(Guid id)
         {
-            var borrowActivity = _borrowRepository
-                .Get(id)
-                .IsActive;
+            var borrow = _borrowRepository
+                .GetById(id);
 
-            var bookId = _borrowRepository
-                .Get(id)
-                .BookId;
-
-            if (_borrowRepository.Remove(id))
+            if(borrow != null) 
             {
-                if (borrowActivity)
-                {
-                    _bookManager.ChangeAvailability(bookId);
-                }
+                var bookId = borrow.BookId;
+                var borrowActivity = borrow.IsActive;
 
-                return new Response()
+                if (_borrowRepository.Delete(borrow))
                 {
-                    Succeed = true,
-                    Message = SUCCEED_REMOVE_MESSAGE
-                };
+                    if (borrowActivity)
+                    {
+                        _bookManager.ChangeAvailability(bookId);
+                    }
+
+                    return new Response()
+                    {
+                        Succeed = true,
+                        Message = SUCCEED_REMOVE_MESSAGE
+                    };
+                }
             }
 
             return new Response()

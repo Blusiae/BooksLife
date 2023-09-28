@@ -16,7 +16,7 @@
         public Response Add(AddReaderDto readerDto)
         {
             var readerEntity = readerDto.ToEntity();
-            var dbResponse = _readerRepository.Add(readerEntity);
+            var dbResponse = _readerRepository.Create(readerEntity);
             if (dbResponse)
             {
                 return new Response()
@@ -32,17 +32,22 @@
                 Message = FAILED_MESSAGE
             };
         }
-
         public Response Remove(Guid id)
         {
-            var dbResponse = _readerRepository.Remove(id);
-            if (dbResponse)
+            var reader = _readerRepository.GetById(id);
+
+            if (reader != null)
             {
-                return new Response()
+                var dbResponse = _readerRepository.Delete(reader);
+
+                if (dbResponse)
                 {
-                    Succeed = true,
-                    Message = SUCCEED_REMOVE_MESSAGE
-                };
+                    return new Response()
+                    {
+                        Succeed = true,
+                        Message = SUCCEED_REMOVE_MESSAGE
+                    };
+                }
             }
 
             return new Response()
@@ -54,19 +59,25 @@
 
         public ReaderDto Get(Guid id)
         {
-            return _readerRepository.Get(id).ToDto();
+            return _readerRepository.GetById(id).ToDto();
         }
 
-        public IEnumerable<ReaderDto> GetAll(int pageSize, int pageNumber, string? filterString, out int totalCount)
+        public IEnumerable<ReaderDto> GetPage(int pageSize, int pageNumber, string? filterString, out int totalCount)
         {
-            return _readerRepository.GetAll(out totalCount, pageSize, pageSize * (pageNumber-1), filterString).ToDto();
+            var filteringMethod = new Func<ReaderEntity, bool>(r => string.IsNullOrEmpty(filterString)
+            || string.Join(' ', r.Firstname, r.Lastname).ToLower().Contains(filterString.ToLower()));
+
+            totalCount = _readerRepository.Count(filteringMethod);
+
+            var books = _readerRepository.GetFilteredPage(filteringMethod, pageSize, (pageNumber - 1) * pageSize);
+
+            return books.ToDto();
         }
 
         public IEnumerable<ReaderDto> GetAll()
         {
-            var totalCount = _readerRepository.Count();
             return _readerRepository
-                .GetAll(totalCount)
+                .GetAll()
                 .OrderBy(x => x.Firstname)
                 .ToDto();
         }

@@ -52,7 +52,7 @@ namespace BooksLife.Web
             int pageSize = 10;
             int pageNumber = page ?? 1;
 
-            var bookDtos = _bookManager.GetAll(pageSize, pageNumber, filterString, out int totalCount);
+            var bookDtos = _bookManager.GetPage(pageSize, pageNumber, filterString, out int totalCount);
             var bookViewModels = bookDtos.ToViewModel();
 
             var pagedList = new StaticPagedList<BookViewModel>(bookViewModels, pageNumber, pageSize, totalCount);

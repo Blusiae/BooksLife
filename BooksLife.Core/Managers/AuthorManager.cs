@@ -15,7 +15,7 @@
         public Response Add(AddAuthorDto author)
         {
             var authorEntity = author.ToEntity();
-            var dbResponse = _authorRepository.Add(authorEntity);
+            var dbResponse = _authorRepository.Create(authorEntity);
             if (dbResponse)
             {
                 return new Response()
@@ -35,14 +35,20 @@
 
         public Response Remove(Guid id)
         {
-            var dbResponse = _authorRepository.Remove(id);
-            if (dbResponse)
+            var author = _authorRepository.GetById(id);
+
+            if(author != null)
             {
-                return new Response()
+                var dbResponse = _authorRepository.Delete(author);
+
+                if (dbResponse)
                 {
-                    Succeed = true,
-                    Message = SUCCEED_REMOVE_MESSAGE
-                };
+                    return new Response()
+                    {
+                        Succeed = true,
+                        Message = SUCCEED_REMOVE_MESSAGE
+                    };
+                }
             }
 
             return new Response()
@@ -54,21 +60,26 @@
 
         public AuthorDto Get(Guid id)
         {
-            return _authorRepository.Get(id).ToDto();
+            return _authorRepository.GetById(id).ToDto();
         }
 
-        public IEnumerable<AuthorDto> GetAll(int pageSize, int pageNumber, string? filterString, out int totalCount)
+        public IEnumerable<AuthorDto> GetPage(int pageSize, int pageNumber, string? filterString, out int totalCount)
         {
-            return _authorRepository.GetAll(out totalCount, pageSize, pageSize * (pageNumber-1), filterString).ToDto();
+            var filteringMethod = new Func<AuthorEntity, bool>(a => string.IsNullOrEmpty(filterString)
+            || string.Join(' ', a.Firstname, a.Lastname).ToLower().Contains(filterString.ToLower()));
+
+            totalCount = _authorRepository.Count(filteringMethod);
+
+            var authors = _authorRepository.GetFilteredPage(filteringMethod, pageSize, (pageNumber - 1) * pageSize);
+
+            return authors.ToDto();
         }
 
         public IEnumerable<AuthorDto> GetAll()
         {
-            var totalCount = _authorRepository.Count();
-            return _authorRepository
-                .GetAll(totalCount)
-                .OrderBy(x => x.Firstname)
-                .ToDto();
+            var authors = _authorRepository.GetAll();
+
+            return authors.ToDto();
         }
     }
 }
