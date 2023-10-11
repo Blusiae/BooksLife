@@ -2,21 +2,21 @@
 {
     public class BookManager : IBookManager
     {
-        private readonly IBookRepository _bookRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         private const string FAILED_MESSAGE = "Something went wrong!";
         private const string SUCCEED_ADD_MESSAGE = "A new book has been added.";
         private const string SUCCEED_REMOVE_MESSAGE = "Book has been removed.";
 
-        public BookManager(IBookRepository bookRepository)
+        public BookManager(IUnitOfWork unitOfWork)
         {
-            _bookRepository = bookRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public Response Add(AddBookDto bookDto)
         {
             var bookEntity = bookDto.ToEntity();
-            var dbResponse = _bookRepository.Create(bookEntity);
+            var dbResponse = _unitOfWork.BookRepository.Create(bookEntity);
             if (dbResponse)
             {
                 return new Response()
@@ -35,20 +35,20 @@
 
         public bool ChangeAvailability(Guid id)
         {
-            var bookEntity = _bookRepository.GetById(id);
+            var bookEntity = _unitOfWork.BookRepository.GetById(id);
 
             bookEntity.IsBorrowed = !bookEntity.IsBorrowed;
 
-            return _bookRepository.Save();
+            return _unitOfWork.Commit();
         }
 
         public Response Remove(Guid id)
         {
-            var book = _bookRepository.GetById(id);
+            var book = _unitOfWork.BookRepository.GetById(id);
 
             if (book != null)
             {
-                var dbResponse = _bookRepository.Delete(book);
+                var dbResponse = _unitOfWork.BookRepository.Delete(book);
 
                 if (dbResponse)
                 {
@@ -72,16 +72,16 @@
             var filteringMethod = new Func<BookEntity, bool>(b => string.IsNullOrEmpty(filterString)
             || b.BookTitle.Title.ToLower().Contains(filterString.ToLower()));
 
-            totalCount = _bookRepository.Count(filteringMethod);
+            totalCount = _unitOfWork.BookRepository.Count(filteringMethod);
 
-            var books = _bookRepository.GetFilteredPage(filteringMethod, pageSize, (pageNumber - 1) * pageSize);
+            var books = _unitOfWork.BookRepository.GetFilteredPage(filteringMethod, pageSize, (pageNumber - 1) * pageSize);
 
             return books.ToDto();
         }
 
         public IEnumerable<BookDto> GetAllUnborrowed()
         {
-            return _bookRepository
+            return _unitOfWork.BookRepository
                 .FindAll(b => !b.IsBorrowed)
                 .OrderBy(b => b.BookTitle.Title)
                 .ToDto();
@@ -89,7 +89,7 @@
 
         public BookDto Get(Guid id)
         {
-            return _bookRepository.GetById(id).ToDto();
+            return _unitOfWork.BookRepository.GetById(id).ToDto();
         }
     }
 }
