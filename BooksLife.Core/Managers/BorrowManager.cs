@@ -2,7 +2,7 @@
 {
     public class BorrowManager : IBorrowManager
     {
-        private readonly IBorrowRepository _borrowRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IBookManager _bookManager;
 
         private const string FAILED_MESSAGE = "Something went wrong!";
@@ -10,9 +10,9 @@
         private const string SUCCEED_REMOVE_MESSAGE = "Borrow has been removed.";
         private const string SUCCED_RETURNED_MESSAGE = "Marked borrow as returned.";
 
-        public BorrowManager(IBorrowRepository borrowRepository, IBookManager bookManager)
+        public BorrowManager(IUnitOfWork unitOfWork, IBookManager bookManager)
         {
-            _borrowRepository = borrowRepository;
+            _unitOfWork = unitOfWork;
             _bookManager = bookManager;
         }
 
@@ -20,7 +20,7 @@
         {
             borrowDto.BorrowDate = DateTime.Now;
             var borrowEntity = borrowDto.ToEntity();
-            if (_borrowRepository.Create(borrowEntity))
+            if (_unitOfWork.BorrowRepository.Create(borrowEntity))
             {
                 if (_bookManager.ChangeAvailability(borrowDto.BookId))
                 {
@@ -40,11 +40,11 @@
 
         public Response SetAsReturned(ReturnDto returnDto)
         {
-            var borrowEntity = _borrowRepository.GetById(returnDto.BorrowId);
+            var borrowEntity = _unitOfWork.BorrowRepository.GetById(returnDto.BorrowId);
 
             borrowEntity.IsActive = false;
 
-            if (!_borrowRepository.Save())
+            if (!_unitOfWork.Commit())
             {
                 return new Response()
                 {
@@ -56,7 +56,7 @@
             if(!_bookManager.ChangeAvailability(returnDto.BookId))
             {
                 borrowEntity.IsActive = true;
-                _borrowRepository.Save();
+                _unitOfWork.Commit();
                 return new Response()
                 {
                     Succeed = false,
@@ -73,22 +73,22 @@
 
         public BorrowDto Get(Guid id)
         {
-            return _borrowRepository.GetById(id).ToDto();
+            return _unitOfWork.BorrowRepository.GetById(id).ToDto();
         }
 
         public IEnumerable<BorrowDto> GetPage(int pageSize, int pageNumber, out int totalCount)
         {
 
-            totalCount = _borrowRepository.Count();
+            totalCount = _unitOfWork.BorrowRepository.Count();
 
-            var borrows = _borrowRepository.GetPage(pageSize, (pageNumber - 1) * pageSize);
+            var borrows = _unitOfWork.BorrowRepository.GetPage(pageSize, (pageNumber - 1) * pageSize);
 
             return borrows.ToDto();
         }
 
         public Response Remove(Guid id)
         {
-            var borrow = _borrowRepository
+            var borrow = _unitOfWork.BorrowRepository
                 .GetById(id);
 
             if(borrow != null) 
@@ -96,7 +96,7 @@
                 var bookId = borrow.BookId;
                 var borrowActivity = borrow.IsActive;
 
-                if (_borrowRepository.Delete(borrow))
+                if (_unitOfWork.BorrowRepository.Delete(borrow))
                 {
                     if (borrowActivity)
                     {
