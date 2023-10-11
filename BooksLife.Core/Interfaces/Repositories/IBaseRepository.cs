@@ -6,7 +6,6 @@ namespace BooksLife.Core
     {
         bool Create(Entity entity);
         bool Delete(Entity entity);
-        bool Save();
         Entity? GetById(Guid id);
         IEnumerable<Entity> GetAll();
         IEnumerable<Entity> FindAll(Func<Entity, bool> filteringMethod);

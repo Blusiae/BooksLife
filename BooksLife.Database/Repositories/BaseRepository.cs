@@ -71,10 +71,5 @@ namespace BooksLife.Database
             return DbSet.Count();
         }
 
-        public bool Save()
-        {
-            return _context.SaveChanges() > 0;
-        }
-
     }
 }
