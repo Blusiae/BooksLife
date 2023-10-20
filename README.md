@@ -14,7 +14,7 @@ For example:
     "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=BooksLife;Trusted_Connection=True;MultipleActiveResultSets=true;"
   },
 ```
-Remember to put 'MultipleActiveResultSets=true;' at the end, since it's necessary for application to work properly (it'll be fixed in the future).
+Remember to put 'MultipleActiveResultSets=true;' at the end, since it's necessary for application to work properly.
 
 ## Logs
 Logs are stored at `C:\Users\%USERNAME%\AppData\Roaming\BooksLife\Logs`.
