@@ -2,20 +2,20 @@
 {
     public class AuthorManager : IAuthorManager
     {
-        private readonly IAuthorRepository _authorRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         private const string FAILED_MESSAGE = "Something went wrong!";
         private const string SUCCEED_ADD_MESSAGE = "A new author has been added.";
         private const string SUCCEED_REMOVE_MESSAGE = "Author has been removed.";
 
-        public AuthorManager(IAuthorRepository authorRepository)
+        public AuthorManager(IUnitOfWork unitOfWork)
         {
-            _authorRepository = authorRepository;
+            _unitOfWork = unitOfWork;
         }
         public Response Add(AddAuthorDto author)
         {
             var authorEntity = author.ToEntity();
-            var dbResponse = _authorRepository.Add(authorEntity);
+            var dbResponse = _unitOfWork.AuthorRepository.Create(authorEntity);
             if (dbResponse)
             {
                 return new Response()
@@ -35,14 +35,20 @@
 
         public Response Remove(Guid id)
         {
-            var dbResponse = _authorRepository.Remove(id);
-            if (dbResponse)
+            var author = _unitOfWork.AuthorRepository.GetById(id);
+
+            if(author != null)
             {
-                return new Response()
+                var dbResponse = _unitOfWork.AuthorRepository.Delete(author);
+
+                if (dbResponse)
                 {
-                    Succeed = true,
-                    Message = SUCCEED_REMOVE_MESSAGE
-                };
+                    return new Response()
+                    {
+                        Succeed = true,
+                        Message = SUCCEED_REMOVE_MESSAGE
+                    };
+                }
             }
 
             return new Response()
@@ -54,21 +60,26 @@
 
         public AuthorDto Get(Guid id)
         {
-            return _authorRepository.Get(id).ToDto();
+            return _unitOfWork.AuthorRepository.GetById(id).ToDto();
         }
 
-        public IEnumerable<AuthorDto> GetAll(int pageSize, int pageNumber, string? filterString, out int totalCount)
+        public IEnumerable<AuthorDto> GetPage(int pageSize, int pageNumber, string? filterString, out int totalCount)
         {
-            return _authorRepository.GetAll(out totalCount, pageSize, pageSize * (pageNumber-1), filterString).ToDto();
+            var filteringMethod = new Func<AuthorEntity, bool>(a => string.IsNullOrEmpty(filterString)
+            || string.Join(' ', a.Firstname, a.Lastname).ToLower().Contains(filterString.ToLower()));
+
+            totalCount = _unitOfWork.AuthorRepository.Count(filteringMethod);
+
+            var authors = _unitOfWork.AuthorRepository.GetFilteredPage(filteringMethod, pageSize, (pageNumber - 1) * pageSize);
+
+            return authors.ToDto();
         }
 
         public IEnumerable<AuthorDto> GetAll()
         {
-            var totalCount = _authorRepository.Count();
-            return _authorRepository
-                .GetAll(totalCount)
-                .OrderBy(x => x.Firstname)
-                .ToDto();
+            var authors = _unitOfWork.AuthorRepository.GetAll();
+
+            return authors.ToDto();
         }
     }
 }

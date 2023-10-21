@@ -9,7 +9,7 @@ namespace BooksLife.Database
         protected override DbSet<ReaderEntity> DbSet => _context.Readers;
         public ReaderRepository(ApplicationDbContext context) : base(context) { }
 
-        public new bool Add(ReaderEntity entity)
+        public new bool Create(ReaderEntity entity)
         {
             var address = _context.Addresses.FirstOrDefault(x => 
                 x.Country == entity.Address.Country
@@ -24,17 +24,7 @@ namespace BooksLife.Database
                 entity.Address = address;
             }
 
-            return base.Add(entity);
-        }
-
-        public IEnumerable<ReaderEntity> GetAll(out int totalCount, int take, int skip = 0, string? filterString = null)
-        {
-            var filteringMethod = new Func<ReaderEntity, bool>(x => filterString.IsNullOrEmpty()
-                || string.Join(' ', x.Firstname, x.Lastname).ToLower().Contains(filterString.ToLower()));
-
-            totalCount = Count(filteringMethod);
-
-            return GetAll(filteringMethod, take, skip);
+            return base.Create(entity);
         }
     }
 }

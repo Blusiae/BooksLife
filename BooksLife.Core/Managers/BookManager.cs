@@ -1,22 +1,26 @@
-﻿namespace BooksLife.Core
+﻿using AutoMapper;
+
+namespace BooksLife.Core
 {
     public class BookManager : IBookManager
     {
-        private readonly IBookRepository _bookRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
         private const string FAILED_MESSAGE = "Something went wrong!";
         private const string SUCCEED_ADD_MESSAGE = "A new book has been added.";
         private const string SUCCEED_REMOVE_MESSAGE = "Book has been removed.";
 
-        public BookManager(IBookRepository bookRepository)
+        public BookManager(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _bookRepository = bookRepository;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public Response Add(AddBookDto bookDto)
         {
             var bookEntity = bookDto.ToEntity();
-            var dbResponse = _bookRepository.Add(bookEntity);
+            var dbResponse = _unitOfWork.BookRepository.Create(bookEntity);
             if (dbResponse)
             {
                 return new Response()
@@ -35,23 +39,29 @@
 
         public bool ChangeAvailability(Guid id)
         {
-            var bookEntity = _bookRepository.Get(id);
+            var bookEntity = _unitOfWork.BookRepository.GetById(id);
 
             bookEntity.IsBorrowed = !bookEntity.IsBorrowed;
 
-            return _bookRepository.Update(bookEntity);
+            return _unitOfWork.Commit();
         }
 
         public Response Remove(Guid id)
         {
-            var dbResponse = _bookRepository.Remove(id);
-            if (dbResponse)
+            var book = _unitOfWork.BookRepository.GetById(id);
+
+            if (book != null)
             {
-                return new Response()
+                var dbResponse = _unitOfWork.BookRepository.Delete(book);
+
+                if (dbResponse)
                 {
-                    Succeed = true,
-                    Message = SUCCEED_REMOVE_MESSAGE
-                };
+                    return new Response()
+                    {
+                        Succeed = true,
+                        Message = SUCCEED_REMOVE_MESSAGE
+                    };
+                }
             }
 
             return new Response()
@@ -61,24 +71,31 @@
             };
         }
 
-        public IEnumerable<BookDto> GetAll(int pageSize, int pageNumber, string? filterString, out int totalCount)
+        public List<BookDto> GetPage(int pageSize, int pageNumber, string? filterString, out int totalCount)
         {
-            return _bookRepository.GetAll(out totalCount, pageSize, pageSize * (pageNumber-1), filterString).ToDto();
+            var filteringMethod = new Func<BookEntity, bool>(b => string.IsNullOrEmpty(filterString)
+            || b.BookTitle.Title.ToLower().Contains(filterString.ToLower()));
+
+            totalCount = _unitOfWork.BookRepository.Count(filteringMethod);
+
+            var books = _unitOfWork.BookRepository.GetFilteredPage(filteringMethod, pageSize, (pageNumber - 1) * pageSize, b => b.BookTitle, b => b.BookTitle.Author);
+
+            return _mapper.Map<List<BookDto>>(books);
         }
 
-        public IEnumerable<BookDto> GetAll(bool unborrowedOnly = false)
+        public List<BookDto> GetAllUnborrowed()
         {
-            var totalCount = _bookRepository.Count();
-            return _bookRepository
-                .GetAll(totalCount)
-                .Where(x => !unborrowedOnly || !x.IsBorrowed)
-                .OrderBy(x => x.BookTitle.Title)
-                .ToDto();
+            var books = _unitOfWork.BookRepository
+                .FindAll(b => !b.IsBorrowed, b => b.BookTitle, b => b.BookTitle.Author)
+                .OrderBy(b => b.BookTitle.Title);
+
+            return _mapper.Map<List<BookDto>>(books);
         }
 
         public BookDto Get(Guid id)
         {
-            return _bookRepository.Get(id).ToDto();
+            var book = _unitOfWork.BookRepository.GetById(id, b => b.BookTitle, b => b.BookTitle.Author);
+            return _mapper.Map<BookDto>(book);
         }
     }
 }

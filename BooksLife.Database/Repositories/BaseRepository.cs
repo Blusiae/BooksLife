@@ -1,6 +1,7 @@
 ﻿using BooksLife.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Linq.Expressions;
 
 namespace BooksLife.Database
 {
@@ -13,29 +14,81 @@ namespace BooksLife.Database
         {
             _context = dbContext;
         }
-        public bool Add(Entity entity)
+
+        private IQueryable<Entity> GetQueryWithIncludes(params Expression<Func<Entity, object>>[] includes)
+        {
+            var baseQuery = DbSet.AsQueryable();
+
+            if (includes.Any())
+            {
+                foreach (var include in includes)
+                {
+                    baseQuery = baseQuery.Include(include);
+                }
+            }
+
+            return baseQuery;
+        }
+
+        public bool Create(Entity entity)
         {
             DbSet.Add(entity);
             return _context.SaveChanges() > 0;
         }
 
-        public bool Update(Entity entity)
+        public bool Delete(Entity entity)
         {
-            DbSet.Update(entity);
+            DbSet.Remove(entity);
             return _context.SaveChanges() > 0;
         }
 
-        public Entity Get(Guid id)
+        public Entity GetById(Guid id, params Expression<Func<Entity, object>>[] includes)
         {
-            return DbSet.FirstOrDefault(x => x.Id == id);
+            var baseQuery = GetQueryWithIncludes(includes);
+
+            return baseQuery.FirstOrDefault(x => x.Id == id);
         }
 
-        public IEnumerable<Entity> GetAll(Func<Entity, bool> filteringMethod, int take, int skip = 0)
+        public List<Entity> GetAll(params Expression<Func<Entity, object>>[] includes)
         {
-            return DbSet
+            var baseQuery = GetQueryWithIncludes(includes);
+
+            return baseQuery
+                .AsNoTracking()
+                .ToList();
+        }
+
+        public List<Entity> GetFilteredPage(Func<Entity, bool> filteringMethod, int take, int skip, params Expression<Func<Entity, object>>[] includes)
+        {
+            var baseQuery = GetQueryWithIncludes(includes);
+
+            return baseQuery
+                .AsNoTracking()
                 .Where(filteringMethod)
                 .Skip(skip)
-                .Take(take);
+                .Take(take)
+                .ToList();
+        }
+
+        public List<Entity> GetPage(int take, int skip, params Expression<Func<Entity, object>>[] includes)
+        {
+            var baseQuery = GetQueryWithIncludes(includes);
+
+            return baseQuery
+                .AsNoTracking()
+                .Skip(skip)
+                .Take(take)
+                .ToList();
+        }
+
+        public List<Entity> FindAll(Func<Entity, bool> filteringMethod, params Expression<Func<Entity, object>>[] includes)
+        {
+            var baseQuery = GetQueryWithIncludes(includes);
+
+            return baseQuery
+                .AsNoTracking()
+                .Where(filteringMethod)
+                .ToList();
         }
 
         public int Count(Func<Entity, bool> filteringMethod)
@@ -48,23 +101,5 @@ namespace BooksLife.Database
             return DbSet.Count();
         }
 
-        public bool Remove(Guid id)
-        {
-            var entityToDelete = DbSet.FirstOrDefault(x =>x.Id == id);
-            if (entityToDelete != null) //Check if entity has been found in database.
-            {
-                DbSet.Remove(entityToDelete);
-                return _context.SaveChanges() > 0;
-            }
-
-            return false; //Entity not found, so it's not been deleted.
-        }
-
-        public IEnumerable<Entity> GetAll(int take, int skip = 0)
-        {
-            return DbSet
-                .Skip(skip)
-                .Take(take);
-        }
     }
 }
