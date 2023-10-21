@@ -56,7 +56,7 @@ namespace BooksLife.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("BooksLife.Core.AuthorEntity", b =>
@@ -74,7 +74,7 @@ namespace BooksLife.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("BooksLife.Core.BookEntity", b =>
@@ -102,7 +102,7 @@ namespace BooksLife.Database.Migrations
 
                     b.HasIndex("BookTitleId");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("BooksLife.Core.BookTitleEntity", b =>
@@ -125,7 +125,7 @@ namespace BooksLife.Database.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("BookTitles");
+                    b.ToTable("BookTitles", (string)null);
                 });
 
             modelBuilder.Entity("BooksLife.Core.BorrowEntity", b =>
@@ -155,7 +155,7 @@ namespace BooksLife.Database.Migrations
 
                     b.HasIndex("ReaderId");
 
-                    b.ToTable("Borrows");
+                    b.ToTable("Borrows", (string)null);
                 });
 
             modelBuilder.Entity("BooksLife.Core.ReaderEntity", b =>
@@ -188,7 +188,7 @@ namespace BooksLife.Database.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("Readers");
+                    b.ToTable("Readers", (string)null);
                 });
 
             modelBuilder.Entity("BooksLife.Core.BookEntity", b =>

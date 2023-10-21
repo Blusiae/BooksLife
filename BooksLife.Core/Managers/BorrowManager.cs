@@ -1,19 +1,23 @@
-﻿namespace BooksLife.Core
+﻿using AutoMapper;
+
+namespace BooksLife.Core
 {
     public class BorrowManager : IBorrowManager
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBookManager _bookManager;
+        private readonly IMapper _mapper;
 
         private const string FAILED_MESSAGE = "Something went wrong!";
         private const string SUCCEED_ADD_MESSAGE = "A new borrow has been added.";
         private const string SUCCEED_REMOVE_MESSAGE = "Borrow has been removed.";
         private const string SUCCED_RETURNED_MESSAGE = "Marked borrow as returned.";
 
-        public BorrowManager(IUnitOfWork unitOfWork, IBookManager bookManager)
+        public BorrowManager(IUnitOfWork unitOfWork, IBookManager bookManager, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _bookManager = bookManager;
+            _mapper = mapper;
         }
 
         public Response Add(AddBorrowDto borrowDto)
@@ -73,17 +77,18 @@
 
         public BorrowDto Get(Guid id)
         {
-            return _unitOfWork.BorrowRepository.GetById(id).ToDto();
+            var borrow = _unitOfWork.BorrowRepository.GetById(id, b => b.Book, b => b.Book.BookTitle, b => b.Reader);
+            return _mapper.Map<BorrowDto>(borrow);
         }
 
-        public IEnumerable<BorrowDto> GetPage(int pageSize, int pageNumber, out int totalCount)
+        public List<BorrowDto> GetPage(int pageSize, int pageNumber, out int totalCount)
         {
 
             totalCount = _unitOfWork.BorrowRepository.Count();
 
-            var borrows = _unitOfWork.BorrowRepository.GetPage(pageSize, (pageNumber - 1) * pageSize);
+            var borrows = _unitOfWork.BorrowRepository.GetPage(pageSize, (pageNumber - 1) * pageSize, b => b.Book, b => b.Book.BookTitle, b => b.Reader);
 
-            return borrows.ToDto();
+            return _mapper.Map<List<BorrowDto>>(borrows);
         }
 
         public Response Remove(Guid id)

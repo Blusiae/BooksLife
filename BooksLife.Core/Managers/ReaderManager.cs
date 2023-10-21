@@ -1,16 +1,20 @@
-﻿namespace BooksLife.Core
+﻿using AutoMapper;
+
+namespace BooksLife.Core
 {
     public class ReaderManager : IReaderManager
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
         private const string FAILED_MESSAGE = "Something went wrong!";
         private const string SUCCEED_ADD_MESSAGE = "A new reader has been added.";
         private const string SUCCEED_REMOVE_MESSAGE = "Reader has been removed.";
 
-        public ReaderManager(IUnitOfWork unitOfWork)
+        public ReaderManager(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public Response Add(AddReaderDto readerDto)
@@ -59,27 +63,29 @@
 
         public ReaderDto Get(Guid id)
         {
-            return _unitOfWork.ReaderRepository.GetById(id).ToDto();
+            var reader = _unitOfWork.ReaderRepository.GetById(id, r => r.Address);
+            return _mapper.Map<ReaderDto>(reader);
         }
 
-        public IEnumerable<ReaderDto> GetPage(int pageSize, int pageNumber, string? filterString, out int totalCount)
+        public List<ReaderDto> GetPage(int pageSize, int pageNumber, string? filterString, out int totalCount)
         {
             var filteringMethod = new Func<ReaderEntity, bool>(r => string.IsNullOrEmpty(filterString)
             || string.Join(' ', r.Firstname, r.Lastname).ToLower().Contains(filterString.ToLower()));
 
             totalCount = _unitOfWork.ReaderRepository.Count(filteringMethod);
 
-            var books = _unitOfWork.ReaderRepository.GetFilteredPage(filteringMethod, pageSize, (pageNumber - 1) * pageSize);
+            var readers = _unitOfWork.ReaderRepository.GetFilteredPage(filteringMethod, pageSize, (pageNumber - 1) * pageSize);
 
-            return books.ToDto();
+            return _mapper.Map<List<ReaderDto>>(readers);
         }
 
-        public IEnumerable<ReaderDto> GetAll()
+        public List<ReaderDto> GetAll()
         {
-            return _unitOfWork.ReaderRepository
+            var readers = _unitOfWork.ReaderRepository
                 .GetAll()
-                .OrderBy(x => x.Firstname)
-                .ToDto();
+                .OrderBy(x => x.Firstname);
+
+            return _mapper.Map<List<ReaderDto>>(readers);
         }
         
     }

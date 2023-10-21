@@ -14,6 +14,22 @@ namespace BooksLife.Database
         {
             _context = dbContext;
         }
+
+        private IQueryable<Entity> GetQueryWithIncludes(params Expression<Func<Entity, object>>[] includes)
+        {
+            var baseQuery = DbSet.AsQueryable();
+
+            if (includes.Any())
+            {
+                foreach (var include in includes)
+                {
+                    baseQuery = baseQuery.Include(include);
+                }
+            }
+
+            return baseQuery;
+        }
+
         public bool Create(Entity entity)
         {
             DbSet.Add(entity);
@@ -26,37 +42,47 @@ namespace BooksLife.Database
             return _context.SaveChanges() > 0;
         }
 
-        public Entity? GetById(Guid id)
+        public Entity GetById(Guid id, params Expression<Func<Entity, object>>[] includes)
         {
-            return DbSet.FirstOrDefault(x => x.Id == id);
+            var baseQuery = GetQueryWithIncludes(includes);
+
+            return baseQuery.FirstOrDefault(x => x.Id == id);
         }
 
-        public IEnumerable<Entity> GetAll()
+        public List<Entity> GetAll(params Expression<Func<Entity, object>>[] includes)
         {
-            return DbSet
+            var baseQuery = GetQueryWithIncludes(includes);
+
+            return baseQuery
                 .ToList();
         }
 
-        public IEnumerable<Entity> GetFilteredPage(Func<Entity, bool> filteringMethod, int take, int skip)
+        public List<Entity> GetFilteredPage(Func<Entity, bool> filteringMethod, int take, int skip, params Expression<Func<Entity, object>>[] includes)
         {
-            return DbSet
+            var baseQuery = GetQueryWithIncludes(includes);
+
+            return baseQuery
                 .Where(filteringMethod)
                 .Skip(skip)
                 .Take(take)
                 .ToList();
         }
 
-        public IEnumerable<Entity> GetPage(int take, int skip)
+        public List<Entity> GetPage(int take, int skip, params Expression<Func<Entity, object>>[] includes)
         {
-            return DbSet
+            var baseQuery = GetQueryWithIncludes(includes);
+
+            return baseQuery
                 .Skip(skip)
                 .Take(take)
                 .ToList();
         }
 
-        public IEnumerable<Entity> FindAll(Func<Entity, bool> filteringMethod)
+        public List<Entity> FindAll(Func<Entity, bool> filteringMethod, params Expression<Func<Entity, object>>[] includes)
         {
-            return DbSet
+            var baseQuery = GetQueryWithIncludes(includes);
+
+            return baseQuery
                 .Where(filteringMethod)
                 .ToList();
         }

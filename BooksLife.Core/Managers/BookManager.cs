@@ -1,16 +1,20 @@
-﻿namespace BooksLife.Core
+﻿using AutoMapper;
+
+namespace BooksLife.Core
 {
     public class BookManager : IBookManager
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
         private const string FAILED_MESSAGE = "Something went wrong!";
         private const string SUCCEED_ADD_MESSAGE = "A new book has been added.";
         private const string SUCCEED_REMOVE_MESSAGE = "Book has been removed.";
 
-        public BookManager(IUnitOfWork unitOfWork)
+        public BookManager(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public Response Add(AddBookDto bookDto)
@@ -67,29 +71,31 @@
             };
         }
 
-        public IEnumerable<BookDto> GetPage(int pageSize, int pageNumber, string? filterString, out int totalCount)
+        public List<BookDto> GetPage(int pageSize, int pageNumber, string? filterString, out int totalCount)
         {
             var filteringMethod = new Func<BookEntity, bool>(b => string.IsNullOrEmpty(filterString)
             || b.BookTitle.Title.ToLower().Contains(filterString.ToLower()));
 
             totalCount = _unitOfWork.BookRepository.Count(filteringMethod);
 
-            var books = _unitOfWork.BookRepository.GetFilteredPage(filteringMethod, pageSize, (pageNumber - 1) * pageSize);
+            var books = _unitOfWork.BookRepository.GetFilteredPage(filteringMethod, pageSize, (pageNumber - 1) * pageSize, b => b.BookTitle, b => b.BookTitle.Author);
 
-            return books.ToDto();
+            return _mapper.Map<List<BookDto>>(books);
         }
 
-        public IEnumerable<BookDto> GetAllUnborrowed()
+        public List<BookDto> GetAllUnborrowed()
         {
-            return _unitOfWork.BookRepository
-                .FindAll(b => !b.IsBorrowed)
-                .OrderBy(b => b.BookTitle.Title)
-                .ToDto();
+            var books = _unitOfWork.BookRepository
+                .FindAll(b => !b.IsBorrowed, b => b.BookTitle, b => b.BookTitle.Author)
+                .OrderBy(b => b.BookTitle.Title);
+
+            return _mapper.Map<List<BookDto>>(books);
         }
 
         public BookDto Get(Guid id)
         {
-            return _unitOfWork.BookRepository.GetById(id).ToDto();
+            var book = _unitOfWork.BookRepository.GetById(id, b => b.BookTitle, b => b.BookTitle.Author);
+            return _mapper.Map<BookDto>(book);
         }
     }
 }

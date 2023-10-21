@@ -2,6 +2,7 @@ using BooksLife.Core;
 using BooksLife.Database;
 using Microsoft.EntityFrameworkCore;
 using NLog.Web;
+using System.Reflection;
 
 namespace BooksLife.Web
 {
@@ -14,8 +15,7 @@ namespace BooksLife.Web
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<ApplicationDbContext>(
-                options => options.UseLazyLoadingProxies()
-                                  .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddTransient<IAuthorRepository, AuthorRepository>();
             builder.Services.AddTransient<IReaderRepository, ReaderRepository>();
@@ -27,8 +27,10 @@ namespace BooksLife.Web
             builder.Services.AddTransient<IBookManager, BookManager>();
             builder.Services.AddTransient<IBorrowManager, BorrowManager>();
 
-            builder.Logging.ClearProviders();
+            //builder.Logging.ClearProviders();
             builder.Host.UseNLog();
+
+            builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             var app = builder.Build();
 
