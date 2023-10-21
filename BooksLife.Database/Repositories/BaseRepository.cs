@@ -54,6 +54,7 @@ namespace BooksLife.Database
             var baseQuery = GetQueryWithIncludes(includes);
 
             return baseQuery
+                .AsNoTracking()
                 .ToList();
         }
 
@@ -62,6 +63,7 @@ namespace BooksLife.Database
             var baseQuery = GetQueryWithIncludes(includes);
 
             return baseQuery
+                .AsNoTracking()
                 .Where(filteringMethod)
                 .Skip(skip)
                 .Take(take)
@@ -73,6 +75,7 @@ namespace BooksLife.Database
             var baseQuery = GetQueryWithIncludes(includes);
 
             return baseQuery
+                .AsNoTracking()
                 .Skip(skip)
                 .Take(take)
                 .ToList();
@@ -83,6 +86,7 @@ namespace BooksLife.Database
             var baseQuery = GetQueryWithIncludes(includes);
 
             return baseQuery
+                .AsNoTracking()
                 .Where(filteringMethod)
                 .ToList();
         }
