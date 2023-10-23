@@ -1,4 +1,4 @@
-# BooksLife
+# Books' Life
 Books' Life is a simple application for libraries to manage their books, readers and borrows. The application is made with ASP.NET Core MVC and Entity Framework Core. I am still working on it, but it is already functional.
 
 ## Server requirements
