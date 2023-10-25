@@ -24,10 +24,16 @@ namespace BooksLife.Web
                     Street = s.Street,
                     HouseNumber = s.HouseNumber,
                     FlatNumber = s.FlatNumber
-                }));
+                }))
+                .ForMember(m => m.Id, c => c.Ignore())
+                .ForMember(m => m.Borrows, c => c.Ignore())
+                .ForMember(m => m.AddressId, c => c.Ignore());
 
             CreateMap<BorrowEntity, BorrowDto>();
-            CreateMap<AddBorrowDto, BorrowEntity>();
+            CreateMap<AddBorrowDto, BorrowEntity>()
+                .ForMember(m => m.Id, c => c.Ignore())
+                .ForMember(m => m.Book, c => c.Ignore())
+                .ForMember(m => m.Reader, c => c.Ignore());
 
             CreateMap<BookEntity, BookDto>()
                 .ForMember(m => m.Title, c => c.MapFrom(s => s.BookTitle.Title))
@@ -40,11 +46,16 @@ namespace BooksLife.Web
                     Title = s.Title,
                     PublicationYear = s.PublicationYear,
                     AuthorId = s.AuthorId
-                }));
+                }))
+                .ForMember(m => m.IsBorrowed, c => c.MapFrom(s => false))
+                .ForMember(m => m.BookTitleId, c => c.Ignore())
+                .ForMember(m => m.Borrows, c => c.Ignore())
+                .ForMember(m => m.Id, c => c.Ignore());
 
             CreateMap<AuthorEntity, AuthorDto>();
-
-            CreateMap<AddAuthorDto, AuthorEntity>();
+            CreateMap<AddAuthorDto, AuthorEntity>()
+                .ForMember(m => m.BookTitles, c => c.Ignore())
+                .ForMember(m => m.Id, c => c.Ignore());
         }
     }
 }
