@@ -27,6 +27,7 @@ namespace BooksLife.Web
                 }));
 
             CreateMap<BorrowEntity, BorrowDto>();
+            CreateMap<AddBorrowDto, BorrowEntity>();
 
             CreateMap<BookEntity, BookDto>()
                 .ForMember(m => m.Title, c => c.MapFrom(s => s.BookTitle.Title))
