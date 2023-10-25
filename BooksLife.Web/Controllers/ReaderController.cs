@@ -1,4 +1,5 @@
-﻿using BooksLife.Core;
+﻿using AutoMapper;
+using BooksLife.Core;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
 
@@ -7,16 +8,18 @@ namespace BooksLife.Web
     public class ReaderController : Controller
     {
         private readonly IReaderManager _readerManager;
+        private readonly IMapper _mapper;
 
-        public ReaderController(IReaderManager readerManager)
+        public ReaderController(IReaderManager readerManager, IMapper mapper)
         {
             _readerManager = readerManager;
+            _mapper = mapper;
         }
 
         public IActionResult Index(Guid id)
         {
             var readerDto = _readerManager.Get(id);
-            var readerVm = readerDto.ToViewModel();
+            var readerVm = _mapper.Map<ReaderViewModel>(readerDto);
             return View(readerVm);
         }
 
@@ -29,9 +32,9 @@ namespace BooksLife.Web
             int pageNumber = page ?? 1;
 
             var readerDtos = _readerManager.GetPage(pageSize, pageNumber, filterString, out int totalCount);
-            var readerViewModels = readerDtos.ToViewModel();
+            var readerVMs = _mapper.Map<List<ReaderViewModel>>(readerDtos);
 
-            var pagedList = new StaticPagedList<ReaderViewModel>(readerViewModels, pageNumber, pageSize, totalCount);
+            var pagedList = new StaticPagedList<ReaderViewModel>(readerVMs, pageNumber, pageSize, totalCount);
 
             return View(pagedList);
         }
@@ -42,14 +45,14 @@ namespace BooksLife.Web
         }
 
         [HttpPost]
-        public IActionResult Add(AddReaderViewModel readerViewModel)
+        public IActionResult Add(AddReaderViewModel readerVM)
         {
             if (!ModelState.IsValid)
             {
-                return View(readerViewModel);
+                return View(readerVM);
             }
 
-            var readerDto = readerViewModel.ToDto(); 
+            var readerDto = _mapper.Map<AddReaderDto>(readerVM);
             var response = _readerManager.Add(readerDto);
             return RedirectToAction("List", response);
         }
