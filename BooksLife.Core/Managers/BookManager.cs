@@ -19,7 +19,7 @@ namespace BooksLife.Core
 
         public Response Add(AddBookDto bookDto)
         {
-            var bookEntity = bookDto.ToEntity();
+            var bookEntity = _mapper.Map<BookEntity>(bookDto);
             var dbResponse = _unitOfWork.BookRepository.Create(bookEntity);
             if (dbResponse)
             {

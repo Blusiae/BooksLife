@@ -23,7 +23,7 @@ namespace BooksLife.Core
         public Response Add(AddBorrowDto borrowDto)
         {
             borrowDto.BorrowDate = DateTime.Now;
-            var borrowEntity = borrowDto.ToEntity();
+            var borrowEntity = _mapper.Map<BorrowEntity>(borrowDto);
             if (_unitOfWork.BorrowRepository.Create(borrowEntity))
             {
                 if (_bookManager.ChangeAvailability(borrowDto.BookId))

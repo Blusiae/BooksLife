@@ -1,20 +1,24 @@
-﻿namespace BooksLife.Core
+﻿using AutoMapper;
+
+namespace BooksLife.Core
 {
     public class AuthorManager : IAuthorManager
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
         private const string FAILED_MESSAGE = "Something went wrong!";
         private const string SUCCEED_ADD_MESSAGE = "A new author has been added.";
         private const string SUCCEED_REMOVE_MESSAGE = "Author has been removed.";
 
-        public AuthorManager(IUnitOfWork unitOfWork)
+        public AuthorManager(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         public Response Add(AddAuthorDto author)
         {
-            var authorEntity = author.ToEntity();
+            var authorEntity = _mapper.Map<AuthorEntity>(author);
             var dbResponse = _unitOfWork.AuthorRepository.Create(authorEntity);
             if (dbResponse)
             {
@@ -60,10 +64,11 @@
 
         public AuthorDto Get(Guid id)
         {
-            return _unitOfWork.AuthorRepository.GetById(id).ToDto();
+            var author = _unitOfWork.AuthorRepository.GetById(id);
+            return _mapper.Map<AuthorDto>(author);
         }
 
-        public IEnumerable<AuthorDto> GetPage(int pageSize, int pageNumber, string? filterString, out int totalCount)
+        public List<AuthorDto> GetPage(int pageSize, int pageNumber, string? filterString, out int totalCount)
         {
             var filteringMethod = new Func<AuthorEntity, bool>(a => string.IsNullOrEmpty(filterString)
             || string.Join(' ', a.Firstname, a.Lastname).ToLower().Contains(filterString.ToLower()));
@@ -72,14 +77,14 @@
 
             var authors = _unitOfWork.AuthorRepository.GetFilteredPage(filteringMethod, pageSize, (pageNumber - 1) * pageSize);
 
-            return authors.ToDto();
+            return _mapper.Map<List<AuthorDto>>(authors);
         }
 
-        public IEnumerable<AuthorDto> GetAll()
+        public List<AuthorDto> GetAll()
         {
             var authors = _unitOfWork.AuthorRepository.GetAll();
 
-            return authors.ToDto();
+            return _mapper.Map<List<AuthorDto>>(authors);
         }
     }
 }

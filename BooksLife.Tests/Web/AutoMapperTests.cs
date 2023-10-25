@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using BooksLife.Core;
+using BooksLife.Database.Migrations;
 using BooksLife.Web;
 using FluentAssertions;
+using JetBrains.Annotations;
 using Xunit;
 
 namespace BooksLife.Tests.Web
@@ -82,6 +84,40 @@ namespace BooksLife.Tests.Web
         }
 
         [Fact]
+        public void AddReaderDtoToEntityMapping()
+        {
+            var addReaderDto = new AddReaderDto()
+            {
+                Firstname = "Firstname",
+                Lastname = "Lastname",
+                Birthdate = DateTime.Now,
+                EmailAddress = "email@address.com",
+                PhoneNumber = "1234567890",
+                Country = "Country",
+                City = "City",
+                PostalCode = "00-000",
+                Street = "Street",
+                HouseNumber = "00",
+                FlatNumber = "0"
+            };
+
+            var readerEntity = _mapper.Map<ReaderEntity>(addReaderDto);
+
+            readerEntity.Should().BeOfType<ReaderEntity>();
+            readerEntity.Should().BeEquivalentTo(addReaderDto, options => options.ExcludingMissingMembers());
+            readerEntity.Address.Should().BeOfType<AddressEntity>();
+            readerEntity.Address.Should().BeEquivalentTo(new AddressEntity()
+            {
+                Country = "Country",
+                City = "City",
+                PostalCode = "00-000",
+                Street = "Street",
+                HouseNumber = "00",
+                FlatNumber = "0"
+            });
+        }
+
+        [Fact]
         public void BookEntityToDtoMapping()
         {
             var bookEntity = new BookEntity()
@@ -109,6 +145,32 @@ namespace BooksLife.Tests.Web
             bookDto.Title.Should().Be(bookEntity.BookTitle.Title);
             bookDto.PublicationYear.Should().Be(bookEntity.BookTitle.PublicationYear);
             bookDto.AuthorName.Should().Be($"{bookEntity.BookTitle.Author.Firstname} {bookEntity.BookTitle.Author.Lastname}");
+
+        }
+        [Fact]
+        public void AddBookDtoToBookEntityMapping()
+        {
+            var addBookDto = new AddBookDto()
+            {
+                Title = "Title",
+                PublicationYear = 2000,
+                AuthorId = Guid.Empty,
+                EditionPublicationYear = 2001,
+                Condition = BookCondition.Good,
+                ConditionNote = "Note"
+            };
+
+            var bookEntity = _mapper.Map<BookEntity>(addBookDto);
+
+            bookEntity.Should().BeOfType<BookEntity>();
+            bookEntity.Should().BeEquivalentTo(addBookDto, options => options.ExcludingMissingMembers());
+            bookEntity.BookTitle.Should().BeOfType<BookTitleEntity>();
+            bookEntity.BookTitle.Should().BeEquivalentTo(new BookTitleEntity()
+            {
+                Title = "Title",
+                PublicationYear = 2000,
+                AuthorId = Guid.Empty
+            });
         }
     }
 }

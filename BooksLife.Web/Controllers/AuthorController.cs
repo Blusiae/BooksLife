@@ -1,4 +1,5 @@
-﻿using BooksLife.Core;
+﻿using AutoMapper;
+using BooksLife.Core;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
 
@@ -7,10 +8,12 @@ namespace BooksLife.Web
     public class AuthorController : Controller
     {
         private readonly IAuthorManager _authorManager;
+        private readonly IMapper _mapper;
 
-        public AuthorController(IAuthorManager authorManager)
+        public AuthorController(IAuthorManager authorManager, IMapper mapper)
         {
             _authorManager = authorManager;
+            _mapper = mapper;
         }
 
         public IActionResult List(int? page, string? filterString = null, Response? response = null)
@@ -22,7 +25,7 @@ namespace BooksLife.Web
             int pageNumber = page ?? 1;
 
             var authorDtos = _authorManager.GetPage(pageSize, pageNumber, filterString, out int totalCount);
-            var authorViewModels = authorDtos.ToViewModel();
+            var authorViewModels = _mapper.Map<List<AuthorViewModel>>(authorDtos);
 
             var pagedList = new StaticPagedList<AuthorViewModel>(authorViewModels, pageNumber, pageSize, totalCount);
 
@@ -35,14 +38,14 @@ namespace BooksLife.Web
         }
 
         [HttpPost]
-        public IActionResult Add(AddAuthorViewModel authorVM)
+        public IActionResult Add(AddAuthorViewModel authorViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(authorVM);
+                return View(authorViewModel);
             }
 
-            var authorDto = authorVM.ToDto();
+            var authorDto = _mapper.Map<AddAuthorDto>(authorViewModel);
             var response = _authorManager.Add(authorDto);
             return RedirectToAction("List", response);
         }
