@@ -33,6 +33,14 @@ namespace BooksLife.Web
                 .ForMember(m => m.PublicationYear, c => c.MapFrom(s => s.BookTitle.PublicationYear))
                 .ForMember(m => m.AuthorName, c => c.MapFrom(s => $"{s.BookTitle.Author.Firstname} {s.BookTitle.Author.Lastname}"));
 
+            CreateMap<AddBookDto, BookEntity>()
+                .ForMember(m => m.BookTitle, c => c.MapFrom(s => new BookTitleEntity()
+                {
+                    Title = s.Title,
+                    PublicationYear = s.PublicationYear,
+                    AuthorId = s.AuthorId
+                }));
+
             CreateMap<AuthorEntity, AuthorDto>();
 
             CreateMap<AddAuthorDto, AuthorEntity>();

@@ -3,6 +3,7 @@ using BooksLife.Core;
 using BooksLife.Database.Migrations;
 using BooksLife.Web;
 using FluentAssertions;
+using JetBrains.Annotations;
 using Xunit;
 
 namespace BooksLife.Tests.Web
@@ -144,6 +145,32 @@ namespace BooksLife.Tests.Web
             bookDto.Title.Should().Be(bookEntity.BookTitle.Title);
             bookDto.PublicationYear.Should().Be(bookEntity.BookTitle.PublicationYear);
             bookDto.AuthorName.Should().Be($"{bookEntity.BookTitle.Author.Firstname} {bookEntity.BookTitle.Author.Lastname}");
+
+        }
+        [Fact]
+        public void AddBookDtoToBookEntityMapping()
+        {
+            var addBookDto = new AddBookDto()
+            {
+                Title = "Title",
+                PublicationYear = 2000,
+                AuthorId = Guid.Empty,
+                EditionPublicationYear = 2001,
+                Condition = BookCondition.Good,
+                ConditionNote = "Note"
+            };
+
+            var bookEntity = _mapper.Map<BookEntity>(addBookDto);
+
+            bookEntity.Should().BeOfType<BookEntity>();
+            bookEntity.Should().BeEquivalentTo(addBookDto, options => options.ExcludingMissingMembers());
+            bookEntity.BookTitle.Should().BeOfType<BookTitleEntity>();
+            bookEntity.BookTitle.Should().BeEquivalentTo(new BookTitleEntity()
+            {
+                Title = "Title",
+                PublicationYear = 2000,
+                AuthorId = Guid.Empty
+            });
         }
     }
 }
