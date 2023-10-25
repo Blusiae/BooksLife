@@ -7,7 +7,6 @@ namespace BooksLife.Web
     {
         public ApplicationMappingProfile()
         {
-            //Mapping between Entity and Dto
             CreateMap<ReaderEntity, ReaderDto>()
                 .ForMember(m => m.Country, c => c.MapFrom(s => s.Address.Country))
                 .ForMember(m => m.City, c => c.MapFrom(s => s.Address.City))
@@ -56,11 +55,6 @@ namespace BooksLife.Web
             CreateMap<AuthorEntity, AuthorDto>();
             CreateMap<AddAuthorDto, AuthorEntity>()
                 .ForMember(m => m.BookTitles, c => c.Ignore())
-                .ForMember(m => m.Id, c => c.Ignore());
-
-            //Mapping between ViewModel and Dto
-            CreateMap<ReaderDto, ReaderViewModel>();
-            CreateMap<AddReaderViewModel, ReaderDto>()
                 .ForMember(m => m.Id, c => c.Ignore());
         }
     }
