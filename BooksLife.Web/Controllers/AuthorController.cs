@@ -38,14 +38,14 @@ namespace BooksLife.Web
         }
 
         [HttpPost]
-        public IActionResult Add(AddAuthorViewModel authorVM)
+        public IActionResult Add(AddAuthorViewModel authorViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(authorVM);
+                return View(authorViewModel);
             }
 
-            var authorDto = _mapper.Map<AddAuthorDto>(authorVM);
+            var authorDto = _mapper.Map<AddAuthorDto>(authorViewModel);
             var response = _authorManager.Add(authorDto);
             return RedirectToAction("List", response);
         }

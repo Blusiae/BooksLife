@@ -65,6 +65,9 @@ namespace BooksLife.Web
 
             CreateMap<ReaderDto, ReaderViewModel>();
             CreateMap<AddReaderViewModel, AddReaderDto>();
+
+            CreateMap<BookDto, BookViewModel>();
+            CreateMap<AddBookViewModel, AddBookDto>();
         }
     }
 }

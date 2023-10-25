@@ -32,9 +32,9 @@ namespace BooksLife.Web
             int pageNumber = page ?? 1;
 
             var readerDtos = _readerManager.GetPage(pageSize, pageNumber, filterString, out int totalCount);
-            var readerVMs = _mapper.Map<List<ReaderViewModel>>(readerDtos);
+            var readerViewModels = _mapper.Map<List<ReaderViewModel>>(readerDtos);
 
-            var pagedList = new StaticPagedList<ReaderViewModel>(readerVMs, pageNumber, pageSize, totalCount);
+            var pagedList = new StaticPagedList<ReaderViewModel>(readerViewModels, pageNumber, pageSize, totalCount);
 
             return View(pagedList);
         }
@@ -45,14 +45,14 @@ namespace BooksLife.Web
         }
 
         [HttpPost]
-        public IActionResult Add(AddReaderViewModel readerVM)
+        public IActionResult Add(AddReaderViewModel readerViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(readerVM);
+                return View(readerViewModel);
             }
 
-            var readerDto = _mapper.Map<AddReaderDto>(readerVM);
+            var readerDto = _mapper.Map<AddReaderDto>(readerViewModel);
             var response = _readerManager.Add(readerDto);
             return RedirectToAction("List", response);
         }
