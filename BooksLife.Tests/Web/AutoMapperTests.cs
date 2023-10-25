@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BooksLife.Core;
+using BooksLife.Database.Migrations;
 using BooksLife.Web;
 using FluentAssertions;
 using Xunit;
@@ -79,6 +80,40 @@ namespace BooksLife.Tests.Web
             Action act = () => _mapper.Map<ReaderDto>(readerEntity);
 
             act.Should().NotThrow();
+        }
+
+        [Fact]
+        public void AddReaderDtoToEntityMapping()
+        {
+            var addReaderDto = new AddReaderDto()
+            {
+                Firstname = "Firstname",
+                Lastname = "Lastname",
+                Birthdate = DateTime.Now,
+                EmailAddress = "email@address.com",
+                PhoneNumber = "1234567890",
+                Country = "Country",
+                City = "City",
+                PostalCode = "00-000",
+                Street = "Street",
+                HouseNumber = "00",
+                FlatNumber = "0"
+            };
+
+            var readerEntity = _mapper.Map<ReaderEntity>(addReaderDto);
+
+            readerEntity.Should().BeOfType<ReaderEntity>();
+            readerEntity.Should().BeEquivalentTo(addReaderDto, options => options.ExcludingMissingMembers());
+            readerEntity.Address.Should().BeOfType<AddressEntity>();
+            readerEntity.Address.Should().BeEquivalentTo(new AddressEntity()
+            {
+                Country = "Country",
+                City = "City",
+                PostalCode = "00-000",
+                Street = "Street",
+                HouseNumber = "00",
+                FlatNumber = "0"
+            });
         }
 
         [Fact]

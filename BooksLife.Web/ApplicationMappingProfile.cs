@@ -15,6 +15,17 @@ namespace BooksLife.Web
                 .ForMember(m => m.HouseNumber, c => c.MapFrom(s => s.Address.HouseNumber))
                 .ForMember(m => m.FlatNumber, c => c.MapFrom(s => s.Address.FlatNumber));
 
+            CreateMap<AddReaderDto, ReaderEntity>()
+                .ForMember(m => m.Address, c => c.MapFrom(s => new AddressEntity()
+                {
+                    Country = s.Country,
+                    City = s.City,
+                    PostalCode = s.PostalCode,
+                    Street = s.Street,
+                    HouseNumber = s.HouseNumber,
+                    FlatNumber = s.FlatNumber
+                }));
+
             CreateMap<BorrowEntity, BorrowDto>();
 
             CreateMap<BookEntity, BookDto>()

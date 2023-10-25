@@ -19,7 +19,7 @@ namespace BooksLife.Core
 
         public Response Add(AddReaderDto readerDto)
         {
-            var readerEntity = readerDto.ToEntity();
+            var readerEntity = _mapper.Map<ReaderEntity>(readerDto);
             var dbResponse = _unitOfWork.ReaderRepository.Create(readerEntity);
             if (dbResponse)
             {
