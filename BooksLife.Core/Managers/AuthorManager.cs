@@ -18,7 +18,7 @@ namespace BooksLife.Core
         }
         public Response Add(AddAuthorDto author)
         {
-            var authorEntity = author.ToEntity();
+            var authorEntity = _mapper.Map<AuthorEntity>(author);
             var dbResponse = _unitOfWork.AuthorRepository.Create(authorEntity);
             if (dbResponse)
             {

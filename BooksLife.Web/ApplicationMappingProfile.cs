@@ -23,6 +23,8 @@ namespace BooksLife.Web
                 .ForMember(m => m.AuthorName, c => c.MapFrom(s => $"{s.BookTitle.Author.Firstname} {s.BookTitle.Author.Lastname}"));
 
             CreateMap<AuthorEntity, AuthorDto>();
+
+            CreateMap<AddAuthorDto, AuthorEntity>();
         }
     }
 }
