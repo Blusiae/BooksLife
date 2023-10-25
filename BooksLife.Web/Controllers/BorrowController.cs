@@ -1,4 +1,5 @@
-﻿using BooksLife.Core;
+﻿using AutoMapper;
+using BooksLife.Core;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
 
@@ -9,28 +10,30 @@ namespace BooksLife.Web
         private readonly IBorrowManager _borrowManager;
         private readonly IBookManager _bookManager;
         private readonly IReaderManager _readerManager;
+        private readonly IMapper _mapper;
 
-        public BorrowController(IBorrowManager borrowManager, IBookManager bookManager, IReaderManager readerManager)
+        public BorrowController(IBorrowManager borrowManager, IBookManager bookManager, IReaderManager readerManager, IMapper mapper)
         {
             _borrowManager = borrowManager;
             _bookManager = bookManager;
             _readerManager = readerManager;
+            _mapper = mapper;
         }
 
         public IActionResult Index(Guid id)
         {
             var borrowDto = _borrowManager.Get(id);
-            var borrowViewModel = borrowDto.ToViewModel();
+            var borrowViewModel = _mapper.Map<BorrowViewModel>(borrowDto);
             return View(borrowViewModel);
         }
 
         public IActionResult Add()
         {
             var bookDtos = _bookManager.GetAllUnborrowed();
-            ViewBag.Books = bookDtos.ToViewModel();
+            ViewBag.Books = _mapper.Map<List<BookViewModel>>(bookDtos);
 
             var readerDtos = _readerManager.GetAll();
-            ViewBag.Readers = readerDtos.ToViewModel();
+            ViewBag.Readers = _mapper.Map<List<ReaderViewModel>>(readerDtos);
 
             return View();
         }
@@ -41,15 +44,15 @@ namespace BooksLife.Web
             if (!ModelState.IsValid)
             {
                 var bookDtos = _bookManager.GetAllUnborrowed();
-                ViewBag.Books = bookDtos.ToViewModel();
+                ViewBag.Books = _mapper.Map<List<BookViewModel>>(bookDtos);
 
                 var readerDtos = _readerManager.GetAll();
-                ViewBag.Readers = readerDtos.ToViewModel();
+                ViewBag.Readers = _mapper.Map<List<ReaderViewModel>>(readerDtos);
 
                 return View(borrowViewModel);
             }
 
-            var borrowDto = borrowViewModel.ToDto();
+            var borrowDto = _mapper.Map<AddBorrowDto>(borrowViewModel);
             var response = _borrowManager.Add(borrowDto);
             return RedirectToAction("List", response);
         }
@@ -63,7 +66,7 @@ namespace BooksLife.Web
             int pageNumber = page ?? 1;
 
             var borrowDtos = _borrowManager.GetPage(pageSize, pageNumber, out int totalCount);
-            var borrowViewModels = borrowDtos.ToViewModel();
+            var borrowViewModels = _mapper.Map<List<BorrowViewModel>>(borrowDtos);
 
             var pagedList = new StaticPagedList<BorrowViewModel>(borrowViewModels, pageNumber, pageSize, totalCount);
 
