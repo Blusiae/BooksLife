@@ -8,7 +8,6 @@ namespace BooksLife.Web
         public Guid BookId { get; set; }
         [Required]
         public Guid ReaderId { get; set; }
-        [Required]
-        public DateTime ReturnDate { get; set; }
+        public DateTime ReturnDeadline { get; set; }
     }
 }

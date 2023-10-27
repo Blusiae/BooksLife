@@ -29,7 +29,7 @@ namespace BooksLife.Database.Configurations
 
             builder.Property(b => b.ReturnDeadline)
                 .IsRequired()
-                .HasDefaultValueSql("dateadd(m, 1, getutcdate())"); // Default value is a month after adding a borrow.
+                .HasDefaultValueSql("dateadd(m, 1, getutcdate())"); // Default value is a month from adding a borrow.
 
             builder.Property(b => b.IsActive)
                 .HasDefaultValue(true);

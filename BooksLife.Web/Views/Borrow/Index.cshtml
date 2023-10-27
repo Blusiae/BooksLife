@@ -20,9 +20,16 @@
                 <p id="BorrowDate">@Model.BorrowDate.ToString("dd MMMM yyyy")</p>
             </div>
             <div class="col-md-6">
-                <label class="text-secondary" for="ReturnDate">Return deadline</label>
-                <p id="ReturnDate">@Model.ReturnDate.ToString("dd MMMM yyyy")</p>
+                <label class="text-secondary" for="ReturnDeadline">Return deadline</label>
+                <p id="ReturnDate">@Model.ReturnDeadline.ToString("dd MMMM yyyy")</p>
             </div>
+            @if (!Model.IsActive)
+            {
+                <div class="col-md-6">
+                    <label class="text-secondary" for="ReturnDate">Return date</label>
+                    <p id="ReturnDate">@Model.ReturnDate?.ToString("dd MMMM yyyy")</p>
+                </div>
+            }
         </div>
     </div>
 

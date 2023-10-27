@@ -27,6 +27,7 @@
                 <th>Book</th>
                 <th>Reader</th>
                 <th>Date of borrow</th>
+                <th>Return deadline</th>
                 <th>Date of return</th>
                 <th>Status</th>
                 <th>Actions</th>
@@ -39,7 +40,8 @@
                     <td>@borrow.Book.Title</td>
                     <td>@borrow.Reader.Firstname @borrow.Reader.Lastname</td>
                     <td>@borrow.BorrowDate.ToString("dd MMMM yyyy")</td>
-                    <td>@borrow.ReturnDate.ToString("dd MMMM yyyy")</td>
+                    <td>@borrow.ReturnDeadline.ToString("dd MMMM yyyy")</td>
+                    <td>@borrow.ReturnDate?.ToString("dd MMMM yyyy")</td>
                     <td>@(borrow.IsActive ? "Active" : "Returned")</td>
                     <td>
                         <a class="btn btn-sm transparent" title="Return" asp-controller="Borrow" asp-action="SetAsReturned" asp-route-id="@borrow.Id">
