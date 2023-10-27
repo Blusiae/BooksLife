@@ -399,3 +399,9 @@ FodyWeavers.xsd
 BooksLife.Web/appsettings.Development.json
 BooksLife.Web/appsettings.json
 BooksLife.Web/.config/dotnet-tools.json
+.devcontainer/devcontainer.json
+.devcontainer/Dockerfile
+.devcontainer/docker-compose.yml
+.devcontainer/mssql/installSQLtools.sh
+.devcontainer/mssql/postCreateCommand.sh
+.devcontainer/mssql/setup.sql
