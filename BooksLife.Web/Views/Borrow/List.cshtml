@@ -44,9 +44,12 @@
                     <td>@borrow.ReturnDate?.ToString("dd MMMM yyyy")</td>
                     <td>@(borrow.IsActive ? "Active" : "Returned")</td>
                     <td>
-                        <a class="btn btn-sm transparent" title="Return" asp-controller="Borrow" asp-action="SetAsReturned" asp-route-id="@borrow.Id">
-                            <i class="bi bi-check-lg text-success"></i>
-                        </a>
+                        @if (borrow.IsActive)
+                        {
+                            <a class="btn btn-sm transparent" title="Return" asp-controller="Borrow" asp-action="SetAsReturned" asp-route-id="@borrow.Id">
+                                <i class="bi bi-check-lg text-success"></i>
+                            </a>
+                        }
                         <a class="btn btn-sm transparent" title="Show details" asp-controller="Borrow" asp-action="Index" asp-route-id="@borrow.Id">
                             <i class="bi bi-info-circle text-primary"></i>
                         </a>
