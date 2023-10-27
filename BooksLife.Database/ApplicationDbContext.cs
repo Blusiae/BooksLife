@@ -21,12 +21,6 @@ namespace BooksLife.Database
                 .WithMany(r => r.Readers)
                 .HasForeignKey(a => a.AddressId)
                 .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<BookTitleEntity>()
-                .HasOne(a => a.Author)
-                .WithMany(t => t.BookTitles)
-                .HasForeignKey(a => a.AuthorId)
-                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

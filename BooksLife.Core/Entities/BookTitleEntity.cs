@@ -8,7 +8,7 @@
         public Guid AuthorId { get; set; }
         public AuthorEntity? Author { get; set; }
 
-        public IEnumerable<BookEntity> Books { get; set; }
+        public List<BookEntity> Books { get; set; } = new List<BookEntity>();
 
     }
 }
