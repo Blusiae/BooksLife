@@ -27,6 +27,9 @@ namespace BooksLife.Database.Configurations
                 .HasDefaultValueSql("getutcdate()")
                 .ValueGeneratedOnAdd();
 
+            builder.Property(b => b.IsActive)
+                .HasDefaultValue(true);
+
         }
     }
 }
