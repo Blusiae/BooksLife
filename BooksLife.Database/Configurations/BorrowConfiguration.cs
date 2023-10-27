@@ -24,6 +24,7 @@ namespace BooksLife.Database.Configurations
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(b => b.BorrowDate)
+                .HasDefaultValueSql("getutcdate()")
                 .ValueGeneratedOnAdd();
 
         }
