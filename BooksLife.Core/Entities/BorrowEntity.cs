@@ -8,6 +8,7 @@
         public Guid ReaderId { get; set; }
         public ReaderEntity Reader { get; set; }
         public DateTime BorrowDate { get; set; }
-        public DateTime ReturnDate { get; set; }
+        public DateTime ReturnDeadline { get; set; }
+        public DateTime? ReturnDate { get; set; }
     }
 }

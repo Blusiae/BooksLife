@@ -45,13 +45,14 @@
         <div class="row mb-3">
             <div class="form-group col-md-6">
                 <label for="ReturnDate">Return date</label>
-                <input type="date" class="form-control" id="ReturnDate" placeholder="Return date" name="ReturnDate" />
+                <input type="date" class="form-control" id="ReturnDeadline" placeholder="Return date" name="ReturnDate" />
+                <small>Default value is a month from now (@(DateTime.Now.AddMonths(1).ToString("dd MMMM yyyy"))).</small>
                 <div class="text-danger">
-                    <small>@Html.ValidationMessageFor(x => x.ReturnDate)</small>
+                    <small>@Html.ValidationMessageFor(x => x.ReturnDeadline)</small>
                 </div>
             </div>
         </div>
     </div>
     <button type="submit" class="btn btn-success ms-2">Submit</button>
 </form>
-@Html.ValidationSummary();
+@Html.ValidationSummary()

@@ -46,6 +46,7 @@ namespace BooksLife.Core
             var borrowEntity = _unitOfWork.BorrowRepository.GetById(returnDto.BorrowId);
 
             borrowEntity.IsActive = false;
+            borrowEntity.ReturnDate = DateTime.UtcNow;
 
             if (!_unitOfWork.Commit())
             {

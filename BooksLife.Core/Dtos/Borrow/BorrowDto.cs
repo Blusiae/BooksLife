@@ -7,6 +7,7 @@
         public BookDto Book { get; set; } = new BookDto();
         public ReaderDto Reader { get; set; } = new ReaderDto();
         public DateTime BorrowDate { get; set; }
-        public DateTime ReturnDate { get; set; }
+        public DateTime ReturnDeadline { get; set; }
+        public DateTime? ReturnDate { get; set; }
     }
 }

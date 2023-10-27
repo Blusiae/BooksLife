@@ -34,7 +34,10 @@ namespace BooksLife.Web
             CreateMap<AddBorrowDto, BorrowEntity>()
                 .ForMember(m => m.Id, c => c.Ignore())
                 .ForMember(m => m.Book, c => c.Ignore())
-                .ForMember(m => m.Reader, c => c.Ignore());
+                .ForMember(m => m.Reader, c => c.Ignore())
+                .ForMember(m => m.IsActive, c => c.Ignore())
+                .ForMember(m => m.BorrowDate, c => c.Ignore())
+                .ForMember(m => m.ReturnDate, c => c.Ignore());
 
             CreateMap<BookEntity, BookDto>()
                 .ForMember(m => m.Title, c => c.MapFrom(s => s.BookTitle.Title))
