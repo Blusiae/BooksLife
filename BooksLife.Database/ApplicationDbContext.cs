@@ -15,12 +15,6 @@ namespace BooksLife.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
-
-            modelBuilder.Entity<ReaderEntity>()
-                .HasOne(a => a.Address)
-                .WithMany(r => r.Readers)
-                .HasForeignKey(a => a.AddressId)
-                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
