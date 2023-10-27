@@ -9,9 +9,9 @@
 
         public int EditionPublicationYear { get; set; }
         public BookCondition Condition { get; set; }
-        public string? ConditionNote { get; set; } = string.Empty;
+        public string? ConditionNote { get; set; }
 
-        public List<BorrowEntity>? Borrows { get; set; }
+        public List<BorrowEntity> Borrows { get; set; } = new List<BorrowEntity>();
 
     }
 }
