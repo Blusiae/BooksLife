@@ -70,8 +70,7 @@ namespace BooksLife.Web
             CreateMap<AddBookViewModel, AddBookDto>();
 
             CreateMap<BorrowDto, BorrowViewModel>();
-            CreateMap<AddBorrowViewModel, AddBorrowDto>()
-                .ForMember(m => m.IsActive, c => c.MapFrom(s => true));
+            CreateMap<AddBorrowViewModel, AddBorrowDto>();
         }
     }
 }

@@ -4,6 +4,7 @@ using BooksLife.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BooksLife.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231027132422_AddedDeleteBehaviorForBookTitle")]
+    partial class AddedDeleteBehaviorForBookTitle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +56,7 @@ namespace BooksLife.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Addresses", (string)null);
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("BooksLife.Core.AuthorEntity", b =>
@@ -71,7 +74,7 @@ namespace BooksLife.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors", (string)null);
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("BooksLife.Core.BookEntity", b =>
@@ -101,7 +104,7 @@ namespace BooksLife.Database.Migrations
 
                     b.HasIndex("BookTitleId");
 
-                    b.ToTable("Books", (string)null);
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("BooksLife.Core.BookTitleEntity", b =>
@@ -124,7 +127,7 @@ namespace BooksLife.Database.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("BookTitles", (string)null);
+                    b.ToTable("BookTitles");
                 });
 
             modelBuilder.Entity("BooksLife.Core.BorrowEntity", b =>
@@ -158,7 +161,7 @@ namespace BooksLife.Database.Migrations
 
                     b.HasIndex("ReaderId");
 
-                    b.ToTable("Borrows", (string)null);
+                    b.ToTable("Borrows");
                 });
 
             modelBuilder.Entity("BooksLife.Core.ReaderEntity", b =>
@@ -191,7 +194,7 @@ namespace BooksLife.Database.Migrations
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("Readers", (string)null);
+                    b.ToTable("Readers");
                 });
 
             modelBuilder.Entity("BooksLife.Core.BookEntity", b =>

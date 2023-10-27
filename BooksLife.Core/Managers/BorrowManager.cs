@@ -22,7 +22,6 @@ namespace BooksLife.Core
 
         public Response Add(AddBorrowDto borrowDto)
         {
-            borrowDto.BorrowDate = DateTime.Now;
             var borrowEntity = _mapper.Map<BorrowEntity>(borrowDto);
             if (_unitOfWork.BorrowRepository.Create(borrowEntity))
             {
@@ -94,19 +93,15 @@ namespace BooksLife.Core
         public Response Remove(Guid id)
         {
             var borrow = _unitOfWork.BorrowRepository
-                .GetById(id);
+                .GetById(id, b => b.Book);
 
             if(borrow != null) 
             {
-                var bookId = borrow.BookId;
-                var borrowActivity = borrow.IsActive;
 
                 if (_unitOfWork.BorrowRepository.Delete(borrow))
                 {
-                    if (borrowActivity)
-                    {
-                        _bookManager.ChangeAvailability(bookId);
-                    }
+                    borrow.Book.IsBorrowed = false;
+                    _unitOfWork.Commit();
 
                     return new Response()
                     {
